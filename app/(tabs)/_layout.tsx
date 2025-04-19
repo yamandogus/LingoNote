@@ -7,6 +7,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: '#007AFF',
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
+          fontSize: 11, // yazı boyutu
+          letterSpacing: 0.5, // harf aralığı
+        },
         headerShown: false,
       }}>
       <Tabs.Screen
@@ -19,15 +24,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Keşfet',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
+          title: 'Notlarım',
+          tabBarIcon: ({ color }) => <Ionicons name="document-text-outline" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="translate"
         options={{
-          title: 'Keşfet',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
+          title: 'Çeviri',
+          tabBarIcon: ({ color }) => <Ionicons name="language" size={24} color={color} />,
         }}
       />
     </Tabs>
