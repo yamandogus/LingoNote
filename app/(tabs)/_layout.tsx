@@ -1,16 +1,36 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from 'react-native';
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#007AFF',
+        tabBarActiveTintColor: isDark ? '#22D3EE' : '#0EA5E9', // Turkuaz/mavi tonları
+        tabBarInactiveTintColor: isDark ? '#9CA3AF' : '#6B7280', // Gri tonları
+        tabBarStyle: {
+          backgroundColor: isDark ? '#1E293B' : '#F0F9FF', // Koyu lacivert / açık mavi arka plan
+          borderTopWidth: 0,
+          elevation: 5,
+          shadowColor: isDark ? '#000' : '#CBD5E1',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 3,
+          height: 60,
+          paddingBottom: 6,
+        },
         tabBarLabelStyle: {
           fontWeight: 'bold',
-          fontSize: 11, // yazı boyutu
-          letterSpacing: 0.5, // harf aralığı
+          fontSize: 11,
+          letterSpacing: 0.5,
+          marginTop: -5,
+        },
+        tabBarIconStyle: {
+          marginTop: 5,
         },
         headerShown: false,
       }}>
@@ -18,21 +38,39 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Ana Sayfa',
-          tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons 
+              name={focused ? "home" : "home-outline"} 
+              size={focused ? 26 : 24} 
+              color={color} 
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Notlarım',
-          tabBarIcon: ({ color }) => <Ionicons name="document-text-outline" size={24} color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons 
+              name={focused ? "document-text" : "document-text-outline"} 
+              size={focused ? 26 : 24} 
+              color={color} 
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="translate"
         options={{
           title: 'Çeviri',
-          tabBarIcon: ({ color }) => <Ionicons name="language" size={24} color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons 
+              name={focused ? "language" : "language-outline"} 
+              size={focused ? 26 : 24}
+              color={color} 
+            />
+          ),
         }}
       />
     </Tabs>

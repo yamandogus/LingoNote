@@ -1,76 +1,121 @@
 import { router } from "expo-router";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, Image } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import Animation from "@/components/home/animation";
 
+type RouteType = "/(tabs)/explore" | "/(tabs)/translate";
+
+interface SectionType {
+  id: number;
+  title: string;
+  content: string;
+  router: RouteType;
+  bgColor: string;
+  iconName: keyof typeof Ionicons.glyphMap;
+}
+
 export default function HomeScreen() {
+  const sections: SectionType[] = [
+    {
+      id: 1,
+      title: "Kamera",
+      content: "Tara ve çevir",
+      router: "/(tabs)/explore",
+      bgColor: "bg-blue-50",
+      iconName: "camera-outline",
+    },
+    {
+      id: 2,
+      title: "Ses",
+      content: "Konuş ve anlayacaksın",
+      router: "/(tabs)/translate",
+      bgColor: "bg-green-50",
+      iconName: "mic-outline",
+    },
+    {
+      id: 3,
+      title: "Çeviri Yapay Zeka",
+      content: "Yapay zekayı kolayca kullan",
+      router: "/(tabs)/translate",
+      bgColor: "bg-orange-100",
+      iconName: "sparkles-outline",
+    },
+  ];
+
+  const handleNavigation = (route: RouteType) => {
+    router.push(route);
+  };
+
   return (
     <SafeAreaProvider className="flex-1">
-      <ScrollView className="flex-1 bg-gray-100 dark:bg-gray-900">
-        <SafeAreaView>
-          <View className="p-4">
-            <Text className="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center">
-              Hoş Geldiniz
-            </Text>
-            <View className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg mb-4">
-              <Text className="font-bold mb-2">Ugulama Hakkında</Text>
-              <Text className="text-gray-600 dark:text-gray-300">
-                Bu uygulama, anında çeviri yapmanızı ve çevirdiğiniz içerikleri
-                not alarak saklamanızı sağlar. Dil öğrenenler, gezginler ve
-                üretkenliğini artırmak isteyen herkes için idealdir.
-              </Text>
-              <View className="flex flex-row justify-between px-10 my-2 gap-2">
-                <Pressable className="bg-blue-500 p-2 rounded-md flex-1" onPress={()=> router.push("/(tabs)/explore")}>
-                  <Text className="text-white font-bold text-center">
-                    📝 Notlarım
-                  </Text>
-                </Pressable>
-                <Pressable className="bg-blue-500 p-2 rounded-md flex-1" onPress={()=> router.push("/(tabs)/translate")}>
-                  <Text className="text-white font-bold text-center">
-                    🌐 Translate
-                  </Text>
-                </Pressable>
+      <ScrollView className="flex-1 bg-white dark:bg-gray-800">
+        <SafeAreaView className="flex-1">
+          <View className="px-6 pt-4">
+            {/* Profil ve bildirim kısmı */}
+            <View className="flex-row justify-between items-center mb-8">
+              <View className="flex-row items-center">
+                <Image
+                  source={require("../../assets/avatar.png")}
+                  className="w-10 h-10 rounded-full mr-3"
+                  defaultSource={require("../../assets/avatar.png")}
+                />
+                <View>
+                  <Text className="text-lg font-semibold dark:text-white">Melani</Text>
+                  <Text className="text-gray-500 text-xs">Pro Hesap</Text>
+                </View>
               </View>
+              <Pressable className="p-2 bg-gray-100 rounded-full">
+                <Ionicons
+                  name="notifications-outline"
+                  size={20}
+                  color="black"
+                />
+              </Pressable>
             </View>
 
-            <View className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md">
-              <Text className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                Uygulamada Yapabileceklerin
-              </Text>
+            {/* Başlık kısmı */}
+            <View className="mb-8">
+              <Text className="text-2xl font-bold">Hadi çevirelim</Text>
+              <Text className="text-gray-400">kolayca her şeyi</Text>
+            </View>
 
-              <View className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg mb-2">
-                <Text className="text-gray-800 dark:text-gray-200">
-                  🌐 Gerçek zamanlı metin çevirisi yap.
-                </Text>
-              </View>
-
-              <View className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg mb-2">
-                <Text className="text-gray-800 dark:text-gray-200">
-                  📝 Çevirdiğin metinleri not olarak kaydet.
-                </Text>
-              </View>
-
-              <View className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg mb-2">
-                <Text className="text-gray-800 dark:text-gray-200">
-                  📚 Kendi çok dilli sözlüğünü oluştur.
-                </Text>
-              </View>
-
-              <View className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg mb-2">
-                <Text className="text-gray-800 dark:text-gray-200">
-                  🔍 Geçmiş notları dilediğin zaman görüntüle ve düzenle.
-                </Text>
-              </View>
-
-              <View className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
-                <Text className="text-gray-800 dark:text-gray-200">
-                  💾 Uygulama verilerini cihazında güvenle sakla.
-                </Text>
-              </View>
+            {/* Çeviri seçenekleri */}
+            <View className="space-y-3 gap-4">
+              {sections.map((section) => (
+                <Pressable
+                  key={section.id}
+                  onPress={() => handleNavigation(section.router)}
+                  className={`${section.bgColor} p-4 rounded-2xl flex-row items-center justify-between`}
+                >
+                  <View className="flex-row items-center">
+                    <View className="bg-white h-10 w-10 rounded-full items-center justify-center mr-4">
+                      <Ionicons
+                        name={section.iconName}
+                        size={20}
+                        color="black"
+                      />
+                    </View>
+                    <View>
+                      <Text className="font-semibold">{section.title}</Text>
+                      <Text className="text-gray-600 text-sm">
+                        {section.content}
+                      </Text>
+                    </View>
+                  </View>
+                  <Ionicons
+                    name="chevron-forward-outline"
+                    size={20}
+                    color="black"
+                  />
+                </Pressable>
+              ))}
             </View>
           </View>
-          <View className="my-6">
-          <Animation/>
+          <View className="flex-1">
+            <View className="px-6 pt-4">
+              <Animation />
+            </View>
           </View>
         </SafeAreaView>
       </ScrollView>
