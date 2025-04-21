@@ -10,10 +10,10 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: isDark ? '#22D3EE' : '#0EA5E9', // Turkuaz/mavi tonları
-        tabBarInactiveTintColor: isDark ? '#9CA3AF' : '#6B7280', // Gri tonları
+        tabBarActiveTintColor: isDark ? '#22D3EE' : '#0EA5E9',
+        tabBarInactiveTintColor: isDark ? '#9CA3AF' : '#6B7280', 
         tabBarStyle: {
-          backgroundColor: isDark ? '#1E293B' : '#F0F9FF', // Koyu lacivert / açık mavi arka plan
+          backgroundColor: isDark ? '#1E293B' : '#F0F9FF', 
           borderTopWidth: 0,
           elevation: 5,
           shadowColor: isDark ? '#000' : '#CBD5E1',
@@ -48,7 +48,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="notes"
         options={{
           title: 'Notlarım',
           tabBarIcon: ({ color, focused }) => (

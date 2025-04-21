@@ -4,16 +4,14 @@ import LottieView from "lottie-react-native";
 
 const Animation = () => {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  
-  // Her animasyon için ayrı ref kullanarak birbirlerini etkilemelerini önleyelim
+  const isDark = colorScheme === "dark";
+
   const animationRef1 = useRef<LottieView>(null);
   const animationRef2 = useRef<LottieView>(null);
   const animationRef3 = useRef<LottieView>(null);
   const animationRef4 = useRef<LottieView>(null);
 
   useEffect(() => {
-    // Component mount olduğunda animasyonları başlat
     if (animationRef1.current) {
       animationRef1.current.play();
     }
@@ -29,72 +27,86 @@ const Animation = () => {
   }, []);
 
   return (
-    <View className="w-full px-4 pt-6 pb-10">
-      <View className="mb-8">
-        <LottieView
-          ref={animationRef1}
-          style={{ width: "50%", height: 150, alignSelf: "center" }}
-          source={require("../../assets/animation_1.json")}
-          autoPlay={false}
-          loop
-          speed={1}
-          resizeMode="cover"
-        />
-        <View className="mt-2">
-          <Text className="font-bold text-start dark:text-gray-300">
-            Çoklu dil desteği ile notlarınızı istediğiniz dillerde kaydedin.
-          </Text>
+    <View>
+      <View className="w-full flex-col justify-center px-4 pt-6 pb-10">
+        <View className="mb-4">
+          <LottieView
+            ref={animationRef1}
+            style={{ width: "30%", height: 150, alignSelf: "center" }}
+            source={require("../../assets/animation_1.json")}
+            autoPlay={false}
+            loop
+            speed={1}
+            resizeMode="cover"
+          />
+          <View className="mt-2">
+            <Text className="font-bold text-center dark:text-gray-300">
+              Anında Çeviri Yapın Notunu Ekle
+            </Text>
+          </View>
+        </View>
+
+        <View className="mb-4">
+          <LottieView
+            ref={animationRef2}
+            style={{ width: "30%", height: 150, alignSelf: "center" }}
+            source={require("../../assets/animation_2.json")}
+            autoPlay={false}
+            loop
+            speed={1}
+            resizeMode="cover"
+          />
+          <View className="mt-2">
+            <Text className="font-bold text-center dark:text-gray-300">
+              Notlarınızı kaydedin ve düzenleyin
+            </Text>
+          </View>
+        </View>
+        <View>
+          <LottieView
+            ref={animationRef4}
+            style={{ width: "30%", height: 150, alignSelf: "center" }}
+            source={require("../../assets/animation_3.json")}
+            autoPlay={false}
+            loop
+            speed={1}
+            resizeMode="cover"
+          />
+          <View className="mt-2">
+            <Text className="font-bold text-center dark:text-gray-300">
+              Notlarınızı Daha Eğlenceli Yapın
+            </Text>
+          </View>
         </View>
       </View>
-
-      <View className="mb-8">
-        <LottieView
-          ref={animationRef2}
-          style={{ width: "50%", height: 150, alignSelf: "center" }}
-          source={require("../../assets/animation_2.json")}
-          autoPlay={false}
-          loop
-          speed={1}
-          resizeMode="cover"
-        />
-        <View className="mt-2">
-          <Text className="font-bold text-start dark:text-gray-300">
-            Anında çeviri yaparak öğrenme sürecinizi hızlandırın.
-          </Text>
-        </View>
-      </View>
-
-      <View className="mb-8">
-        <LottieView
-          ref={animationRef3}
-          style={{ width: "50%", height: 150, alignSelf: "center" }}
-          source={require("../../assets/animation_4.json")}
-          autoPlay={false}
-          loop
-          speed={1}
-          resizeMode="cover"
-        />
-        <View className="mt-2">
-          <Text className="font-bold text-start dark:text-gray-300">
-            Kişiselleştirilmiş kelime bankası oluşturun ve kelimeleri kolayca tekrar edin.
-          </Text>
-        </View>
-      </View>
-
       <View>
-        <LottieView
-          ref={animationRef4}
-          style={{ width: "50%", height: 150, alignSelf: "center" }}
-          source={require("../../assets/animation_3.json")}
-          autoPlay={false}
-          loop
-          speed={1}
-          resizeMode="cover"
-        />
-        <View className="mt-2">
-          <Text className="font-bold text-start dark:text-gray-300">
-            Notlarınızı kategorize ederek dil öğrenme yolculuğunuzu düzenli tutun.
+        <View className="px-2 mb-6">
+          <Text className="text-xl font-semibold dark:text-white mb-4">
+            Günün İpucu
           </Text>
+          <View className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-xl">
+            <Text className="text-amber-600 dark:text-amber-400 font-medium mb-2">
+              Dil öğreniminde tutarlılık
+            </Text>
+            <Text className="text-gray-700 dark:text-gray-300 text-sm">
+              Her gün 10 dakika düzenli çalışmak, haftada bir kez 2 saat
+              çalışmaktan daha etkilidir.
+            </Text>
+          </View>
+        </View>
+        <View className="px-2 mb-6">
+          <Text className="text-xl font-semibold dark:text-white mb-4">
+            Dil Öğreniminde Tutarlılık
+          </Text>
+          <View className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-xl">
+            <Text className="text-amber-600 dark:text-amber-400 font-medium mb-2">
+              Öğrenmeye devam edin
+            </Text>
+            <Text className="text-gray-700 dark:text-gray-300 text-sm">
+              Sürekli pratik yapın, yeni bilgiler öğrenin ve yeni diller
+              öğrenin. Hatalarınızı düzeltin ve yeni bilgileri öğrenin.
+            </Text>
+          </View>
         </View>
       </View>
     </View>

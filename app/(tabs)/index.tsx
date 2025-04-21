@@ -19,19 +19,19 @@ export default function HomeScreen() {
   const sections: SectionType[] = [
     {
       id: 1,
-      title: "Kamera",
-      content: "Tara ve çevir",
+      title: "Notlar",
+      content: "Notlarınızı kaydedin",
       router: "/(tabs)/explore",
       bgColor: "bg-blue-50",
-      iconName: "camera-outline",
+      iconName: "document-outline",
     },
     {
       id: 2,
-      title: "Ses",
-      content: "Konuş ve anlayacaksın",
+      title: "Çeviri",
+      content: "Çeviri yapın",
       router: "/(tabs)/translate",
       bgColor: "bg-green-50",
-      iconName: "mic-outline",
+      iconName: "language-outline",
     },
     {
       id: 3,
@@ -52,7 +52,6 @@ export default function HomeScreen() {
       <ScrollView className="flex-1 bg-white dark:bg-gray-800">
         <SafeAreaView className="flex-1">
           <View className="px-6 pt-4">
-            {/* Profil ve bildirim kısmı */}
             <View className="flex-row justify-between items-center mb-8">
               <View className="flex-row items-center">
                 <Image
@@ -61,8 +60,12 @@ export default function HomeScreen() {
                   defaultSource={require("../../assets/avatar.png")}
                 />
                 <View>
-                  <Text className="text-lg font-semibold dark:text-white">Melani</Text>
-                  <Text className="text-gray-500 text-xs">Pro Hesap</Text>
+                  <Text className="text-lg font-semibold dark:text-white">
+                    Melani
+                  </Text>
+                  <Text className="text-gray-500 text-xs dark:text-gray-400">
+                    Pro Hesap
+                  </Text>
                 </View>
               </View>
               <Pressable className="p-2 bg-gray-100 rounded-full">
@@ -74,13 +77,15 @@ export default function HomeScreen() {
               </Pressable>
             </View>
 
-            {/* Başlık kısmı */}
             <View className="mb-8">
-              <Text className="text-2xl font-bold">Hadi çevirelim</Text>
-              <Text className="text-gray-400">kolayca her şeyi</Text>
+              <Text className="text-2xl font-bold dark:text-white">
+                Hadi çevirelim
+              </Text>
+              <Text className="text-gray-400 dark:text-gray-400">
+                kolayca her şeyi
+              </Text>
             </View>
 
-            {/* Çeviri seçenekleri */}
             <View className="space-y-3 gap-4">
               {sections.map((section) => (
                 <Pressable
@@ -113,7 +118,7 @@ export default function HomeScreen() {
             </View>
           </View>
           <View className="flex-1">
-            <View className="px-6 pt-4">
+            <View className="px-6 pt-4 text-black dark:text-white">
               <Animation />
             </View>
           </View>
