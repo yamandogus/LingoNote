@@ -14,6 +14,13 @@ import Other from "@/components/notes/other";
 export default function ExploreScreen() {
   const [currentPage, setCurrentPage] = useState(0);
   const animationRef1 = useRef<LottieView>(null);
+  const pagerRef = useRef<PagerView>(null);
+  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    pagerRef.current?.setPage(page);
+  };
+  
   return (
     <SafeAreaProvider>
       <SafeAreaView className="flex-1 bg-white dark:bg-gray-800">
@@ -37,12 +44,13 @@ export default function ExploreScreen() {
             </Text>
           </View>
           <PagerView
+            ref={pagerRef}
             style={{ flex: 1 }}
             initialPage={0}
             onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
           >
             <View key="1">
-              <Categories />
+              <Categories setCurrentPage={handlePageChange}/>
             </View>
             <View key="2">
               <NoteAdd />

@@ -9,7 +9,7 @@ interface Data {
   title: string;
   content: string;
   icon: string;
-  router: "/(tabs)/explore" | "/(tabs)/translate";
+  router: "/(tabs)/notes" | "/(tabs)/translate";
   bgColor: string;
   darkBgColor: string;
   iconName: string;
@@ -21,7 +21,7 @@ const sectionsData: Data[] = [
     title: "Kamera",
     content: "Tara ve çevir",
     icon: "",
-    router: "/(tabs)/explore",
+    router: "/(tabs)/notes",
     bgColor: "bg-blue-50",
     darkBgColor: "bg-blue-800/30",
     iconName: "camera-outline",
@@ -53,8 +53,8 @@ const Sections = () => {
   const isDark = colorScheme === 'dark';
   
   const gradientColors = isDark 
-    ? ['#1f2937', '#374151'] // Koyu gri tonları - dark mode için daha yumuşak
-    : ['#fffbe9', '#ffd700']; // Açık mod için orijinal renkler
+    ? ['#1f2937', '#374151'] 
+    : ['#fffbe9', '#ffd700']; 
 
   return (
     <LinearGradient

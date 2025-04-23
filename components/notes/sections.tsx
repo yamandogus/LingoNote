@@ -8,7 +8,7 @@ const Sections = ({ category, setCategory }: { category: string, setCategory: (c
       <TouchableOpacity
         key={cat}
         onPress={() => setCategory(cat)}
-        className={`px-4 py-3 rounded-full m-1 ${
+        className={`px-4 py-2 rounded-full m-1 ${
           category === cat ? "bg-blue-500" : "bg-gray-200"
         }`}
       >

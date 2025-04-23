@@ -28,7 +28,7 @@ const Animation = () => {
 
   return (
     <View>
-      <View className="w-full flex-col justify-center px-4 pt-6 pb-10">
+      <View className="w-full flex-row justify-center px-4 pt-6 pb-10 gap-20">
         <View className="mb-4">
           <LottieView
             ref={animationRef1}
@@ -41,7 +41,7 @@ const Animation = () => {
           />
           <View className="mt-2">
             <Text className="font-bold text-center dark:text-gray-300">
-              Anında Çeviri Yapın Notunu Ekle
+              Anında Çeviri
             </Text>
           </View>
         </View>
@@ -58,14 +58,16 @@ const Animation = () => {
           />
           <View className="mt-2">
             <Text className="font-bold text-center dark:text-gray-300">
-              Notlarınızı kaydedin ve düzenleyin
+              Notlarınızı kaydedin
             </Text>
           </View>
         </View>
+      </View>
+      <View className="w-full flex-row justify-center px-4 pt-6 pb-10 gap-20">
         <View>
           <LottieView
             ref={animationRef4}
-            style={{ width: "30%", height: 150, alignSelf: "center" }}
+            style={{ width: "20%", height: 150, alignSelf: "center" }}
             source={require("../../assets/animation_3.json")}
             autoPlay={false}
             loop
@@ -74,7 +76,23 @@ const Animation = () => {
           />
           <View className="mt-2">
             <Text className="font-bold text-center dark:text-gray-300">
-              Notlarınızı Daha Eğlenceli Yapın
+              Notlar Daha Eğlenceli
+            </Text>
+          </View>
+        </View>
+        <View>
+          <LottieView
+            ref={animationRef4}
+            style={{ width: "30%", height: 150, alignSelf: "center" }}
+            source={require("../../assets/notes.json")}
+            autoPlay={false}
+            loop
+            speed={1}
+            resizeMode="cover"
+          />
+          <View className="mt-2">
+            <Text className="font-bold text-center dark:text-gray-300">
+              Kişisel Notlar
             </Text>
           </View>
         </View>
@@ -107,6 +125,20 @@ const Animation = () => {
               öğrenin. Hatalarınızı düzeltin ve yeni bilgileri öğrenin.
             </Text>
           </View>
+        </View>
+      </View>
+      <View className="px-2 mb-6">
+        <Text className="text-xl font-semibold dark:text-white mb-4">
+          Kategorize Edilmiş Notlar
+        </Text>
+        <View className="bg-yellow-50 dark:bg-yellow-800 p-4 rounded-xl">
+          <Text className="text-amber-600 dark:text-amber-400 font-medium mb-2">
+            Kategorize Edilmiş Notlarınızı Yönetin
+          </Text>
+          <Text className="text-gray-700 dark:text-gray-300 text-sm">
+            Kategorize edilmiş notlarınızı daha ayırt edici ve anlaşılır bir
+            şekilde saklayabilirsiniz.
+          </Text>
         </View>
       </View>
     </View>

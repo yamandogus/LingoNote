@@ -1,8 +1,11 @@
+import 'react-native-get-random-values';
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Sections from "./sections";
+import { noteStore } from "@/store/noteStore";
+import { v4 as uuidv4 } from 'uuid';
 
 const NoteSchema = Yup.object().shape({
   title: Yup.string().required("Başlık gerekli"),
@@ -11,6 +14,10 @@ const NoteSchema = Yup.object().shape({
 
 const NoteAdd = () => {
   const [category, setCategory] = useState("Genel");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const { addNote } = noteStore();
+  const id = uuidv4();
 
   return (
     <ScrollView className="flex-1 px-4">
@@ -25,8 +32,8 @@ const NoteAdd = () => {
             <TextInput
               className="bg-gray-100 p-4 rounded-lg mb-2 border border-gray-300 dark:bg-gray-200 dark:text-black text-base"
               placeholder="Not başlığı..."
-              value={values.title}
-              onChangeText={handleChange("title")}
+              value={title}
+              onChangeText={setTitle}
               style={styles.inputField}
             />
             {touched.title && errors.title && (
@@ -40,8 +47,8 @@ const NoteAdd = () => {
               multiline
               textAlignVertical="top"
               numberOfLines={10}
-              value={values.content}
-              onChangeText={handleChange("content")}
+              value={content}
+              onChangeText={setContent}
               style={[styles.inputField, { height: 280 }]}
             />
             {touched.content && errors.content && (
@@ -53,6 +60,18 @@ const NoteAdd = () => {
             <TouchableOpacity
               className="bg-blue-500 p-5 rounded-lg mt-4 mb-10"
               style={styles.button}
+              onPress={() => {
+                addNote({
+                  id: id,
+                  title: title,
+                  content: content,
+                  category: category
+                });
+                setTimeout(() => {
+                  setTitle("");
+                  setContent("");
+                }, 2000);
+              }}
             >
               <Text className="text-white text-center font-bold text-lg">Notlarıma Ekle</Text>
             </TouchableOpacity>
