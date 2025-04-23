@@ -20,21 +20,21 @@ export default function ExploreScreen() {
         <View style={{ flex: 1 }}>
           <View style={{ padding: 16 }}>
             <Text className="text-center font-bold text-2xl rounded-lg bg-[#FDE68A] border-l-2 border-r-2 dark:border-white py-2 px-4">
-              📝 Notlarım
+              📝{" "}
+              {currentPage === 0
+                ? "Notlarınızı Özelleştirin"
+                : currentPage === 1
+                ? "Not Ekle"
+                : currentPage === 2
+                ? "Genel Notlarım"
+                : currentPage === 3
+                ? "Yapılacaklar"
+                : currentPage === 4
+                ? "Ödevler"
+                : currentPage === 5
+                ? "Proje Notları"
+                : "Diğer"}
             </Text>
-          </View>
-          <View>
-            {currentPage === 0 && (
-              <LottieView
-                ref={animationRef1}
-                style={{ width: "30%", height: 150, alignSelf: "center" }}
-                source={require("../../assets/notes.json")}
-                autoPlay={true}
-                loop
-                speed={1}
-                resizeMode="cover"
-              />
-            )}
           </View>
           <PagerView
             style={{ flex: 1 }}
@@ -42,80 +42,28 @@ export default function ExploreScreen() {
             onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
           >
             <View key="1">
-              <Text className="text-xl font-bold text-center mt-5 dark:text-white">
-                Kategoriler
-              </Text>
               <Categories />
             </View>
             <View key="2">
-              <Pressable
-                onPress={() => setCurrentPage(2)}
-                className="text-xl font-bold text-center mt-5 dark:text-white"
-              >
-                <Text className="text-xl font-bold text-center mt-5 dark:text-white">
-                  Not Ekle
-                </Text>
-              </Pressable>
               <NoteAdd />
             </View>
             <View key="3">
-              <Pressable
-                onPress={() => setCurrentPage(3)}
-                className="text-xl font-bold text-center mt-5 dark:text-white"
-              >
-                <Text className="text-2xl font-bold text-center mt-5 dark:text-white">
-                  {" "}
-                  Genel Notlarım
-                </Text>
-              </Pressable>
               <MyNotes />
             </View>
             <View key="4">
-              <Pressable
-                onPress={() => setCurrentPage(4)}
-                className="text-xl font-bold text-center mt-5 dark:text-white"
-              >
-                <Text className="text-2xl font-bold text-center mt-5 dark:text-white">
-                  Yapılacaklar
-                </Text>
-              </Pressable>
               <Todos />
             </View>
             <View key="5">
-              <Pressable
-                onPress={() => setCurrentPage(5)}
-                className="text-xl font-bold text-center mt-5 dark:text-white"
-              >
-                <Text className="text-2xl font-bold text-center mt-5 dark:text-white">
-                  Ödevler
-                </Text>
-              </Pressable>
               <Assignments />
             </View>
             <View key="6">
-              <Pressable
-                onPress={() => setCurrentPage(6)}
-                className="text-xl font-bold text-center mt-5 dark:text-white"
-              >
-                <Text className="text-2xl font-bold text-center mt-5 dark:text-white">
-                  Proje Notları
-                </Text>
-              </Pressable>
               <ProjectNotes />
             </View>
             <View key="7">
-              <Pressable
-                onPress={() => setCurrentPage(7)}
-                className="text-xl font-bold text-center mt-5 dark:text-white"
-              >
-                <Text className="text-2xl font-bold text-center mt-5 dark:text-white">
-                  Diğer
-                </Text>
-              </Pressable>
               <Other />
             </View>
           </PagerView>
-          <View className="flex-row justify-center items-center mb-5">
+          <View className="flex-row justify-center items-center mb-2 pt-2">
             {[...Array(7)].map((_, index) => (
               <View
                 key={index}

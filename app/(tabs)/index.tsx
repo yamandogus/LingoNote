@@ -4,7 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Animation from "@/components/home/animation";
 
-type RouteType = "/(tabs)/explore" | "/(tabs)/translate";
+type RouteType = "/(tabs)/notes" | "/(tabs)/translate";
 
 interface SectionType {
   id: number;
@@ -21,7 +21,7 @@ export default function HomeScreen() {
       id: 1,
       title: "Notlar",
       content: "Notlarınızı kaydedin",
-      router: "/(tabs)/explore",
+      router: "/(tabs)/notes",
       bgColor: "bg-blue-50",
       iconName: "document-outline",
     },
