@@ -3,7 +3,7 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface Note{
+export interface Note{
   id: string,
   title: string,
   content: string,

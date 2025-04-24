@@ -61,7 +61,7 @@ export default function HomeScreen() {
                 />
                 <View>
                   <Text className="text-lg font-semibold dark:text-white">
-                    Melani
+                    Doğuş
                   </Text>
                   <Text className="text-gray-500 text-xs dark:text-gray-400">
                     Pro Hesap

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { noteStore } from '@/store/noteStore';
-
+import NoteList from './note';
 const MyNotes = () => {
   const { notes } = noteStore();
   
@@ -19,37 +19,15 @@ const MyNotes = () => {
   }
   
   return (
-    <ScrollView className='flex-1 bg-white dark:bg-gray-800 p-4'>
-      <Text className='text-xl font-bold mb-4 dark:text-white'>
+    <ScrollView className='flex-1 bg-white dark:bg-gray-800'>
+      <Text className='text-xl font-bold mb-4 dark:text-white text-center'>
         Genel Notlarım
       </Text>
-      <View className='space-y-4'>
-        {notes.map((note) => (
-          <View 
-            key={note.id} 
-            className='bg-white dark:bg-gray-700 rounded-lg p-4 shadow-sm'
-            style={styles.noteCard}
-          >
-            <Text className='text-lg font-bold mb-2 dark:text-white'>{note.title}</Text>
-            <Text className='text-gray-700 dark:text-gray-300'>{note.content}</Text>
-            <Text className='text-xs text-gray-500 dark:text-gray-400 mt-2'>
-              Kategori: {note.category}
-            </Text>
-          </View>
-        ))}
-      </View>
+      <NoteList note={notes} title="Genel Notlarım" />
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
-  noteCard: {
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1
-  }
-});
 
 export default MyNotes;
 
