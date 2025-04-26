@@ -6,7 +6,7 @@ const Categories = ({ setCurrentPage }: { setCurrentPage: (page: number) => void
     {
       id: 0,
       name: "Not Ekle",
-      color: "#FDE68A",
+      color: "#25d125",
       page: 1
     },
     {

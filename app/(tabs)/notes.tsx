@@ -1,32 +1,46 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import PagerView from "react-native-pager-view";
 import { useRef, useState } from "react";
 import NoteAdd from "@/components/notes/noteAdd";
 import Categories from "@/components/notes/categories";
-import LottieView from "lottie-react-native";
 import MyNotes from "@/components/notes/myNotes";
 import Todos from "@/components/notes/todos";
 import Assignments from "@/components/notes/assignments";
 import ProjectNotes from "@/components/notes/projectNotes";
 import Other from "@/components/notes/other";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ExploreScreen() {
   const [currentPage, setCurrentPage] = useState(0);
-  const animationRef1 = useRef<LottieView>(null);
   const pagerRef = useRef<PagerView>(null);
-  
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     pagerRef.current?.setPage(page);
   };
-  
+
+  const handleBackToCategories = () => {
+    setCurrentPage(0);
+    pagerRef.current?.setPage(0);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView className="flex-1 bg-white dark:bg-gray-800">
         <View style={{ flex: 1 }}>
-          <View style={{ padding: 16 }}>
-            <Text className="text-center font-bold text-2xl rounded-lg bg-[#FDE68A] border-l-2 border-r-2 dark:border-white py-2 px-4">
+          <View style={{ padding: 16, flexDirection: "row", alignItems: "center" }}>
+            {currentPage !== 0 && (
+              <TouchableOpacity
+                onPress={handleBackToCategories}
+                style={{ position: "absolute", left: 16, zIndex: 10 }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Ionicons name="arrow-back" size={24} color="#4B5563" className="ml-2 bg-white rounded-lg px-4 py-1"/>
+                </View>
+              </TouchableOpacity>
+            )}
+            <Text className="text-center font-bold text-2xl rounded-lg bg-[#FDE68A] border-l-2 border-r-2 dark:border-white py-2 px-4 flex-1">
               📝{" "}
               {currentPage === 0
                 ? "Notlarınızı Özelleştirin"
@@ -50,7 +64,7 @@ export default function ExploreScreen() {
             onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
           >
             <View key="1">
-              <Categories setCurrentPage={handlePageChange}/>
+              <Categories setCurrentPage={handlePageChange} />
             </View>
             <View key="2">
               <NoteAdd />

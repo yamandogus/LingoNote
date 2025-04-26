@@ -8,13 +8,16 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Sections from "./sections";
 import { noteStore } from "@/store/noteStore";
 import { v4 as uuidv4 } from "uuid";
-import Toast from "react-native-toast-message";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
 const NoteSchema = Yup.object().shape({
   title: Yup.string().required("Başlık gerekli"),
@@ -36,77 +39,111 @@ const NoteAdd = () => {
         content: content,
         category: category,
       });
-      Alert.alert("Not başarıyla eklendi", "Notunuz kaydedildi");
-      setTimeout(() => {
-        setTitle("");
-        setContent("");
-      }, 2000);
+      Alert.alert("Başarılı", "Notunuz başarıyla kaydedildi", [
+        { text: "Tamam", onPress: () => {
+          setTitle("");
+          setContent("");
+        }}
+      ]);
     } else {
       Alert.alert("Hata", "Lütfen tüm alanları doldurunuz");
     }
   };
 
   return (
-    <ScrollView className="flex-1 px-4">
-      <Formik
-        initialValues={{ title: "", content: "" }}
-        validationSchema={NoteSchema}
-        onSubmit={() => {}}
-      >
-        {({ handleChange, handleSubmit, values, errors, touched }) => (
-          <View className="mt-6">
-            <Text className="text-gray-700 mb-2 font-medium dark:text-white text-lg">
-              Başlık
-            </Text>
-            <TextInput
-              className="bg-gray-100 p-4 rounded-lg mb-2 border border-gray-300 dark:bg-gray-200 dark:text-black text-base"
-              placeholder="Not başlığı..."
-              value={title}
-              onChangeText={setTitle}
-              style={styles.inputField}
-            />
-            {touched.title && errors.title && (
-              <Text className="text-red-500 mb-2 text-base">
-                {errors.title}
-              </Text>
-            )}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1"
+    >
+      <ScrollView className="flex-1 px-4">
+        <Formik
+          initialValues={{ title: "", content: "" }}
+          validationSchema={NoteSchema}
+          onSubmit={() => {}}
+        >
+          {({ handleChange, handleSubmit, values, errors, touched }) => (
+            <View className="mt-6">
+              <View className="mb-4">
+                <View className="flex-row items-center mb-2">
+                  <Ionicons name="pencil" size={20} color="#4B5563" />
+                  <Text className="text-gray-700 ml-2 font-medium dark:text-white text-lg">
+                    Başlık
+                  </Text>
+                </View>
+                <TextInput
+                  className="bg-gray-100 p-4 rounded-xl mb-1 border border-gray-200 dark:bg-gray-700 dark:text-white text-base"
+                  placeholder="Not başlığı..."
+                  placeholderTextColor="#9CA3AF"
+                  value={title}
+                  onChangeText={setTitle}
+                  style={styles.inputField}
+                />
+                {touched.title && errors.title && (
+                  <Text className="text-red-500 ml-2 text-sm">
+                    {errors.title}
+                  </Text>
+                )}
+              </View>
 
-            <Text className="text-gray-700 mb-2 mt-4 font-medium dark:text-white text-lg">
-              İçerik
-            </Text>
-            <TextInput
-              className="bg-gray-100 p-4 rounded-lg mb-2 border border-gray-300 dark:bg-gray-200 dark:text-black text-base"
-              placeholder="Notunuzu giriniz..."
-              multiline
-              textAlignVertical="top"
-              numberOfLines={10}
-              value={content}
-              onChangeText={setContent}
-              style={[styles.inputField, { height: 280 }]}
-            />
-            {touched.content && errors.content && (
-              <Text className="text-red-500 mb-2 text-base">
-                {errors.content}
-              </Text>
-            )}
+              <View className="mb-4">
+                <View className="flex-row items-center mb-2">
+                  <Ionicons name="document-text" size={20} color="#4B5563" />
+                  <Text className="text-gray-700 ml-2 font-medium dark:text-white text-lg">
+                    İçerik
+                  </Text>
+                </View>
+                <TextInput
+                  className="bg-gray-100 p-4 rounded-xl mb-1 border border-gray-200 dark:bg-gray-700 dark:text-white text-base"
+                  placeholder="Notunuzu giriniz..."
+                  placeholderTextColor="#9CA3AF"
+                  multiline
+                  textAlignVertical="top"
+                  numberOfLines={10}
+                  value={content}
+                  onChangeText={setContent}
+                  style={[styles.inputField, { height: 280 }]}
+                />
+                {touched.content && errors.content && (
+                  <Text className="text-red-500 ml-2 text-sm">
+                    {errors.content}
+                  </Text>
+                )}
+              </View>
 
-            <Text className="text-gray-700 mb-2 mt-4 font-medium dark:text-white text-lg">
-              Kategori
-            </Text>
-            <Sections category={category} setCategory={setCategory} />
-            <TouchableOpacity
-              className="bg-blue-500 p-4 rounded-lg mb-10"
-              style={styles.button}
-              onPress={handleAddNote}
-            >
-              <Text className="text-white text-center font-bold text-lg">
-                Notlarıma Ekle
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Formik>
-    </ScrollView>
+              <View className="mb-6">
+                <View className="flex-row items-center mb-2">
+                  <Ionicons name="folder" size={20} color="#4B5563" />
+                  <Text className="text-gray-700 ml-2 font-medium dark:text-white text-lg">
+                    Kategori
+                  </Text>
+                </View>
+                <Sections category={category} setCategory={setCategory} />
+              </View>
+
+              <TouchableOpacity
+                onPress={handleAddNote}
+                className="mb-10"
+              >
+                <LinearGradient
+                  colors={['#4C51BF', '#6366F1']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  className="p-4 rounded-xl"
+                  style={styles.button}
+                >
+                  <View className="flex-row justify-center items-center">
+                    <Ionicons name="add-circle" size={20} color="white" />
+                    <Text className="text-white text-center font-bold text-lg ml-2">
+                      Notlarıma Ekle
+                    </Text>
+                  </View>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          )}
+        </Formik>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -120,9 +157,9 @@ const styles = StyleSheet.create({
   },
   button: {
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
 });
 
