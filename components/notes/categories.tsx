@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const Categories = ({ setCurrentPage }: { setCurrentPage: (page: number) => void }) => {
   const categories = [
@@ -55,7 +56,7 @@ const Categories = ({ setCurrentPage }: { setCurrentPage: (page: number) => void
             {category.name}
           </Text>
           <View className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
-            <Text className="text-xl font-bold">+</Text>
+            <Ionicons name="chevron-forward" size={20} color="#4B5563" />
           </View>
         </TouchableOpacity>
       ))}

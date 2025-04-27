@@ -69,7 +69,7 @@ const Animation = () => {
             ref={animationRef4}
             style={{ width: "20%", height: 150, alignSelf: "center" }}
             source={require("../../assets/animation_3.json")}
-            autoPlay={false}
+            autoPlay={true}
             loop
             speed={1}
             resizeMode="cover"

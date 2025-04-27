@@ -90,7 +90,6 @@ const textComp = () => {
           <TouchableOpacity 
             className="bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg flex-1 ml-2"
             onPress={() => {
-              // Dil seçimi modalı eklenebilir
               Alert.alert("Bilgi", "Dil seçimi yakında eklenecek");
             }}
           >

@@ -41,20 +41,19 @@ export default function ExploreScreen() {
               </TouchableOpacity>
             )}
             <Text className="text-center font-bold text-2xl rounded-lg bg-[#FDE68A] border-l-2 border-r-2 dark:border-white py-2 px-4 flex-1">
-              📝{" "}
               {currentPage === 0
-                ? "Notlarınızı Özelleştirin"
+                ? "📚 Notlarınızı Özelleştirin"
                 : currentPage === 1
-                ? "Not Ekle"
+                ? "✏️ Not Ekle"
                 : currentPage === 2
-                ? "Genel Notlarım"
+                ? "📋 Genel Notlarım"
                 : currentPage === 3
-                ? "Yapılacaklar"
+                ? "✅ Yapılacaklar"
                 : currentPage === 4
-                ? "Ödevler"
+                ? "📝 Ödevler"
                 : currentPage === 5
-                ? "Proje Notları"
-                : "Diğer"}
+                ? "🔍 Proje Notları"
+                : "📎 Diğer"}
             </Text>
           </View>
           <PagerView

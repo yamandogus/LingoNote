@@ -25,7 +25,7 @@ const NoteSchema = Yup.object().shape({
 });
 
 const NoteAdd = () => {
-  const [category, setCategory] = useState("Genel");
+  const [category, setCategory] = useState("Genel Notlar");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { addNote } = noteStore();
@@ -40,10 +40,13 @@ const NoteAdd = () => {
         category: category,
       });
       Alert.alert("Başarılı", "Notunuz başarıyla kaydedildi", [
-        { text: "Tamam", onPress: () => {
-          setTitle("");
-          setContent("");
-        }}
+        {
+          text: "Tamam",
+          onPress: () => {
+            setTitle("");
+            setContent("");
+          },
+        },
       ]);
     } else {
       Alert.alert("Hata", "Lütfen tüm alanları doldurunuz");
@@ -122,22 +125,12 @@ const NoteAdd = () => {
 
               <TouchableOpacity
                 onPress={handleAddNote}
-                className="mb-10"
+                className="mb-10 bg-blue-500 p-4 rounded-xl flex-row items-center justify-center"
               >
-                <LinearGradient
-                  colors={['#4C51BF', '#6366F1']}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  className="p-4 rounded-xl"
-                  style={styles.button}
-                >
-                  <View className="flex-row justify-center items-center">
-                    <Ionicons name="add-circle" size={20} color="white" />
-                    <Text className="text-white text-center font-bold text-lg ml-2">
-                      Notlarıma Ekle
-                    </Text>
-                  </View>
-                </LinearGradient>
+                <Ionicons name="add-circle" size={20} color="white" />
+                <Text className="text-white text-center font-bold text-lg ml-2">
+                  Notlarıma Ekle
+                </Text>
               </TouchableOpacity>
             </View>
           )}

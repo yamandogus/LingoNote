@@ -51,8 +51,8 @@ export default function HomeScreen() {
     <SafeAreaProvider className="flex-1">
       <ScrollView className="flex-1 bg-white dark:bg-gray-800">
         <SafeAreaView className="flex-1">
-          <View className="px-6 pt-4">
-            <View className="flex-row justify-between items-center mb-8">
+          <View className="pt-4">
+            <View className="flex-row justify-between items-center mb-8 px-6 ">
               <View className="flex-row items-center">
                 <Image
                   source={require("../../assets/avatar.png")}
@@ -68,6 +68,7 @@ export default function HomeScreen() {
                   </Text>
                 </View>
               </View>
+
               <Pressable className="p-2 bg-gray-100 rounded-full">
                 <Ionicons
                   name="notifications-outline"
@@ -76,8 +77,13 @@ export default function HomeScreen() {
                 />
               </Pressable>
             </View>
-
-            <View className="mb-8">
+            <View className="flex-1 h-64 my-4">
+              <Image
+                source={require("../../assets/images/LingoNote.png")}
+                style={{ width: "100%", height: "110%", borderRadius: 5 }}
+              />
+            </View>
+            <View className="mb-8 px-6 mt-4">
               <Text className="text-2xl font-bold dark:text-white">
                 Hadi çevirelim
               </Text>
@@ -86,7 +92,7 @@ export default function HomeScreen() {
               </Text>
             </View>
 
-            <View className="space-y-3 gap-4">
+            <View className="space-y-3 gap-4 px-6 ">
               {sections.map((section) => (
                 <Pressable
                   key={section.id}
@@ -117,6 +123,7 @@ export default function HomeScreen() {
               ))}
             </View>
           </View>
+
           <View className="flex-1">
             <View className="px-6 pt-4 text-black dark:text-white">
               <Animation />

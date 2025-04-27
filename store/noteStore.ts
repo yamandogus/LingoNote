@@ -8,6 +8,8 @@ export interface Note{
   title: string,
   content: string,
   category: string,
+  backgroundColor?: string,
+  darkBackgroundColor?: string,
 }
 interface NoteState{
     notes: Note[],
