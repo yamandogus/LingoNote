@@ -63,10 +63,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="translate"
         options={{
-          title: 'Çeviri',
+          title: 'Favoriler',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
-              name={focused ? "language" : "language-outline"} 
+              name={focused ? "heart" : "heart-outline"} 
               size={focused ? 26 : 24}
               color={color} 
             />
