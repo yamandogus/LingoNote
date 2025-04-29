@@ -55,7 +55,6 @@ const Favorites = () => {
                 style={{ width: 200, height: 200, marginTop: 16, borderRadius: 12 }}
               />
             )}
-            {/* Favori notlar listesi burada olacak */}
             <View className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4">
               <View className="flex-row justify-between items-center">
                 <Text className="text-lg font-semibold dark:text-white">Örnek Not</Text>
