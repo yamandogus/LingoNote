@@ -61,7 +61,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="translate"
+        name="favorites"
         options={{
           title: 'Favoriler',
           tabBarIcon: ({ color, focused }) => (

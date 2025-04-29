@@ -4,6 +4,7 @@ import { Note, noteStore } from "@/store/noteStore";
 import UpdateNote from "./updateNote";
 import EmptyNote from "./emptyNote";
 import { Ionicons } from '@expo/vector-icons';
+import { favoriteStore } from "@/store/favoriteStore";
 
 interface NoteProps {
   note: Note[];
@@ -12,6 +13,7 @@ interface NoteProps {
 
 const NoteList = ({ note, title }: NoteProps) => {
   const { deleteNote, updateNote } = noteStore();
+  const { addFavorite } = favoriteStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [category, setCategory] = useState("Genel Notlar");
   const [content, setContent] = useState("");
@@ -59,6 +61,7 @@ const NoteList = ({ note, title }: NoteProps) => {
 
   const categoryNotes = note.filter(item => item.category === title);
 
+
   return (
     <View className="space-y-4 mx-2 mt-4 gap-4">
       {categoryNotes.length > 0 ? (
@@ -89,7 +92,9 @@ const NoteList = ({ note, title }: NoteProps) => {
               >
                 {note.title}
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                addFavorite(note);
+              }}>
                 <Ionicons 
                   name="heart-outline" 
                   size={24} 
