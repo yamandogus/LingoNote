@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, View, Text, TouchableOpacity, TextInput } from "react-native";
 import Sections from "./sections";
 import { noteStore } from "@/store/noteStore";
+import { favoriteStore } from "@/store/favoriteStore";
 
 interface ModalProps {
   modalVisible: boolean;
@@ -27,10 +28,16 @@ const UpdateNote = ({
   noteId
 }: ModalProps) => {
   const { updateNote } = noteStore();
+  const { updateFavorite } = favoriteStore();
   
   const handleUpdate = () => {
     if (noteId) {
       updateNote(noteId, {
+        title: title,
+        content: content,
+        category: category
+      });
+      updateFavorite(noteId, {
         title: title,
         content: content,
         category: category

@@ -2,12 +2,19 @@ import { View, Text, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { favoriteStore } from "@/store/favoriteStore";
 import NoteList from "@/components/notes/note";
-
+import React, { useState } from "react";
+import FavoritesComp from "@/components/favori/favorites";
 
 
 
 const Favorites = () => {
   const { favorites } = favoriteStore();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [category, setCategory] = useState("");
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [noteId, setNoteId] = useState("");
 
 
 
@@ -21,11 +28,17 @@ const Favorites = () => {
               Favori Notlarım
             </Text>
           </View>
-           {
-            favorites.map((favorite:any) => (
-              <NoteList note={favorite} title="Favori Notlarım" />
-            ))
-           }
+           <FavoritesComp 
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            category={category}
+            setCategory={setCategory}
+            content={content}
+            setContent={setContent}
+            title={title}
+            setTitle={setTitle}
+            noteId={noteId}
+           />
         </SafeAreaView>
       </ScrollView>
     </SafeAreaProvider>

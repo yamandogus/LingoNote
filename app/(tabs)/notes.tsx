@@ -10,6 +10,7 @@ import Assignments from "@/components/notes/assignments";
 import ProjectNotes from "@/components/notes/projectNotes";
 import Other from "@/components/notes/other";
 import { Ionicons } from "@expo/vector-icons";
+import Search from "@/components/notes/search";
 
 export default function ExploreScreen() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -53,7 +54,9 @@ export default function ExploreScreen() {
                 ? "📝 Ödevler"
                 : currentPage === 5
                 ? "🔍 Proje Notları"
-                : "📎 Diğer"}
+                : currentPage === 6
+                ? "📎 Diğer"
+                : "🔍 Not Ara"}
             </Text>
           </View>
           <PagerView
@@ -82,6 +85,9 @@ export default function ExploreScreen() {
             </View>
             <View key="7">
               <Other />
+            </View>
+            <View key="8">
+              <Search />
             </View>
           </PagerView>
           <View className="flex-row justify-center items-center mb-2 pt-2">
