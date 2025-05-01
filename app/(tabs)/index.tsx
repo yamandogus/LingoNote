@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { View, Text, ScrollView, Pressable, Image } from "react-native";
+import { View, Text, ScrollView, Pressable, Image, StatusBar } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Animation from "@/components/home/animation";
@@ -42,13 +42,17 @@ export default function HomeScreen() {
       iconName: "sparkles-outline",
     },
   ];
-
   const handleNavigation = (route: RouteType) => {
-    router.push(route);
+    router.push(route as any);
   };
 
   return (
     <SafeAreaProvider className="flex-1">
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent={true}
+      />
       <ScrollView className="flex-1 bg-white dark:bg-gray-800">
         <SafeAreaView className="flex-1">
           <View className="pt-4">

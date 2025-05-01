@@ -14,7 +14,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: isDark ? '#9CA3AF' : '#6B7280', 
         tabBarStyle: {
           backgroundColor: isDark ? '#1E293B' : '#F0F9FF', 
-          borderTopWidth: 0,
+          borderTopWidth: 1,
           elevation: 5,
           shadowColor: isDark ? '#000' : '#CBD5E1',
           shadowOffset: { width: 0, height: -2 },
@@ -67,6 +67,19 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons 
               name={focused ? "heart" : "heart-outline"} 
+              size={focused ? 26 : 24}
+              color={color} 
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Ara',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons 
+              name={focused ? "search" : "search-outline"} 
               size={focused ? 26 : 24}
               color={color} 
             />

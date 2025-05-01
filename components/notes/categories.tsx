@@ -44,12 +44,6 @@ const Categories = ({
       color: "#FEDDC7",
       page: 6,
     },
-    {
-      id:6,
-      name: "Not Ara",
-      color: "#d38afd",
-      page: 7,
-    }
   ];
   return (
     <View className="flex-1 px-6">

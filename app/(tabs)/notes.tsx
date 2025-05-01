@@ -30,14 +30,21 @@ export default function ExploreScreen() {
     <SafeAreaProvider>
       <SafeAreaView className="flex-1 bg-white dark:bg-gray-800">
         <View style={{ flex: 1 }}>
-          <View style={{ padding: 16, flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{ padding: 16, flexDirection: "row", alignItems: "center" }}
+          >
             {currentPage !== 0 && (
               <TouchableOpacity
                 onPress={handleBackToCategories}
                 style={{ position: "absolute", left: 16, zIndex: 10 }}
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Ionicons name="arrow-back" size={24} color="#4B5563" className="ml-2 bg-white rounded-lg px-4 py-1"/>
+                  <Ionicons
+                    name="arrow-back"
+                    size={24}
+                    color="#4B5563"
+                    className="ml-2 bg-white rounded-lg px-4 py-1"
+                  />
                 </View>
               </TouchableOpacity>
             )}
@@ -54,9 +61,7 @@ export default function ExploreScreen() {
                 ? "📝 Ödevler"
                 : currentPage === 5
                 ? "🔍 Proje Notları"
-                : currentPage === 6
-                ? "📎 Diğer"
-                : "🔍 Not Ara"}
+                : "📎 Diğer"}
             </Text>
           </View>
           <PagerView
@@ -85,9 +90,6 @@ export default function ExploreScreen() {
             </View>
             <View key="7">
               <Other />
-            </View>
-            <View key="8">
-              <Search />
             </View>
           </PagerView>
           <View className="flex-row justify-center items-center mb-2 pt-2">
