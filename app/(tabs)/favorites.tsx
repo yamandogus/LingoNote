@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, StatusBar } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { favoriteStore } from "@/store/favoriteStore";
 import NoteList from "@/components/notes/note";
@@ -21,6 +21,11 @@ const Favorites = () => {
 
   return (
     <SafeAreaProvider className="flex-1">
+            <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent={true}
+      />
       <ScrollView className="flex-1 bg-white dark:bg-gray-800 pt-4">
         <SafeAreaView>
           <View className="flex-1 mx-4">

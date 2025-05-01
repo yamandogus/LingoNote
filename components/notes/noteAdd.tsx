@@ -17,7 +17,6 @@ import Sections from "./sections";
 import { noteStore } from "@/store/noteStore";
 import { v4 as uuidv4 } from "uuid";
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
 
 const NoteSchema = Yup.object().shape({
   title: Yup.string().required("Başlık gerekli"),
@@ -62,9 +61,9 @@ const NoteAdd = () => {
         <Formik
           initialValues={{ title: "", content: "" }}
           validationSchema={NoteSchema}
-          onSubmit={() => {}}
+          onSubmit={handleAddNote}
         >
-          {({ handleChange, handleSubmit, values, errors, touched }) => (
+          {({ errors, touched }) => (
             <View className="mt-6">
               <View className="mb-4">
                 <View className="flex-row items-center mb-2">

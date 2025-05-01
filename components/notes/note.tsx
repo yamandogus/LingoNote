@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Alert, Pressable } from "react-native";
 import { Note, noteStore } from "@/store/noteStore";
 import UpdateNote from "./updateNote";
 import EmptyNote from "./emptyNote";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { favoriteStore } from "@/store/favoriteStore";
 
 interface NoteProps {
@@ -19,6 +19,15 @@ const NoteList = ({ note, title }: NoteProps) => {
   const [content, setContent] = useState("");
   const [noteTitle, setNoteTitle] = useState("");
   const [selectedNoteId, setSelectedNoteId] = useState("");
+  const [modalVisibleAlert, setModalVisibleAlert] = useState(false);
+
+  const handleDeleteOk = () => {
+    setModalVisibleAlert(true);
+  };
+
+  const handleDeleteCancel = (id: string) => {
+    deleteNote(id)
+  };
 
   const colorOptions = [
     {
@@ -59,8 +68,7 @@ const NoteList = ({ note, title }: NoteProps) => {
   const defaultTextLight = "text-gray-800";
   const defaultTextDark = "dark:text-white";
 
-  const categoryNotes = note.filter(item => item.category === title);
-
+  const categoryNotes = note.filter((item) => item.category === title);
 
   return (
     <View className="space-y-4 mx-2 mt-4 gap-4">
@@ -92,13 +100,15 @@ const NoteList = ({ note, title }: NoteProps) => {
               >
                 {note.title}
               </Text>
-              <TouchableOpacity onPress={() => {
-                addFavorite(note);
-              }}>
-                <Ionicons 
-                  name="heart-outline" 
-                  size={24} 
-                  color={note.backgroundColor ? "white" : "#4B5563"} 
+              <TouchableOpacity
+                onPress={() => {
+                  addFavorite(note);
+                }}
+              >
+                <Ionicons
+                  name="heart-outline"
+                  size={24}
+                  color={note.backgroundColor ? "white" : "#4B5563"}
                 />
               </TouchableOpacity>
             </View>
@@ -158,7 +168,7 @@ const NoteList = ({ note, title }: NoteProps) => {
 
               <View className="flex-row gap-2">
                 <TouchableOpacity
-                  style={{borderWidth: 0.5, borderColor: "white"}}
+                  style={{ borderWidth: 0.5, borderColor: "white" }}
                   onPress={() => {
                     setModalVisible(true);
                     setContent(note.content);
@@ -168,17 +178,62 @@ const NoteList = ({ note, title }: NoteProps) => {
                   }}
                   className="bg-blue-500 dark:bg-blue-600 rounded-lg px-4 py-2 flex-row items-center gap-1"
                 >
-                  <Ionicons 
-                    name="create-outline" 
-                    size={16} 
-                    color={note.backgroundColor ? "white" : "#4B5563"} 
+                  <Ionicons
+                    name="create-outline"
+                    size={16}
+                    color={note.backgroundColor ? "white" : "#4B5563"}
                   />
-                  <Text className={`${note.backgroundColor ? "text-white" : "text-gray-800"} ${note.backgroundColor === "bg-yellow-400" ? "text-gray-800" : "text-white"} font-medium `}>
+                  <Text
+                    className={`${
+                      note.backgroundColor ? "text-white" : "text-gray-800"
+                    } ${
+                      note.backgroundColor === "bg-yellow-400"
+                        ? "text-gray-800"
+                        : "text-white"
+                    } font-medium `}
+                  >
                     Düzenle
                   </Text>
                 </TouchableOpacity>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisibleAlert}
+                  onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisibleAlert(!modalVisibleAlert);
+                  }}
+                >
+                  <View className="flex-1 justify-center items-center bg-black/50">
+                    <View className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[90%] max-w-md shadow-2xl">
+                      <View className="flex-row items-center gap-3 mb-4">
+                        <View className="bg-red-100 dark:bg-red-900 p-3 rounded-full">
+                          <Ionicons name="warning" size={24} color="#EF4444" />
+                        </View>
+                        <Text className="text-xl font-bold text-gray-900 dark:text-white">Notu Sil</Text>
+                      </View>
+                      <Text className="text-gray-600 dark:text-gray-300 mb-6">
+                        Bu notu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.
+                      </Text>
+                      <View className="flex-row justify-end gap-3">
+                        <TouchableOpacity
+                          className="bg-gray-100 dark:bg-gray-700 rounded-xl px-5 py-3"
+                          onPress={() => setModalVisibleAlert(!modalVisibleAlert)}
+                        >
+                          <Text className="text-gray-700 dark:text-gray-300 font-medium">İptal</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          className="bg-red-500 dark:bg-red-600 rounded-xl px-5 py-3"
+                          onPress={() => handleDeleteCancel(note.id)}
+                        >
+                          <Text className="text-white font-medium">Sil</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
                 <TouchableOpacity
-                  onPress={() => deleteNote(note.id)}
+                  onPress={() => handleDeleteOk()}
                   className="bg-red-500 dark:bg-red-600 rounded-lg px-4 py-2 flex-row items-center gap-1"
                 >
                   <Ionicons name="trash-outline" size={16} color="white" />

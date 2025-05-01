@@ -3,8 +3,9 @@ import { View, Text, ScrollView, Pressable, Image, StatusBar } from "react-nativ
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Animation from "@/components/home/animation";
+import Suggestions from "@/components/home/suggestions";
 
-type RouteType = "/(tabs)/notes" | "/(tabs)/translate";
+type RouteType = "/(tabs)/notes" | "/(tabs)/favorites" | "/(tabs)/search";
 
 interface SectionType {
   id: number;
@@ -27,19 +28,19 @@ export default function HomeScreen() {
     },
     {
       id: 2,
-      title: "Çeviri",
-      content: "Çeviri yapın",
-      router: "/(tabs)/translate",
+      title: "Favoriler",
+      content: "Favorilerinizi görün",
+      router: "/(tabs)/favorites",
       bgColor: "bg-green-50",
-      iconName: "language-outline",
+      iconName: "heart-outline",
     },
     {
       id: 3,
-      title: "Çeviri Yapay Zeka",
-      content: "Yapay zekayı kolayca kullan",
-      router: "/(tabs)/translate",
+      title: "Notlarınızı arayın",
+      content: "Notlarınızı arayın",
+      router: "/(tabs)/search",
       bgColor: "bg-orange-100",
-      iconName: "sparkles-outline",
+      iconName: "search-outline",
     },
   ];
   const handleNavigation = (route: RouteType) => {
@@ -81,18 +82,18 @@ export default function HomeScreen() {
                 />
               </Pressable>
             </View>
-            <View className="flex-1 h-64 my-4">
+            <View className="flex-1 h-72 my-4">
               <Image
                 source={require("../../assets/images/LingoNote.png")}
                 style={{ width: "100%", height: "110%", borderRadius: 5 }}
               />
             </View>
-            <View className="mb-8 px-6 mt-4">
+            <View className="mb-8 px-6 my-10">
               <Text className="text-2xl font-bold dark:text-white">
-                Hadi çevirelim
+                Hadi notlarınızı kaydedelim
               </Text>
               <Text className="text-gray-400 dark:text-gray-400">
-                kolayca her şeyi
+                kolayca her şeyi notlarınızda kaydedebilirsiniz
               </Text>
             </View>
 
@@ -131,6 +132,7 @@ export default function HomeScreen() {
           <View className="flex-1">
             <View className="px-6 pt-4 text-black dark:text-white">
               <Animation />
+              <Suggestions />
             </View>
           </View>
         </SafeAreaView>
