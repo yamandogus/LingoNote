@@ -41,6 +41,7 @@ const NoteAdd = () => {
       Alert.alert("Başarılı", "Notunuz başarıyla kaydedildi", [
         {
           text: "Tamam",
+          style: "default",
           onPress: () => {
             setTitle("");
             setContent("");
@@ -131,6 +132,7 @@ const NoteAdd = () => {
                   Notlarıma Ekle
                 </Text>
               </TouchableOpacity>
+
             </View>
           )}
         </Formik>

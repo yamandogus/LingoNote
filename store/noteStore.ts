@@ -10,12 +10,14 @@ export interface Note{
   category: string,
   backgroundColor?: string,
   darkBackgroundColor?: string,
+  isFavorite?: boolean,
 }
 interface NoteState{
     notes: Note[],
     addNote: (note: Note) => void,
     deleteNote: (id: string) => void,
-    updateNote: (id: string, content: Partial<Note>) => void
+    updateNote: (id: string, content: Partial<Note>) => void,
+    toggleFavorite: (id: string) => void,
 }
 
 const storage = typeof localStorage !== 'undefined' 
@@ -36,6 +38,13 @@ export const noteStore = create<NoteState>()(
         set((state) => ({
           notes: state.notes.map((note) =>
             note.id === id ? { ...note, ...content } : note
+          ),
+        }));
+      },
+      toggleFavorite: (id: string) => {
+        set((state) => ({
+          notes: state.notes.map((note) =>
+            note.id === id ? { ...note, isFavorite: !note.isFavorite } : note
           ),
         }));
       },

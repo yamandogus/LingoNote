@@ -12,8 +12,8 @@ interface NoteProps {
 }
 
 const NoteList = ({ note, title }: NoteProps) => {
-  const { deleteNote, updateNote } = noteStore();
-  const { addFavorite } = favoriteStore();
+  const { deleteNote, updateNote, toggleFavorite: toggleNoteFavorite } = noteStore();
+  const { addFavorite, toggleFavorite: toggleStoreFavorite } = favoriteStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [category, setCategory] = useState("Genel Notlar");
   const [content, setContent] = useState("");
@@ -102,13 +102,18 @@ const NoteList = ({ note, title }: NoteProps) => {
               </Text>
               <TouchableOpacity
                 onPress={() => {
-                  addFavorite(note);
+                  if (!note.isFavorite) {
+                    addFavorite(note);
+                    toggleNoteFavorite(note.id);
+                  } else {
+                    toggleNoteFavorite(note.id);
+                  }
                 }}
               >
                 <Ionicons
-                  name="heart-outline"
+                  name={note.isFavorite ? "heart" : "heart-outline"}
                   size={24}
-                  color={note.backgroundColor ? "white" : "#4B5563"}
+                  color={note.isFavorite ? "#EF4444" : (note.backgroundColor ? "white" : "#4B5563")}
                 />
               </TouchableOpacity>
             </View>

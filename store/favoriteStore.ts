@@ -10,12 +10,14 @@ export interface Favorite{
   category: string,
   backgroundColor?: string,
   darkBackgroundColor?: string,
+  isFavorite?: boolean,
 }
 interface FavoriteState{
     favorites: Favorite[],
     addFavorite: (favorite: Favorite) => void,
     deleteFavorite: (id: string) => void,
-    updateFavorite: (id: string, content: Partial<Favorite>) => void
+    updateFavorite: (id: string, content: Partial<Favorite>) => void,
+    toggleFavorite: (id: string) => void,
 }
 
 const storage = typeof localStorage !== 'undefined' 
@@ -27,7 +29,12 @@ export const favoriteStore = create<FavoriteState>()(
     (set) => ({
       favorites: [],
       addFavorite: (favorite: Favorite) => {
-        set((state) => ({ favorites: [...state.favorites, favorite] }));
+        set((state) => {
+          if (state.favorites.some(f => f.id === favorite.id)) {
+            return state;
+          }
+          return { favorites: [...state.favorites, favorite] };
+        });
       },
       deleteFavorite: (id: string) => {
         set((state) => ({ favorites: state.favorites.filter((favorite) => favorite.id !== id) }));
@@ -36,6 +43,13 @@ export const favoriteStore = create<FavoriteState>()(
         set((state) => ({
           favorites: state.favorites.map((favorite) =>
             favorite.id === id ? { ...favorite, ...content } : favorite
+          ),
+        }));
+      },
+      toggleFavorite: (id: string) => {
+        set((state) => ({
+          favorites: state.favorites.map((favorite) =>
+            favorite.id === id ? { ...favorite, isFavorite: !favorite.isFavorite } : favorite
           ),
         }));
       },
