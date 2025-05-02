@@ -1,6 +1,57 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+type IconName = "book-outline" | "bulb-outline" | "folder-outline" | "create-outline" | "list-outline" | "document-outline" | "search-outline" | "attach-outline";
+
+interface Template {
+  title: string;
+  description: string;
+  icon: IconName;
+  category: string;
+}
+
+
+const templates: Template[] = [
+  {
+    title: "✏️ Not Ekle",
+    description: "Hızlı ve kolay not alma",
+    icon: "create-outline",
+    category: "Genel"
+  },
+  {
+    title: "📋 Genel Notlarım",
+    description: "Günlük notlarınızı düzenleyin",
+    icon: "list-outline",
+    category: "Genel"
+  },
+  {
+    title: "✅ Yapılacaklar",
+    description: "Görevlerinizi planlayın",
+    icon: "document-outline",
+    category: "Görevler"
+  },
+  {
+    title: "📝 Ödevler",
+    description: "Ödevlerinizi takip edin",
+    icon: "book-outline",
+    category: "Eğitim"
+  },
+  {
+    title: "🔍 Proje Notları",
+    description: "Proje fikirlerinizi kaydedin",
+    icon: "search-outline",
+    category: "Projeler"
+  },
+  {
+    title: "📎 Diğer",
+    description: "Çeşitli notlarınız",
+    icon: "attach-outline",
+    category: "Diğer"
+  }
+];
+
+
 
 const Suggestions = () => {
   return (
@@ -55,6 +106,22 @@ const Suggestions = () => {
           </Text>
         </View>
       </View>
+        <View className="mt-4">
+          <View className="flex-row items-center gap-2 mb-4">
+            <Ionicons name="document-outline" size={24} color="#6366F1" />
+            <Text className="text-xl font-bold text-gray-900 dark:text-white"> Örnek Not Tampletleri</Text>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {templates.map((template, index) => (
+              <View key={index} className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mx-2 border border-gray-200 dark:border-gray-700 mt-4 w-64 gap-2 mb-4">
+                <Ionicons name={template.icon} size={24} color="#6366F1" />
+                <Text className="text-gray-900 dark:text-white">{template.title}</Text>
+                <Text className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{template.description}</Text>
+                <Text className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{template.category}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
     </View>
   );
 };
