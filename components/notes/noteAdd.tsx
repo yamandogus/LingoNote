@@ -10,6 +10,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Modal,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -25,6 +26,7 @@ const NoteSchema = Yup.object().shape({
 
 const NoteAdd = () => {
   const [category, setCategory] = useState("Genel Notlar");
+  const [addedSuccess, setAddedSuccess] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { addNote } = noteStore();
@@ -38,16 +40,13 @@ const NoteAdd = () => {
         content: content,
         category: category,
       });
-      Alert.alert("Başarılı", "Notunuz başarıyla kaydedildi", [
-        {
-          text: "Tamam",
-          style: "default",
-          onPress: () => {
-            setTitle("");
-            setContent("");
-          },
-        },
-      ]);
+      setAddedSuccess(true);
+      setTimeout(() => {
+        setAddedSuccess(false);
+        setTitle("");
+        setContent("");
+        setCategory("Genel Notlar");
+      }, 2000);
     } else {
       Alert.alert("Hata", "Lütfen tüm alanları doldurunuz");
     }
@@ -133,6 +132,17 @@ const NoteAdd = () => {
                 </Text>
               </TouchableOpacity>
 
+              <Modal
+                visible={addedSuccess}
+                onRequestClose={() => setAddedSuccess(false)}
+                transparent={true}
+              >
+                <View className="relative w-[300px] h-[50px] top-[50px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 dark:bg-green-500 p-4 rounded-lg">
+                  <Text className="text-white text-center text-lg font-bold">
+                    Notunuz başarıyla kaydedildi
+                  </Text>
+                </View>
+              </Modal>
             </View>
           )}
         </Formik>

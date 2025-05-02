@@ -59,12 +59,12 @@ const Search = ({ handleRemove }: SearchProps) => {
           paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         }}
       >
-        <View className="flex-1 px-4">
+        <View className="flex-1">
           <View className="relative">
             <TextInput
               placeholder="Not Ara"
               placeholderTextColor={"#000"}
-              className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mt-4 text-black dark:text-white font-bold"
+              className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mt-4 text-black dark:text-white font-bold mx-4"
               value={search}
               onChangeText={setSearch}
             />
@@ -92,7 +92,7 @@ const Search = ({ handleRemove }: SearchProps) => {
                 .map((note) => (
                   <View
                     key={note.id}
-                    className="flex-1 bg-gray-200 dark:bg-gray-200 p-4 rounded-lg"
+                    className="flex-1 bg-gray-100 dark:bg-gray-200 p-4 rounded-lg mb-4 border-2 border-gray-200 dark:border-gray-700 mx-4"
                   >
                     <View className="flex-row justify-between mb-4">
                       <Text className="text-lg font-bold">{note.title}</Text>

@@ -3,6 +3,7 @@ import { Modal, View, Text, TouchableOpacity, TextInput } from "react-native";
 import Sections from "./sections";
 import { noteStore } from "@/store/noteStore";
 import { favoriteStore } from "@/store/favoriteStore";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ModalProps {
   modalVisible: boolean;
@@ -58,9 +59,14 @@ const UpdateNote = ({
       >
         <View className="flex-1 w-full items-center justify-center bg-black/50">
           <View className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[92%] h-[80%] shadow-lg">
-            <Text className="text-gray-800 mb-2 text-lg font-medium dark:text-gray-100">
-              Notunuzu kaydedin
+            <View className="flex flex-row justify-between">
+            <Text className="text-gray-800 mb-2 text-lg dark:text-gray-100 font-bold pb-2">
+              Notunuzu Güncelleyin
             </Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Ionicons name="close" size={24} color="black" />
+            </TouchableOpacity>
+            </View>
             <View className="flex flex-col gap-1">
               <Text className="text-dark font-bold dark:text-white">
                 {" "}
