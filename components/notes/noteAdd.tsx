@@ -25,7 +25,7 @@ const NoteSchema = Yup.object().shape({
 });
 
 const NoteAdd = () => {
-  const [category, setCategory] = useState("Genel Notlar");
+  const [category, setCategory] = useState("Genel Notlarım");
   const [addedSuccess, setAddedSuccess] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -45,7 +45,7 @@ const NoteAdd = () => {
         setAddedSuccess(false);
         setTitle("");
         setContent("");
-        setCategory("Genel Notlar");
+        setCategory("Genel Notlarım");
       }, 2000);
     } else {
       Alert.alert("Hata", "Lütfen tüm alanları doldurunuz");

@@ -9,12 +9,12 @@ const MyNotes = () => {
   
   return (
     <View className='flex-1 bg-white dark:bg-gray-800'>
-      {notes.some(note => note.category === "Genel Notlar") ? (
+      {notes.some(note => note.category === "Genel Notlarım") ? (
         <ScrollView>
-          <NoteList note={notes} title="Genel Notlar" />
+          <NoteList note={notes} title="Genel Notlarım" />
         </ScrollView>
       ) : (
-        <EmptyNote categoryTitle="Genel Notlar" />
+        <EmptyNote categoryTitle="Genel Notlarım" />
       )}
     </View>
   );

@@ -56,36 +56,11 @@ export default function HomeScreen() {
       />
       <ScrollView className="flex-1 bg-white dark:bg-gray-800">
         <SafeAreaView className="flex-1">
-          <View className="pt-4">
-            <View className="flex-row justify-between items-center mb-8 px-6 ">
-              <View className="flex-row items-center">
-                <Image
-                  source={require("../../assets/avatar.png")}
-                  className="w-10 h-10 rounded-full mr-3"
-                  defaultSource={require("../../assets/avatar.png")}
-                />
-                <View>
-                  <Text className="text-lg font-semibold dark:text-white">
-                    Doğuş
-                  </Text>
-                  <Text className="text-gray-500 text-xs dark:text-gray-400">
-                    Pro Hesap
-                  </Text>
-                </View>
-              </View>
-
-              <Pressable className="p-2 bg-gray-100 rounded-full">
-                <Ionicons
-                  name="notifications-outline"
-                  size={20}
-                  color="black"
-                />
-              </Pressable>
-            </View>
+          <View>
             <View className="flex-1 h-72 my-4">
               <Image
                 source={require("../../assets/images/LingoNote.png")}
-                style={{ width: "100%", height: "110%", borderRadius: 5 }}
+                style={{ width: "100%", height: "110%", }}
               />
             </View>
             <View className="mb-8 px-6 my-10">

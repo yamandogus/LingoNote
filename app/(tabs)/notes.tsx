@@ -1,12 +1,10 @@
 import {
   View,
   Text,
-  Pressable,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import PagerView from "react-native-pager-view";
 import { useRef, useState } from "react";
 import NoteAdd from "@/components/notes/noteAdd";
 import Categories from "@/components/notes/categories";
@@ -15,23 +13,12 @@ import Todos from "@/components/notes/todos";
 import Assignments from "@/components/notes/assignments";
 import ProjectNotes from "@/components/notes/projectNotes";
 import Other from "@/components/notes/other";
-import { Ionicons } from "@expo/vector-icons";
-
+import { noteStore } from "@/store/noteStore";
 export default function ExploreScreen() {
-  const [currentPage, setCurrentPage] = useState(0);
   const [pageName, setPageName] = useState("📚 Notlarınızı Özelleştirin");
-  const pagerRef = useRef<PagerView>(null);
+  const notes = noteStore();
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    pagerRef.current?.setPage(page);
-  };
-
-  const handleBackToCategories = () => {
-    setCurrentPage(0);
-    pagerRef.current?.setPage(0);
-  };
 
   const pages = [
     {
@@ -45,22 +32,27 @@ export default function ExploreScreen() {
     {
       title: "📋 Genel Notlarım",
       component: MyNotes,
+      notes: notes.notes.filter((note) => note.category === "Genel Notlarım").length,
     },
     {
       title: "✅ Yapılacaklar",
       component: Todos,
+      notes: notes.notes.filter((note) => note.category === "Yapılacaklar").length,
     },
     {
       title: "📝 Ödevler",
       component: Assignments,
+      notes: notes.notes.filter((note) => note.category === "Ödevler").length,
     },
     {
       title: "🔍 Proje Notları",
       component: ProjectNotes,
+      notes: notes.notes.filter((note) => note.category === "Proje Notları").length,
     },
     {
       title: "📎 Diğer",
       component: Other,
+      notes: notes.notes.filter((note) => note.category === "Diğer").length,
     },
   ];
 
@@ -76,13 +68,12 @@ export default function ExploreScreen() {
             >
               {pages.map((page, index) => (
                 <TouchableOpacity
-                  className={`flex-1 mx-2 px-4 py-2 rounded-full ${
+                  className={`flex-1 flex-row items-center justify-center mx-2 px-4 py-2 rounded-full gap-2 ${
                     pageName === page.title ? 'bg-blue-500' : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700'
                   }`}
                   key={index}
                   onPress={() => {
                     setPageName(page.title);
-                    handlePageChange(index);
                     scrollViewRef.current?.scrollTo({ x: index * 100, animated: true });
                   }}
                 >
@@ -90,6 +81,11 @@ export default function ExploreScreen() {
                     pageName === page.title ? 'text-white' : 'text-dark dark:text-white'
                   }`}>
                     {page.title}
+                  </Text>
+                  <Text className={`text-center text-md font-bold ${
+                    pageName === page.title ? 'text-white' : 'text-dark dark:text-white'
+                  }`}>
+                    {page.notes}
                   </Text>
                 </TouchableOpacity>
               ))}

@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 const Sections = ({ category, setCategory }: { category: string, setCategory: (category: string) => void }) => {
   return (
     <View className="flex-row flex-wrap mb-6 justify-center">
-    {["Genel Notlar", "Yapılacaklar", "Ödevler", "Proje Notları", "Diğer"].map((cat) => (
+    {["Genel Notlarım", "Yapılacaklar", "Ödevler", "Proje Notları", "Diğer"].map((cat) => (
       <TouchableOpacity
         key={cat}
         onPress={() => setCategory(cat)}

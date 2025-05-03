@@ -8,6 +8,7 @@ import {
   StatusBar,
   Platform,
   TouchableOpacity,
+  useColorScheme,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@react-navigation/native";
@@ -31,6 +32,8 @@ interface SearchProps {
 
 const Search = ({ handleRemove }: SearchProps) => {
   const { colors } = useTheme();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
   const [search, setSearch] = useState("");
   const [notes, setNotes] = useState<Note[]>([]);
   const { notes: notesFromStore } = noteStore();
@@ -63,7 +66,7 @@ const Search = ({ handleRemove }: SearchProps) => {
           <View className="relative">
             <TextInput
               placeholder="Not Ara"
-              placeholderTextColor={"#000"}
+              placeholderTextColor={isDark ? "white" : "black"}
               className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mt-4 text-black dark:text-white font-bold mx-4"
               value={search}
               onChangeText={setSearch}
@@ -81,7 +84,7 @@ const Search = ({ handleRemove }: SearchProps) => {
             />
           </View>
 
-          <ScrollView className="flex-1 mt-4">
+          <ScrollView className="flex-1 mt-4 mx-4">
             {search.length > 2 ? (
               notes
                 .filter(

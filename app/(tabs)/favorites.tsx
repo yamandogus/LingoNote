@@ -1,14 +1,10 @@
 import { View, Text, ScrollView, StatusBar } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { favoriteStore } from "@/store/favoriteStore";
-import NoteList from "@/components/notes/note";
 import React, { useState } from "react";
 import FavoritesComp from "@/components/favori/favorites";
 
 
-
 const Favorites = () => {
-  const { favorites } = favoriteStore();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [category, setCategory] = useState("");
