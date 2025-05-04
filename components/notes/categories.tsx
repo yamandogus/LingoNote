@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { View, Text, ScrollView, Image } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const categories = [
   {
@@ -74,6 +74,12 @@ const categories = [
 const Categories = () => {
   return (
     <ScrollView>
+      <View className="w-full h-52 bg-white mt-2">
+      <Image
+        source={require("../../assets/openSvg/undraw_process_7lkc.png")}
+        style={{ width: "100%", height: "90%", resizeMode: "contain", marginTop: 10 }}
+      />
+      </View>
       <View className="flex-1 px-6 py-8">
         <Text className="text-2xl font-bold text-center mb-6 dark:text-white">
           Notlarınızı Kategorilerle Yönetin
@@ -91,12 +97,8 @@ const Categories = () => {
             >
               <View className="mr-4">{cat.icon}</View>
               <View>
-                <Text className="font-bold text-lg mb-1 ">
-                  {cat.title}
-                </Text>
-                <Text className="text-gray-700 ">
-                  {cat.desc}
-                </Text>
+                <Text className="font-bold text-lg mb-1 ">{cat.title}</Text>
+                <Text className="text-gray-700 ">{cat.desc}</Text>
               </View>
             </View>
           ))}

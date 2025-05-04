@@ -63,7 +63,7 @@ const Animation = () => {
           </View>
         </View>
       </View>
-      <View className="w-full flex-row justify-center px-4 pt-6 pb-10 gap-20">
+      <View className="w-full flex-row justify-center px-4 pb-10 gap-20">
         <View>
           <LottieView
             ref={animationRef4}

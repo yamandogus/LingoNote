@@ -49,18 +49,13 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaProvider className="flex-1">
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent={true}
-      />
       <ScrollView className="flex-1 bg-white dark:bg-gray-800">
         <SafeAreaView className="flex-1">
           <View>
             <View className="flex-1 h-72 my-4">
               <Image
                 source={require("../../assets/images/LingoNote.png")}
-                style={{ width: "100%", height: "110%", }}
+                style={{ width: "100%", height: "110%"}}
               />
             </View>
             <View className="mb-8 px-6 my-10">
@@ -110,6 +105,23 @@ export default function HomeScreen() {
               <Suggestions />
             </View>
           </View>
+          <View className="w-full h-52 bg-white mt-2 rounded-2xl">
+            <Image
+              source={require("../../assets/openSvg/undraw_note-list_47ij.png")}
+              style={{
+                width: "100%",
+                height: "90%",
+                resizeMode: "contain",
+                marginTop: 10,
+              }}
+            />
+          </View>
+            <View className="mx-4 mb-10">
+              <Text className="text-md font-bold dark:text-gray-300 text-center">
+                Tüm notlarınızı telefonunuza kaydederek notlarınıza daha kolay
+                erişebilirsiniz.
+              </Text>
+            </View>
         </SafeAreaView>
       </ScrollView>
     </SafeAreaProvider>
