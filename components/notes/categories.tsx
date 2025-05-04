@@ -74,7 +74,7 @@ const categories = [
 const Categories = () => {
   return (
     <ScrollView>
-      <View className="w-full h-52 bg-white mt-2">
+      <View className="w-full h-52 bg-white rounded-xl mt-2">
       <Image
         source={require("../../assets/openSvg/undraw_process_7lkc.png")}
         style={{ width: "100%", height: "90%", resizeMode: "contain", marginTop: 10 }}

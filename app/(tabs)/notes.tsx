@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useRef, useState } from "react";
 import NoteAdd from "@/components/notes/noteAdd";
@@ -19,7 +14,6 @@ export default function ExploreScreen() {
   const notes = noteStore();
   const scrollViewRef = useRef<ScrollView>(null);
 
-
   const pages = [
     {
       title: "📚 Notlarınızı Özelleştirin",
@@ -32,12 +26,14 @@ export default function ExploreScreen() {
     {
       title: "📋 Genel Notlarım",
       component: MyNotes,
-      notes: notes.notes.filter((note) => note.category === "Genel Notlarım").length,
+      notes: notes.notes.filter((note) => note.category === "Genel Notlarım")
+        .length,
     },
     {
       title: "✅ Yapılacaklar",
       component: Todos,
-      notes: notes.notes.filter((note) => note.category === "Yapılacaklar").length,
+      notes: notes.notes.filter((note) => note.category === "Yapılacaklar")
+        .length,
     },
     {
       title: "📝 Ödevler",
@@ -47,7 +43,8 @@ export default function ExploreScreen() {
     {
       title: "🔍 Proje Notları",
       component: ProjectNotes,
-      notes: notes.notes.filter((note) => note.category === "Proje Notları").length,
+      notes: notes.notes.filter((note) => note.category === "Proje Notları")
+        .length,
     },
     {
       title: "📎 Diğer",
@@ -61,30 +58,43 @@ export default function ExploreScreen() {
       <SafeAreaView className="flex-1  bg-white dark:bg-gray-800 pt-4">
         <View className="flex-1">
           <View className="flex-row justify-center items-center mb-2 pt-2">
-            <ScrollView 
-              horizontal 
+            <ScrollView
+              horizontal
               showsHorizontalScrollIndicator={false}
               ref={scrollViewRef}
             >
               {pages.map((page, index) => (
                 <TouchableOpacity
                   className={`flex-1 flex-row items-center justify-center mx-2 px-4 py-2 rounded-full gap-2 ${
-                    pageName === page.title ? 'bg-blue-500' : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700'
+                    pageName === page.title
+                      ? "bg-blue-500"
+                      : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700"
                   }`}
                   key={index}
                   onPress={() => {
                     setPageName(page.title);
-                    scrollViewRef.current?.scrollTo({ x: index * 100, animated: true });
+                    scrollViewRef.current?.scrollTo({
+                      x: index * 100,
+                      animated: true,
+                    });
                   }}
                 >
-                  <Text className={`text-center font-bold text-md ${
-                    pageName === page.title ? 'text-white' : 'text-dark dark:text-white'
-                  }`}>
+                  <Text
+                    className={`text-center font-bold text-md ${
+                      pageName === page.title
+                        ? "text-white"
+                        : "text-dark dark:text-white"
+                    }`}
+                  >
                     {page.title}
                   </Text>
-                  <Text className={`text-center text-md font-bold ${
-                    pageName === page.title ? 'text-white' : 'text-dark dark:text-white'
-                  }`}>
+                  <Text
+                    className={`text-center text-md font-bold ${
+                      pageName === page.title
+                        ? "text-white"
+                        : "text-dark dark:text-white"
+                    } `}
+                  >
                     {page.notes}
                   </Text>
                 </TouchableOpacity>
@@ -92,9 +102,7 @@ export default function ExploreScreen() {
             </ScrollView>
           </View>
           <View className="flex-1">
-            {pageName === "📚 Notlarınızı Özelleştirin" && (
-              <Categories/>
-            )}
+            {pageName === "📚 Notlarınızı Özelleştirin" && <Categories />}
             {pageName === "✏️ Not Ekle" && <NoteAdd />}
             {pageName === "📋 Genel Notlarım" && <MyNotes />}
             {pageName === "✅ Yapılacaklar" && <Todos />}

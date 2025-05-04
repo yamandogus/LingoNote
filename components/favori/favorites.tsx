@@ -72,7 +72,10 @@ const FavoritesComp = ({
     });
   };
 
-  
+  const handleToggleFavorite = (noteId: string) => {
+    updateNote(noteId, { isFavorite: false });
+    deleteFavorite(noteId);
+  };
 
   const defaultLight = "bg-white";
   const defaultDark = "dark:bg-gray-800";
@@ -121,6 +124,11 @@ const FavoritesComp = ({
                 >
                   {note.title}
                 </Text>
+                <TouchableOpacity
+                  onPress={() => handleToggleFavorite(note.id)}
+                >
+                  <Ionicons name="heart" size={24} color="red" />
+                </TouchableOpacity>
               </View>
 
               <Text

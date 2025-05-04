@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+# LingoNote 📝
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+LingoNote, dil öğrenmenizi kolaylaştırmak için tasarlanmış bir [Expo](https://expo.dev) mobil uygulamasıdır. Kelimelerinizi, deyimlerinizi ve öğrendiğiniz yeni dil bilgilerini kolayca kaydedip organize edebilirsiniz.
 
-## Get started
+## Teknik Detaylar
 
-1. Install dependencies
+Bu proje şu teknolojilerle geliştirilmiştir:
+- Expo SDK 52
+- React Native 0.76.9
+- TypeScript
+- NativeWind (Tailwind CSS)
+- Expo Router v4
+- Zustand (State yönetimi)
+- AsyncStorage (Yerel depolama)
+
+## Başlangıç
+
+1. Bağımlılıkları yükleyin
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Uygulamayı başlatın
 
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+Uygulamayı şu ortamlarda açabilirsiniz:
+- [Development build](https://docs.expo.dev/develop/development-builds/introduction/)
 - [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
 - [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Expo Go](https://expo.dev/go)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+**Not:** Bu uygulama Expo SDK 52 ile geliştirilmiştir ve çalıştırmak için en güncel Expo Go uygulamasını gerektirir.
 
-## Get a fresh project
+## Özellikler
 
-When you're ready, run:
+- Kelime, deyim ve dil bilgisi notları oluşturma
+- Kategori bazlı düzenleme
+- Öğrenme ilerlemesi takibi
+- Arama ve filtreleme
+- Karanlık/Aydınlık tema desteği
 
-```bash
-npm run reset-project
-```
+## Katkıda Bulunma
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Projeye katkıda bulunmak isterseniz, lütfen bir pull request açın. Hata raporları, özellik istekleri ve geri bildirimler için Issues kısmını kullanabilirsiniz.
 
-## Learn more
+## Lisans
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Bu proje [MIT lisansı](LICENSE) altında lisanslanmıştır.

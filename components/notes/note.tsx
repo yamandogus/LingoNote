@@ -13,7 +13,7 @@ interface NoteProps {
 
 const NoteList = ({ note, title }: NoteProps) => {
   const { deleteNote, updateNote, toggleFavorite: toggleNoteFavorite } = noteStore();
-  const { addFavorite, toggleFavorite: toggleFavoriteStore } = favoriteStore();
+  const { addFavorite, toggleFavorite: toggleFavoriteStore, deleteFavorite } = favoriteStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [category, setCategory] = useState("Genel Notlar");
   const [content, setContent] = useState("");
@@ -78,7 +78,7 @@ const NoteList = ({ note, title }: NoteProps) => {
                   ? "border-sky-500"
                   : "border-emerald-500"
                 : "border-gray-200 dark:border-gray-700"
-            } shadow-[0_8px_30px_rgb(0,0,0,0.12)]`}
+            } shadow-[30px_30px_30px_30px_rgb(0,0,0,0.12)]`}
           >
             <View className="flex-row justify-between items-start mb-4">
               <Text
@@ -99,13 +99,14 @@ const NoteList = ({ note, title }: NoteProps) => {
                     toggleNoteFavorite(note.id);
                   } else {
                     toggleNoteFavorite(note.id);
+                    deleteFavorite(note.id);
                   }
                 }}
               >
                 <Ionicons
                   name={note.isFavorite ? "heart" : "heart-outline"}
                   size={24}
-                  color={note.isFavorite ? "#EF4444" : (note.backgroundColor ? "white" : "#4B5563")}
+                  color={note.isFavorite ? "#ec0707" : (note.backgroundColor ? "white" : "#4B5563")}
                 />
               </TouchableOpacity>
             </View>

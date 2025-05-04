@@ -1,12 +1,16 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useColorScheme } from "react-native";
+import { Pressable, useColorScheme } from "react-native";
 import { View } from "react-native";
+
+
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+
 
 
   return (
@@ -14,6 +18,13 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: isDark ? "#60A5FA" : "#2563EB",
         tabBarInactiveTintColor: isDark ? "#94A3B8" : "#64748B",
+        tabBarButton: (props) => (
+          <Pressable 
+            {...props} 
+            android_ripple={null} 
+            android_disableSound={true}
+          />
+        ),
         tabBarStyle: {
           backgroundColor: isDark ? "#1F2937" : "#FFFFFF",
           borderTopWidth: 0.4,
@@ -91,9 +102,10 @@ export default function TabLayout() {
               alignItems: 'center',
               elevation: 8,
               shadowColor: isDark ? "#e9e9e9" : "#242323",
+              boxShadow: focused ? "0 0 0 3px #60A5FA" : "none",
               shadowOffset: {
-                width: 0,
-                height: 4,
+                width: focused ? 4 : 0,
+                height: focused ? 8 : 0,
               },
               shadowOpacity: 0.30,
               shadowRadius: 0,

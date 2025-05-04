@@ -29,6 +29,7 @@ const NoteAdd = () => {
   const [addedSuccess, setAddedSuccess] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [alert, setAlert] = useState(false);
   const { addNote } = noteStore();
   const id = uuidv4();
 
@@ -48,7 +49,7 @@ const NoteAdd = () => {
         setCategory("");
       }, 2000);
     } else {
-      Alert.alert("Hata", "Lütfen tüm alanları doldurunuz");
+      setAlert(true);
     }
   };
 
@@ -147,6 +148,41 @@ const NoteAdd = () => {
           )}
         </Formik>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={alert}
+        onRequestClose={() => setAlert(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-black/50">
+          <View className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[90%] max-w-md shadow-2xl">
+            <View className="flex-row items-center gap-3 mb-4">
+              <View className="bg-red-100 dark:bg-red-900 p-3 rounded-full">
+                <Ionicons name="warning" size={24} color="#EF4444" />
+              </View>
+              <Text className="text-xl font-bold text-gray-900 dark:text-white">Hata</Text>
+            </View>
+            <Text className="text-gray-600 dark:text-gray-300 mb-6">
+              Lütfen tüm alanları doldurunuz.
+            </Text>
+            <Text className="text-gray-600 dark:text-gray-300 mb-6">
+              <Text className="font-bold">
+                {title === "" ? "Başlık" : content === "" ? "İçerik" : category === "" ? "Kategori" : ""}
+              </Text> alanını doldurunuz.
+            </Text>
+            <View className="flex-row justify-end gap-3">
+              <TouchableOpacity
+                className="bg-red-500 dark:bg-red-600 rounded-xl px-5 py-3"
+                onPress={() => {
+                  setAlert(false);
+                }}
+              >
+                <Text className="text-white font-medium">Tekrar Dene</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };

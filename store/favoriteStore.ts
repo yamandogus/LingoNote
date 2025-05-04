@@ -37,7 +37,7 @@ export const favoriteStore = create<FavoriteState>()(
         });
       },
       deleteFavorite: (id: string) => {
-        set((state) => ({ favorites: state.favorites.filter((favorite) => favorite.id !== id) }));
+        set((state) => ({ favorites: state.favorites.filter((favorite) => favorite.id !== id) }))
       },
       updateFavorite: (id: string, content: Partial<Favorite>) => {
         set((state) => ({
