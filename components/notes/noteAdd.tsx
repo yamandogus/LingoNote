@@ -1,5 +1,6 @@
 import "react-native-get-random-values";
 import React, { useState } from "react";
+import { launchImageLibrary } from "react-native-image-picker";
 import {
   View,
   Text,
@@ -7,12 +8,14 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   Modal,
+  Image,
+  Alert,
+  PermissionsAndroid,
 } from "react-native";
-import { Formik } from "formik";
+import { Formik, FormikErrors, FormikTouched } from "formik";
 import * as Yup from "yup";
 import Sections from "./sections";
 import { noteStore } from "@/store/noteStore";
@@ -24,14 +27,73 @@ const NoteSchema = Yup.object().shape({
   content: Yup.string().required("Not içeriği gerekli"),
 });
 
+interface FormValues {
+  title: string;
+  content: string;
+}
+
 const NoteAdd = () => {
   const [category, setCategory] = useState("");
   const [addedSuccess, setAddedSuccess] = useState(false);
+  const [imageUri, setImageUri] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [alert, setAlert] = useState(false);
   const { addNote } = noteStore();
   const id = uuidv4();
+
+  const requestCameraPermission = async () => {
+    console.log("requestCameraPermission");
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+          {
+            title: "Galeri İzni",
+            message: "Uygulama galeriye erişim izni istiyor",
+            buttonNeutral: "Daha Sonra Sor",
+            buttonNegative: "İptal",
+            buttonPositive: "Tamam"
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const pickImage = async () => {
+    console.log("pickImage");
+    try {
+      const hasPermission = await requestCameraPermission();
+      
+      if (!hasPermission) {
+        Alert.alert('İzin Hatası', 'Galeri erişim izni verilmedi');
+        return;
+      }
+      
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        quality: 0.8,
+        selectionLimit: 1,
+      });
+      
+      if (result.didCancel) {
+        console.log('Kullanıcı resim seçimini iptal etti');
+      } else if (result.errorCode) {
+        console.log('ImagePicker Error: ', result.errorMessage);
+        Alert.alert('Hata', 'Resim seçilirken bir hata oluştu');
+      } else if (result.assets && result.assets.length > 0) {
+        setImageUri(result.assets[0].uri || null);
+      }
+    } catch (error) {
+      console.log('Resim seçme hatası:', error);
+      Alert.alert('Hata', 'Resim seçilirken bir hata oluştu');
+    }
+  };
 
   const handleAddNote = () => {
     if (title && content && category) {
@@ -40,6 +102,7 @@ const NoteAdd = () => {
         title: title,
         content: content,
         category: category,
+        imageUri: imageUri,
       });
       setAddedSuccess(true);
       setTimeout(() => {
@@ -47,6 +110,7 @@ const NoteAdd = () => {
         setTitle("");
         setContent("");
         setCategory("");
+        setImageUri(null);
       }, 2000);
     } else {
       setAlert(true);
@@ -64,7 +128,13 @@ const NoteAdd = () => {
           validationSchema={NoteSchema}
           onSubmit={handleAddNote}
         >
-          {({ errors, touched }) => (
+          {({
+            errors,
+            touched,
+          }: {
+            errors: FormikErrors<FormValues>;
+            touched: FormikTouched<FormValues>;
+          }) => (
             <View className="mt-6">
               <View className="mb-4">
                 <View className="flex-row items-center mb-2">
@@ -86,6 +156,23 @@ const NoteAdd = () => {
                     {errors.title}
                   </Text>
                 )}
+              </View>
+
+              <View className="mb-4">
+                <TouchableOpacity onPress={pickImage}>
+                  <View className="flex-row items-center mb-2">
+                    <Ionicons name="image" size={20} color="#4B5563" />
+                    <Text className="text-gray-700 ml-2 font-medium dark:text-white text-lg">
+                      Resim Seç
+                    </Text>
+                  </View>
+                  {imageUri && (
+                    <Image
+                      source={{ uri: imageUri }}
+                      style={{ width: 100, height: 100 }}
+                    />
+                  )}
+                </TouchableOpacity>
               </View>
 
               <View className="mb-4">
@@ -160,15 +247,24 @@ const NoteAdd = () => {
               <View className="bg-red-100 dark:bg-red-900 p-3 rounded-full">
                 <Ionicons name="warning" size={24} color="#EF4444" />
               </View>
-              <Text className="text-xl font-bold text-gray-900 dark:text-white">Hata</Text>
+              <Text className="text-xl font-bold text-gray-900 dark:text-white">
+                Hata
+              </Text>
             </View>
             <Text className="text-gray-600 dark:text-gray-300 mb-6">
               Lütfen tüm alanları doldurunuz.
             </Text>
             <Text className="text-gray-600 dark:text-gray-300 mb-6">
               <Text className="font-bold">
-                {title === "" ? "Başlık" : content === "" ? "İçerik" : category === "" ? "Kategori" : ""}
-              </Text> alanını doldurunuz.
+                {title === ""
+                  ? "Başlık"
+                  : content === ""
+                  ? "İçerik"
+                  : category === ""
+                  ? "Kategori"
+                  : ""}
+              </Text>{" "}
+              alanını doldurunuz.
             </Text>
             <View className="flex-row justify-end gap-3">
               <TouchableOpacity

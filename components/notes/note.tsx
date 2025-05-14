@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Alert, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Alert, Pressable, Image } from "react-native";
 import { Note, noteStore } from "@/store/noteStore";
 import UpdateNote from "./updateNote";
 import EmptyNote from "./emptyNote";
@@ -111,6 +111,16 @@ const NoteList = ({ note, title }: NoteProps) => {
               </TouchableOpacity>
             </View>
 
+            {note.imageUri && (
+              <View className="mb-4">
+                <Image
+                  source={{ uri: note.imageUri }}
+                  className="w-full h-40 rounded-lg"
+                  resizeMode="cover"
+                />
+              </View>
+            )}
+
             <Text
               className={`${
                 note.backgroundColor === "bg-yellow-400"
@@ -151,7 +161,11 @@ const NoteList = ({ note, title }: NoteProps) => {
                         : "border border-white shadow-sm"
                     }`}
                     accessibilityLabel={`${option.name} renk seçeneği`}
-                  />
+                  >
+                    {note.backgroundColor === option.color && (
+                      <Text className="text-white text-xs">✓</Text>
+                    )}
+                  </TouchableOpacity>
                 ))}
                 <TouchableOpacity
                   onPress={() => handleColorChange(note.id, "", "")}
@@ -161,7 +175,11 @@ const NoteList = ({ note, title }: NoteProps) => {
                       : "border border-white shadow-sm"
                   }`}
                   accessibilityLabel="Varsayılan renk seçeneği"
-                />
+                >
+                  {!note.backgroundColor && (
+                    <Text className="text-blue-500 text-xs">✓</Text>
+                  )}
+                </TouchableOpacity>
               </View>
 
               <View className="flex-row gap-2">

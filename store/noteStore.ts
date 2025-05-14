@@ -8,6 +8,7 @@ export interface Note{
   title: string,
   content: string,
   category: string,
+  imageUri?: string | null,
   backgroundColor?: string,
   darkBackgroundColor?: string,
   isFavorite?: boolean,
