@@ -1,129 +1,155 @@
-import { router } from "expo-router";
-import { View, Text, ScrollView, Pressable, Image, StatusBar } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import Animation from "@/components/home/animation";
-import Suggestions from "@/components/home/suggestions";
+import { ThemedView } from '@/components/ThemedView';
+import { FontAwesome } from '@expo/vector-icons';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
-type RouteType = "/(tabs)/notes" | "/(tabs)/favorites" | "/(tabs)/search";
+const avatarUrl = 'https://randomuser.me/api/portraits/women/44.jpg';
+const avatars = [
+  'https://randomuser.me/api/portraits/men/32.jpg',
+  'https://randomuser.me/api/portraits/women/65.jpg',
+  'https://randomuser.me/api/portraits/men/45.jpg',
+  'https://randomuser.me/api/portraits/women/44.jpg',
+];
 
-interface SectionType {
-  id: number;
-  title: string;
-  content: string;
-  router: RouteType;
-  bgColor: string;
-  iconName: keyof typeof Ionicons.glyphMap;
-}
+const taskBoxes = [
+  { title: 'Devam Eden', count: 22, color: 'bg-blue-400', textColor: 'text-white' },
+  { title: 'İşlemde', count: 32, color: 'bg-orange-400', textColor: 'text-white' },
+  { title: 'Tamamlandı', count: 16, color: 'bg-green-400', textColor: 'text-white' },
+  { title: 'İptal Edildi', count: 12, color: 'bg-pink-500', textColor: 'text-white' },
+];
+
+const stats = [
+  { label: 'Toplam Proje', value: 82, icon: 'folder-open-o' as const, color: 'bg-blue-200' },
+  { label: 'Bugünkü Görev', value: 3, icon: 'calendar-check-o' as const, color: 'bg-green-200' },
+  { label: 'Yeni Bildirim', value: 2, icon: 'bell-o' as const, color: 'bg-yellow-200' },
+];
+
+const upcoming = {
+  title: 'Toplantı: Proje Sunumu',
+  date: '26 Haziran 2022',
+  time: '15:00 - 16:00',
+  icon: 'users' as const,
+  color: 'bg-purple-100',
+};
+
+const projects = [
+  {
+    title: 'UI/UX Tasarım Projesi',
+    progress: 45,
+    time: '10:00 - 12:00',
+    avatars: avatars.slice(0, 3),
+    color: 'bg-blue-100',
+    bar: 'bg-blue-400',
+  },
+  {
+    title: 'Web Geliştirme',
+    progress: 75,
+    time: '14:00 - 17:00',
+    avatars: avatars.slice(1, 4),
+    color: 'bg-orange-100',
+    bar: 'bg-orange-400',
+  },
+];
 
 export default function HomeScreen() {
-  const sections: SectionType[] = [
-    {
-      id: 1,
-      title: "Notlar",
-      content: "Notlarınızı kaydedin",
-      router: "/(tabs)/notes",
-      bgColor: "bg-blue-50",
-      iconName: "document-outline",
-    },
-    {
-      id: 2,
-      title: "Favoriler",
-      content: "Favorilerinizi görün",
-      router: "/(tabs)/favorites",
-      bgColor: "bg-green-50",
-      iconName: "heart-outline",
-    },
-    {
-      id: 3,
-      title: "Notlarınızı arayın",
-      content: "Notlarınızı arayın",
-      router: "/(tabs)/search",
-      bgColor: "bg-orange-100",
-      iconName: "search-outline",
-    },
-  ];
-  const handleNavigation = (route: RouteType) => {
-    router.push(route as any);
-  };
-
   return (
-    <SafeAreaProvider className="flex-1">
-      <ScrollView className="flex-1 bg-white dark:bg-gray-800">
-        <SafeAreaView className="flex-1">
-          <View>
-            <View className="flex-1 h-72 my-4">
-              <Image
-                source={require("../../assets/images/LingoNote.png")}
-                style={{ width: "100%", height: "110%"}}
-              />
-            </View>
-            <View className="mb-8 px-6 my-10">
-              <Text className="text-2xl font-bold dark:text-white">
-                Hadi notlarınızı kaydedelim
-              </Text>
-              <Text className="text-gray-400 dark:text-gray-400">
-                kolayca her şeyi notlarınızda kaydedebilirsiniz
-              </Text>
-            </View>
+    <ThemedView className="flex-1 bg-gray-50 pt-2 px-4">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+        {/* Tarih ve avatar */}
+        <View className="flex-row items-center justify-between mb-4">
+          <View className="flex-row items-center">
+            <FontAwesome name="calendar" size={16} color="#64748b" />
+            <Text className="ml-2 text-xs text-gray-500">25 Haziran 2022</Text>
+          </View>
+          <Image source={{ uri: avatarUrl }} className="w-9 h-9 rounded-full" />
+        </View>
 
-            <View className="space-y-3 gap-4 px-6 ">
-              {sections.map((section) => (
-                <Pressable
-                  key={section.id}
-                  onPress={() => handleNavigation(section.router)}
-                  className={`${section.bgColor} p-4 rounded-2xl flex-row items-center justify-between`}
-                >
-                  <View className="flex-row items-center">
-                    <View className="bg-white h-10 w-10 rounded-full items-center justify-center mr-4">
-                      <Ionicons
-                        name={section.iconName}
-                        size={20}
-                        color="black"
-                      />
-                    </View>
-                    <View>
-                      <Text className="font-semibold">{section.title}</Text>
-                      <Text className="text-gray-600 text-sm">
-                        {section.content}
-                      </Text>
-                    </View>
-                  </View>
-                  <Ionicons
-                    name="chevron-forward-outline"
-                    size={20}
-                    color="black"
+        {/* Kısa özet istatistikler */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-4 -mx-1">
+          {stats.map((item, i) => (
+            <View key={i} className={`mr-3 px-4 py-3 rounded-2xl ${item.color} flex-row items-center`}>
+              <FontAwesome name={item.icon} size={22} color="#2563eb" />
+              <View className="ml-2">
+                <Text className="text-xs text-gray-500">{item.label}</Text>
+                <Text className="text-base font-bold text-gray-700">{item.value}</Text>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* Görevlerim başlığı ve kutular */}
+        <Text className="text-lg font-bold text-gray-700 mb-3">Görevlerim</Text>
+        <View className="flex-row flex-wrap justify-between mb-6">
+          {taskBoxes.map((box, i) => (
+            <View key={i} className={`w-[48%] h-24 rounded-2xl mb-3 p-4 ${box.color} ${box.textColor} justify-between`}>
+              <Text className="font-bold text-base">{box.title}</Text>
+              <View className="flex-row items-center justify-between">
+                <Text className="text-xs opacity-80">{box.count} proje</Text>
+                <FontAwesome name="arrow-right" size={18} color="#fff" />
+              </View>
+            </View>
+          ))}
+        </View>
+
+        {/* Yaklaşan etkinlik */}
+        <View className="rounded-2xl bg-purple-100 p-4 mb-4 flex-row items-center justify-between">
+          <View className="flex-row items-center">
+            <FontAwesome name={upcoming.icon} size={22} color="#a21caf" />
+            <View className="ml-3">
+              <Text className="font-bold text-base text-purple-900 mb-1">{upcoming.title}</Text>
+              <Text className="text-xs text-gray-500">{upcoming.date} • {upcoming.time}</Text>
+            </View>
+          </View>
+          <FontAwesome name="chevron-right" size={20} color="#a21caf" />
+        </View>
+
+        {/* Bildirim kutusu */}
+        <View className="rounded-2xl bg-yellow-100 p-4 mb-4 flex-row items-center">
+          <FontAwesome name="info-circle" size={20} color="#eab308" />
+          <Text className="ml-3 text-yellow-900 font-semibold">Bugün 2 yeni görev eklendi!</Text>
+        </View>
+
+        {/* Motivasyon mesajı */}
+        <View className="rounded-2xl bg-green-100 p-4 mb-4 flex-row items-center">
+          <FontAwesome name="smile-o" size={20} color="#22c55e" />
+          <Text className="ml-3 text-green-900 font-semibold">Harika gidiyorsun, böyle devam et!</Text>
+        </View>
+
+        {/* Son projeler */}
+        <View className="flex-row items-center justify-between mb-2">
+          <Text className="text-base font-bold text-gray-700">Son Projeler</Text>
+          <TouchableOpacity>
+            <Text className="text-blue-500 font-bold text-xs">Tümünü Gör</Text>
+          </TouchableOpacity>
+        </View>
+        {projects.map((proj, i) => (
+          <View key={i} className={`rounded-2xl p-4 mb-4 ${proj.color} shadow-sm`}>
+            <Text className="font-bold text-base text-gray-700 mb-2">{proj.title}</Text>
+            <View className="mb-2">
+              <Text className="text-xs text-gray-500 mb-1">İlerleme</Text>
+              <View className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <View className={`h-2 ${proj.bar} rounded-full`} style={{ width: `${proj.progress}%` }} />
+              </View>
+              <Text className="text-xs text-blue-500 font-bold mt-1">%{proj.progress}</Text>
+            </View>
+            <View className="flex-row items-center justify-between mt-2">
+              <View className="flex-row items-center">
+                <FontAwesome name="clock-o" size={14} color="#64748b" />
+                <Text className="ml-1 text-xs text-gray-500">{proj.time}</Text>
+              </View>
+              <View className="flex-row">
+                {proj.avatars.map((img, idx) => (
+                  <Image
+                    key={idx}
+                    source={{ uri: img }}
+                    className="w-7 h-7 rounded-full border-2 border-white"
+                    style={{ marginLeft: idx === 0 ? 0 : -8 }}
                   />
-                </Pressable>
-              ))}
+                ))}
+              </View>
             </View>
           </View>
-
-          <View className="flex-1">
-            <View className="px-6 pt-4 text-black dark:text-white">
-              <Animation />
-              <Suggestions />
-            </View>
-          </View>
-          <View className="w-full h-52 bg-white mt-2 rounded-2xl">
-            <Image
-              source={require("../../assets/openSvg/undraw_note-list_47ij.png")}
-              style={{
-                width: "100%",
-                height: "90%",
-                resizeMode: "contain",
-                marginTop: 10,
-              }}
-            />
-          </View>
-            <View className="mx-4 mb-10">
-              <Text className="text-md font-bold dark:text-gray-300 text-center">
-                Tüm notlarınızı telefonunuza kaydederek notlarınıza daha kolay
-                erişebilirsiniz.
-              </Text>
-            </View>
-        </SafeAreaView>
+        ))}
       </ScrollView>
-    </SafeAreaProvider>
+    </ThemedView>
   );
 }

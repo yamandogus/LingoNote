@@ -1,156 +1,124 @@
-import { Tabs } from "expo-router";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { Pressable, useColorScheme } from "react-native";
-import { View } from "react-native";
+import { FontAwesome } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+import { TouchableOpacity, View } from 'react-native';
 
+function CustomTabButton({ children, onPress }: any) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={1}
+      className="flex-1 items-center justify-center"
+      style={{ height: '100%' }}
+    >
+      {children}
+    </TouchableOpacity>
+  );
+}
 
-
+function CustomPlusButton({ children, onPress, accessibilityState }: any) {
+  const focused = accessibilityState?.selected;
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={1}
+      className="items-center justify-center"
+      style={{
+        top: -36,
+        shadowColor: 'rgba(0, 0, 0, 0.15)',
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 6,
+      }}
+    >
+      <View
+        className="rounded-full items-center justify-center"
+        style={{
+          width: 64,
+          height: 64,
+          backgroundColor: focused ? '#d9f99d' : '#d9f99d',
+          borderWidth: focused ? 2 : 0,
+          borderColor: focused ? '#a3e635' : 'transparent',
+        }}
+      >
+        <FontAwesome name="plus" size={32} color={focused ? '#222' : '#000000'} />
+      </View>
+    </TouchableOpacity>
+  );
+}
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
-
-
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: isDark ? "#60A5FA" : "#2563EB",
-        tabBarInactiveTintColor: isDark ? "#94A3B8" : "#64748B",
-        tabBarButton: (props) => (
-          <Pressable 
-            {...props} 
-            android_ripple={null} 
-            android_disableSound={true}
-          />
-        ),
+        tabBarActiveTintColor: '#d9f99d',
+        tabBarInactiveTintColor: '#94a3b8',
+        tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: isDark ? "#1F2937" : "#FFFFFF",
-          borderTopWidth: 0.4,
-          elevation: 0,
-          shadowColor: "transparent",
+          position: 'absolute',
+          left: 16,
+          right: 16,
+          bottom: 16,
+          borderRadius: 32,
+          backgroundColor: '#19202b',
           height: 60,
-          paddingHorizontal: 10,
-          paddingBottom: 10,
-          borderBottomColor: "transparent",
+          paddingTop: 20,
+          borderTopWidth: 0,
+          shadowColor: '#000',
+          shadowOpacity: 0.12,
+          shadowRadius: 12,
+          elevation: 10,
         },
-        tabBarLabelStyle: {
-          fontWeight: "600",
-          fontSize: 12,
-          letterSpacing: 0.4,
-          marginTop: -2,
-        },
-        tabBarIconStyle: {
-          marginTop: 4,
-        },
-        headerShown: false,
       }}
     >
       <Tabs.Screen
-        key={"index"}
-        name={"index"}
+        name="index"
         options={{
-          title: "Ana Sayfa",
-          tabBarIcon: ({ focused, color }) => (
-            <View className="flex-1 items-center justify-center">
-              {focused && (
-                <View
-                  className={`absolute bottom-[-16px] w-[200%] h-1 rounded-full ${
-                    isDark ? "bg-blue-500" : "bg-blue-500"
-                  }`}
-                />
-              )}
-              <Ionicons name={focused ? "home" : "home-outline"} size={24} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View className="flex-1 justify-center items-center h-full">
+              <FontAwesome name="home" size={28} color={focused ? '#d9f99d' : color} />
             </View>
           ),
+          tabBarButton: (props) => <CustomTabButton {...props} />,
         }}
       />
       <Tabs.Screen
-        key={"notes"}
-        name={"notes"}
+        name="explore"
         options={{
-          title: "Notlarım",
-          tabBarIcon: ({ focused, color }) => (
-            <View className="flex-1 items-center justify-center">
-              {focused && (
-                <View
-                  className={`absolute bottom-[-16px] w-[200%] h-1 rounded-full ${
-                    isDark ? "bg-blue-500" : "bg-blue-500"
-                  }`}
-                />
-              )}
-              <Ionicons name={focused ? "document-text" : "document-text-outline"} size={24} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View className="flex-1 justify-center items-center h-full">
+              <FontAwesome name="file-text-o" size={28} color={focused ? '#d9f99d' : color} />
             </View>
           ),
+          tabBarButton: (props) => <CustomTabButton {...props} />,
         }}
       />
       <Tabs.Screen
-        key={"noteAdded"}
-        name={"noteAdded"}
+        name="notes"
         options={{
-          title: "",
-          tabBarIcon: ({ focused, color }) => (
-            <View style={{
-              position: 'absolute',
-              bottom: 1,
-              width: 55,
-              height: 55,
-              borderRadius: 28,
-              backgroundColor: isDark ? "#FFFFFF" : "#1F2937",
-              justifyContent: 'center',
-              alignItems: 'center',
-              elevation: 8,
-              shadowColor: isDark ? "#e9e9e9" : "#242323",
-              boxShadow: focused ? "0 0 0 3px #60A5FA" : "none",
-              shadowOffset: {
-                width: focused ? 4 : 0,
-                height: focused ? 8 : 0,
-              },
-              shadowOpacity: 0.30,
-              shadowRadius: 0,
-            }}>
-              <Ionicons name="add" size={30} color={isDark ? "#1F2937" : "#FFFFFF"} />
-            </View>
-          ),
+          tabBarIcon: () => null,
+          tabBarButton: (props) => <CustomPlusButton {...props} />,
         }}
       />
       <Tabs.Screen
-        key={"favorites"}
-        name={"favorites"}
+        name="calendar"
         options={{
-          title: "Favoriler",
-          tabBarIcon: ({ focused, color }) => (
-            <View className="flex-1 items-center justify-center">
-              {focused && (
-                <View
-                  className={`absolute bottom-[-16px] w-[200%] h-1 rounded-full ${
-                    isDark ? "bg-blue-500" : "bg-blue-500"
-                  }`}
-                />
-              )}
-              <Ionicons name={focused ? "heart" : "heart-outline"} size={24} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View className="flex-1 justify-center items-center h-full">
+              <FontAwesome name="line-chart" size={28} color={focused ? '#d9f99d' : color} />
             </View>
           ),
+          tabBarButton: (props) => <CustomTabButton {...props} />,
         }}
       />
       <Tabs.Screen
-        key={"search"}
-        name={"search"}
+        name="profile"
         options={{
-          title: "Ara",
-          tabBarIcon: ({ focused, color }) => (
-            <View className="flex-1 items-center justify-center">
-              {focused && (
-                <View
-                  className={`absolute bottom-[-16px] w-[200%] h-1 rounded-full ${
-                    isDark ? "bg-blue-500" : "bg-blue-500"
-                  }`}
-                />
-              )}
-              <Ionicons name={focused ? "search" : "search-outline"} size={24} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <View className="flex-1 justify-center items-center h-full">
+              <FontAwesome name="user-o" size={28} color={focused ? '#d9f99d' : color} />
             </View>
           ),
+          tabBarButton: (props) => <CustomTabButton {...props} />,
         }}
       />
     </Tabs>

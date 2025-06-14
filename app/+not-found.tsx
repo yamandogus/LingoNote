@@ -1,21 +1,32 @@
-import React from 'react';
 import { Link, Stack } from 'expo-router';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
 export default function NotFoundScreen() {
   return (
-    <>
-      <Stack.Screen options={{ title: 'Sayfa Bulunamadı' }} />
-      <View className="flex-1 items-center justify-center p-5 bg-gray-100 dark:bg-gray-900">
-        <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-          Bu sayfa mevcut değil.
-        </Text>
-        <Link href="/" asChild>
-          <TouchableOpacity className="bg-blue-500 py-3 px-6 rounded-full mt-4">
-            <Text className="text-white font-medium">Ana Sayfaya Dön</Text>
-          </TouchableOpacity>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Stack.Screen options={{ title: 'Oops!' }} />
+      <ThemedView style={styles.container}>
+        <ThemedText type="title">This screen does not exist.</ThemedText>
+        <Link href="/" style={styles.link}>
+          <ThemedText type="link">Go to home screen!</ThemedText>
         </Link>
-      </View>
-    </>
+      </ThemedView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  link: {
+    marginTop: 15,
+    paddingVertical: 15,
+  },
+});
