@@ -30,6 +30,7 @@ const CustomDarkTheme = {
   },
 };
 
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 

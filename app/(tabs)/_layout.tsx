@@ -107,7 +107,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <View className="flex-1 justify-center items-center h-full">
-              <FontAwesome name="line-chart" size={28} color={focused ? '#d9f99d' : color} />
+              <FontAwesome name="calendar" size={28} color={focused ? '#d9f99d' : color} />
             </View>
           ),
           tabBarButton: (props) => <CustomTabButton {...props} />,
