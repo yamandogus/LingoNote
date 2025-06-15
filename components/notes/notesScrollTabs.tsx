@@ -38,9 +38,9 @@ const NotesScrollTabs = () => {
           <TouchableOpacity
             key={tab.id}
             onPress={() => handleTabPress(tab.id)}
-            className={`mx-4 rounded-full px-4 py-1 ${activeTab === tab.id ? 'bg-[#d9f99d]' : 'bg-gray-200'}`}
+            className={`mx-4 rounded-full border-2 border-black dark:border-white px-4 py-1 ${activeTab === tab.id ? 'bg-[#d9f99d]' : 'bg-gray-200'}`}
           >
-            <Text className="text-lg font-bold">{tab.title}</Text>
+            <Text className="text-base font-bold">{tab.title}</Text>
           </TouchableOpacity>
         ))}
       </View>

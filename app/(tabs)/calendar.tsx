@@ -1,10 +1,10 @@
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Text } from 'react-native';
 
 export default function CalendarScreen() {
   return (
     <ThemedView className="flex-1 items-center justify-center">
-      <ThemedText type="title">Takvim</ThemedText>
+      <Text>Takvim</Text>
     </ThemedView>
   );
 } 
