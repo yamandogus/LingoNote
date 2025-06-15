@@ -79,10 +79,11 @@ export default function TabLayout() {
             </View>
           ),
           tabBarButton: (props) => <CustomTabButton {...props} />,
+          title: 'Ana Sayfa',
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="mynotes"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <View className="flex-1 justify-center items-center h-full">
@@ -90,13 +91,15 @@ export default function TabLayout() {
             </View>
           ),
           tabBarButton: (props) => <CustomTabButton {...props} />,
+          title: 'Notlarım',
         }}
       />
       <Tabs.Screen
-        name="notes"
+        name="addnote"
         options={{
           tabBarIcon: () => null,
           tabBarButton: (props) => <CustomPlusButton {...props} />,
+          title: 'Not Ekle',
         }}
       />
       <Tabs.Screen
@@ -108,6 +111,7 @@ export default function TabLayout() {
             </View>
           ),
           tabBarButton: (props) => <CustomTabButton {...props} />,
+          title: 'Takvim',
         }}
       />
       <Tabs.Screen
@@ -119,6 +123,7 @@ export default function TabLayout() {
             </View>
           ),
           tabBarButton: (props) => <CustomTabButton {...props} />,
+          title: 'Profil',
         }}
       />
     </Tabs>
