@@ -1,13 +1,66 @@
-import { Stack } from "expo-router";
-import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { useState } from "react";
+import { View, ScrollView, useColorScheme } from "react-native";
+import { CategoryFilter } from "@/components/my-notes/CategoryFilter";
+import { NoteList } from "@/components/my-notes/NoteList";
+import { EmptyNotes } from "@/components/my-notes/EmptyNotes";
+import { FabAddNote } from "@/components/my-notes/FabAddNote";
+
+const KATEGORILER = ["Tümü", "İş", "Kişisel", "Eğitim", "Sağlık", "Fikirler"];
+
+const ORNEK_NOTLAR = [
+  {
+    id: "1",
+    title: "Toplantı Notları",
+    summary: "Bugünkü toplantıda konuşulan ana başlıklar ve alınan kararlar...",
+    date: "25 Eylül 2023",
+    tags: ["İş"]
+  },
+  {
+    id: "2",
+    title: "Alışveriş Listesi",
+    summary: "Süt, yumurta, ekmek, kahve ve sebzeler alınacak.",
+    date: "24 Eylül 2023",
+    tags: ["Kişisel"]
+  },
+  {
+    id: "3",
+    title: "React Native Ders Notları",
+    summary: "Component, props, state ve hook'lar hakkında özet bilgiler...",
+    date: "22 Eylül 2023",
+    tags: ["Eğitim"]
+  }
+];
 
 export default function MyNotesScreen() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const [activeCategory, setActiveCategory] = useState("Tümü");
+  const [notes, setNotes] = useState(ORNEK_NOTLAR);
+
+  const filteredNotes = activeCategory === "Tümü"
+    ? notes
+    : notes.filter(note => note.tags.includes(activeCategory));
+
+  const handleAddNote = () => {
+    alert("Not ekleme ekranına yönlendirilecek!");
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-        <Text>Notlarım Sayfası</Text>
+    <View className={`flex-1 ${isDark ? 'bg-[#18181b]' : 'bg-white'}`}> 
+      <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 120 }}>
+        <CategoryFilter
+          categories={KATEGORILER}
+          activeCategory={activeCategory}
+          onSelect={setActiveCategory}
+          isDark={isDark}
+        />
+        {filteredNotes.length > 0 ? (
+          <NoteList notes={filteredNotes} isDark={isDark} />
+        ) : (
+          <EmptyNotes onAdd={handleAddNote} isDark={isDark} />
+        )}
       </ScrollView>
+      <FabAddNote onPress={handleAddNote} isDark={isDark} />
     </View>
   );
 }
