@@ -44,5 +44,5 @@ export function IconSymbol({
   weight?: SymbolWeight;
 }) {
   const resolvedIconName = MAPPING[name] || name;
-  return <MaterialIcons color={color} size={size} name={resolvedIconName} style={style} />;
+  return <MaterialIcons color={color} size={size} name={resolvedIconName as any} style={style} />;
 }
