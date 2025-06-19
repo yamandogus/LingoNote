@@ -11,7 +11,7 @@ const CustomDarkTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    background: '#1a1a1a',
+    background: 'linear-gradient(to bottom, #0f0c29, #302b63, #24243e)',
     card: '#2a2a2a',
     text: '#f3f4f6',
     border: '#404040',

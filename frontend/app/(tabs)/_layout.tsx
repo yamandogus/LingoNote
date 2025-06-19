@@ -1,22 +1,53 @@
-import { Tabs } from "expo-router";
+import { Tabs, useNavigation } from "expo-router";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+  const backgroundColor = isDark ? "#121212" : "#ffffff";
+  const headerBackground = isDark ? "#1a1a1a" : "#ffffff";
+
+  const navigation = useNavigation() as any;
+
+
+  const commonHeaderOptions = {
+    headerStyle: {
+      backgroundColor: headerBackground,
+      height: 80,
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
+    headerTitleStyle: {
+      fontSize: 16,
+      fontWeight: '500' as const,
+      color: isDark ? "#ffffff" : "#000000",
+    },
+    headerTitleAlign: "left" as const,
+    headerShadowVisible: false,
+    contentStyle: { backgroundColor },
+  };
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
-        headerTitle: "",
         tabBarShowLabel: false,
+        headerBackground: () => isDark ? (
+          <LinearGradient
+            colors={['#0f0c29', '#302b63', '#24243e']}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+        ) : undefined,
         tabBarStyle: {
           height: 60,
           paddingTop: 10,
@@ -28,15 +59,9 @@ export default function TabLayout() {
           bottom: 0,
           borderTopWidth: 0,
           borderWidth: 1,
-          borderColor: isDark
-            ? "rgba(255, 255, 255, 0.2)"
-            : "rgba(0, 0, 0, 0.2)",
-          backgroundColor: isDark ? "#1a1a1a" : "#ffffff",
+          borderColor: isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)",
           shadowColor: isDark ? "#ffffff" : "#000000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
+          shadowOffset: { width: 0, height: 1 },
           shadowOpacity: 0.1,
           shadowRadius: 8,
           elevation: 4,
@@ -46,18 +71,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          ...commonHeaderOptions,
           headerShown: true,
           headerTitle: "Ana Sayfa",
-          headerTitleStyle: {
-            fontSize: 14,
-            fontWeight: "bold",
-            // marginLeft: 16,
-          },
-          headerStyle: {
-            height: 70,
-          },
-          headerTitleAlign: "left",
-          headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
@@ -71,13 +87,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="stats"
         options={{
+          ...commonHeaderOptions,
           headerShown: true,
+          headerTitle: "İstatistikler",
           headerLeft: () => (
             <TouchableOpacity
-            className="ml-4"
-              onPress={() => {
-                /* handle back press */
-              }}
+              className="ml-4"
+              onPress={() => navigation.navigate("(tabs)", { screen: "index" })}
             >
               <Ionicons
                 name="arrow-back"
@@ -86,18 +102,6 @@ export default function TabLayout() {
               />
             </TouchableOpacity>
           ),
-          headerTitle: "İstatistikler",
-          headerTitleAlign: "left",
-         
-          headerTitleStyle: {
-            marginLeft: 16,
-            fontSize: 14,
-            fontWeight: "bold",
-          },
-          headerStyle: {
-            height: 80,
-          },
-          headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "bar-chart" : "bar-chart-outline"}
@@ -111,14 +115,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="add-note"
         options={{
+          ...commonHeaderOptions,
           headerShown: true,
           headerTitle: "Not Ekle",
           headerLeft: () => (
             <TouchableOpacity
-              onPress={() => {
-                /* handle back press */
-              }}
               className="ml-4"
+              onPress={() => navigation.navigate("(tabs)", { screen: "index" })}
             >
               <Ionicons
                 name="arrow-back"
@@ -127,15 +130,6 @@ export default function TabLayout() {
               />
             </TouchableOpacity>
           ),
-          headerTitleStyle: {
-            fontSize: 14,
-            marginLeft: 16,
-            fontWeight: "bold",
-          },
-          headerStyle: {
-            height: 80,
-          },
-          headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "add-circle" : "add-circle-outline"}
@@ -149,14 +143,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="my-notes"
         options={{
+          ...commonHeaderOptions,
           headerShown: true,
           headerTitle: "Notlarım",
           headerLeft: () => (
             <TouchableOpacity
-              onPress={() => {
-                /* handle back press */
-              }}
               className="ml-4"
+              onPress={() => navigation.navigate("(tabs)", { screen: "index" })}
             >
               <Ionicons
                 name="arrow-back"
@@ -165,15 +158,6 @@ export default function TabLayout() {
               />
             </TouchableOpacity>
           ),
-          headerTitleStyle: {
-            fontSize: 14,
-            marginLeft: 16,
-            fontWeight: "bold",
-          },
-          headerStyle: {
-            height: 80,
-          },
-          headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "book" : "book-outline"}
@@ -187,14 +171,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
+          ...commonHeaderOptions,
           headerShown: true,
           headerTitle: "Profil",
           headerLeft: () => (
             <TouchableOpacity
               className="ml-4"
-              onPress={() => {
-                /* handle back press */
-              }}
+              onPress={() => navigation.navigate("(tabs)", { screen: "index" })}
             >
               <Ionicons
                 name="arrow-back"
@@ -203,15 +186,6 @@ export default function TabLayout() {
               />
             </TouchableOpacity>
           ),
-          headerTitleStyle: {
-            fontSize: 14,
-            marginLeft: 16,
-            fontWeight: "bold",
-          },
-          headerStyle: {
-            height: 80, 
-          },
-          headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "person" : "person-outline"}

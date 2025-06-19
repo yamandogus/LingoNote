@@ -4,6 +4,8 @@ import { CategoryFilter } from "@/components/my-notes/CategoryFilter";
 import { NoteList } from "@/components/my-notes/NoteList";
 import { EmptyNotes } from "@/components/my-notes/EmptyNotes";
 import { FabAddNote } from "@/components/my-notes/FabAddNote";
+import { useNavigation } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 const KATEGORILER = ["Tümü", "İş", "Kişisel", "Eğitim", "Sağlık", "Fikirler"];
 
@@ -13,54 +15,70 @@ const ORNEK_NOTLAR = [
     title: "Toplantı Notları",
     summary: "Bugünkü toplantıda konuşulan ana başlıklar ve alınan kararlar...",
     date: "25 Eylül 2023",
-    tags: ["İş"]
+    tags: ["İş"],
   },
   {
     id: "2",
     title: "Alışveriş Listesi",
     summary: "Süt, yumurta, ekmek, kahve ve sebzeler alınacak.",
     date: "24 Eylül 2023",
-    tags: ["Kişisel"]
+    tags: ["Kişisel"],
   },
   {
     id: "3",
     title: "React Native Ders Notları",
     summary: "Component, props, state ve hook'lar hakkında özet bilgiler...",
     date: "22 Eylül 2023",
-    tags: ["Eğitim"]
-  }
+    tags: ["Eğitim"],
+  },
 ];
 
 export default function MyNotesScreen() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = colorScheme === "dark";
   const [activeCategory, setActiveCategory] = useState("Tümü");
   const [notes, setNotes] = useState(ORNEK_NOTLAR);
+  const navigation = useNavigation() as any;
 
-  const filteredNotes = activeCategory === "Tümü"
-    ? notes
-    : notes.filter(note => note.tags.includes(activeCategory));
+  const filteredNotes =
+    activeCategory === "Tümü"
+      ? notes
+      : notes.filter((note) => note.tags.includes(activeCategory));
 
   const handleAddNote = () => {
-    alert("Not ekleme ekranına yönlendirilecek!");
+    navigation.navigate("/add-note");
   };
 
   return (
-    <View className={`flex-1 ${isDark ? 'bg-[#18181b]' : 'bg-white'}`}> 
-      <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 120 }}>
-        <CategoryFilter
-          categories={KATEGORILER}
-          activeCategory={activeCategory}
-          onSelect={setActiveCategory}
+    <View className={`flex-1`}>
+      <LinearGradient
+        colors={["#0f0c29", "#302b63", "#24243e"]}
+        style={{ flex: 1 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <ScrollView
+          className="flex-1 px-4 pt-6"
+          contentContainerStyle={{ paddingBottom: 120 }}
+        >
+          <CategoryFilter
+            categories={KATEGORILER}
+            activeCategory={activeCategory}
+            onSelect={setActiveCategory}
+            isDark={isDark}
+          />
+          {filteredNotes.length > 0 ? (
+            <NoteList notes={filteredNotes} isDark={isDark} />
+          ) : (
+            <EmptyNotes onAdd={handleAddNote} isDark={isDark} />
+          )}
+        </ScrollView>
+        <FabAddNote
+          onPress={handleAddNote}
           isDark={isDark}
+          navigation={navigation}
         />
-        {filteredNotes.length > 0 ? (
-          <NoteList notes={filteredNotes} isDark={isDark} />
-        ) : (
-          <EmptyNotes onAdd={handleAddNote} isDark={isDark} />
-        )}
-      </ScrollView>
-      <FabAddNote onPress={handleAddNote} isDark={isDark} />
+      </LinearGradient>
     </View>
   );
 }

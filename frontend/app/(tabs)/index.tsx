@@ -5,6 +5,7 @@ import { CategoriesBar } from "@/components/home/CategoriesBar";
 import { NoteOfTheDay } from "@/components/home/NoteOfTheDay";
 import { StatsBar } from "@/components/home/StatsBar";
 import { MotivationQuote } from "@/components/home/MotivationQuote";
+import { LinearGradient } from "expo-linear-gradient";
 
 const GUNUN_NOTU = {
   title: "Fikirlerim",
@@ -29,15 +30,22 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className={`flex-1 `} style={{ backgroundColor: isDark ? '#1a1a1a' : '#ffffff' }}> 
+    <View className={`flex-1 `}> 
+    <LinearGradient
+       colors={['#0f0c29', '#302b63', '#24243e']}
+       style={{ flex: 1 }}
+       start={{ x: 0, y: 0 }}
+       end={{ x: 1, y: 1 }}
+      >
       <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 60 }}>
-        <ProfileIcon isDark={isDark} />
+        {/* <ProfileIcon isDark={isDark} /> */}
         <WelcomeCard isDark={isDark} onAddNote={handleAddNote} />
         <CategoriesBar isDark={isDark} />
         <NoteOfTheDay isDark={isDark} note={GUNUN_NOTU} />
         <StatsBar isDark={isDark} stats={STATS} />
         <MotivationQuote isDark={isDark} quote={MOTIVATION} />
       </ScrollView>
+      </LinearGradient> 
     </View>
   );
 }

@@ -4,12 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 interface FabAddNoteProps {
   onPress: () => void;
   isDark: boolean;
+  navigation: any;
 }
 
-export function FabAddNote({ onPress, isDark }: FabAddNoteProps) {
+export function FabAddNote({ onPress, isDark, navigation }: FabAddNoteProps) {
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() => navigation.navigate("add-note")}
       style={{
         position: 'absolute',
         right: 24,
