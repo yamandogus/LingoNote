@@ -1,4 +1,4 @@
-import { View, ScrollView, useColorScheme } from "react-native";
+import { View, ScrollView, useColorScheme, Platform, Image,Text } from "react-native";
 import { ProfileIcon } from "@/components/home/ProfileIcon";
 import { WelcomeCard } from "@/components/home/WelcomeCard";
 import { CategoriesBar } from "@/components/home/CategoriesBar";
@@ -30,22 +30,32 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className={`flex-1 `}> 
-    <LinearGradient
-       colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
-       style={{ flex: 1 }}
-       start={{ x: 0, y: 0 }}
-       end={{ x: 1, y: 1 }}
+    <View className={`flex-1 `}>
+      <LinearGradient
+        colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
+        style={{ flex: 1 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
-      <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 60 }}>
-        {/* <ProfileIcon isDark={isDark} /> */}
-        <WelcomeCard isDark={isDark} onAddNote={handleAddNote} />
-        <CategoriesBar isDark={isDark} />
-        <NoteOfTheDay isDark={isDark} note={GUNUN_NOTU} />
-        <StatsBar isDark={isDark} stats={STATS} />
-        <MotivationQuote isDark={isDark} quote={MOTIVATION} />
-      </ScrollView>
-      </LinearGradient> 
+        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
+        <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 60 }}>
+          {/* <ProfileIcon isDark={isDark} /> */}
+          <View>
+            <Text className="italic font-bold text-lg">LİNGONOTE</Text>
+          </View>
+          <View>
+            <Image
+             className="flex items-center justify-center w-full h-[400px] rounded-lg mb-4"
+             source={require('../../assets/images/homePage.png')}
+            />
+          </View>
+          <WelcomeCard isDark={isDark} onAddNote={handleAddNote} />
+          <CategoriesBar isDark={isDark} />
+          <NoteOfTheDay isDark={isDark} note={GUNUN_NOTU} />
+          <StatsBar isDark={isDark} stats={STATS} />
+          <MotivationQuote isDark={isDark} quote={MOTIVATION} />
+        </ScrollView>
+      </LinearGradient>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, ScrollView, useColorScheme } from "react-native";
+import { View, ScrollView, useColorScheme, Platform } from "react-native";
 import { CategoryFilter } from "@/components/my-notes/CategoryFilter";
 import { NoteList } from "@/components/my-notes/NoteList";
 import { EmptyNotes } from "@/components/my-notes/EmptyNotes";
@@ -52,11 +52,12 @@ export default function MyNotesScreen() {
   return (
     <View className={`flex-1`}>
       <LinearGradient
-        colors={["#0f0c29", "#302b63", "#24243e"]}
+        colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
         style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
+        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
         <ScrollView
           className="flex-1 px-4 pt-6"
           contentContainerStyle={{ paddingBottom: 120 }}

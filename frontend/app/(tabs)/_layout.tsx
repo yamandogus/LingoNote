@@ -72,8 +72,8 @@ export default function TabLayout() {
         name="index"
         options={{
           ...commonHeaderOptions,
-          headerShown: true,
-          headerTitle: "Ana Sayfa",
+          // headerShown: true,
+          // headerTitle: "Ana Sayfa",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
@@ -88,8 +88,8 @@ export default function TabLayout() {
         name="stats"
         options={{
           ...commonHeaderOptions,
-          headerShown: true,
-          headerTitle: "İstatistikler",
+          // headerShown: true,
+          // headerTitle: "İstatistikler",
           headerLeft: () => (
             <TouchableOpacity
               className="ml-4"
@@ -116,8 +116,8 @@ export default function TabLayout() {
         name="add-note"
         options={{
           ...commonHeaderOptions,
-          headerShown: true,
-          headerTitle: "Not Ekle",
+          // headerShown: true,
+          // headerTitle: "Not Ekle",
           headerLeft: () => (
             <TouchableOpacity
               className="ml-4"
@@ -144,8 +144,8 @@ export default function TabLayout() {
         name="my-notes"
         options={{
           ...commonHeaderOptions,
-          headerShown: true,
-          headerTitle: "Notlarım",
+          // headerShown: true,
+          // headerTitle: "Notlarım",
           headerLeft: () => (
             <TouchableOpacity
               className="ml-4"
@@ -172,8 +172,8 @@ export default function TabLayout() {
         name="profile"
         options={{
           ...commonHeaderOptions,
-          headerShown: true,
-          headerTitle: "Profil",
+          // headerShown: true,
+          // headerTitle: "Profil",
           headerLeft: () => (
             <TouchableOpacity
               className="ml-4"

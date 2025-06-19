@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   useColorScheme,
+  Platform,
 } from "react-native";
 import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import { SettingsDetails } from "@/components/SettingsDetails";
@@ -19,11 +20,12 @@ export default function ProfileScreen() {
   return (
     <View className="flex-1">
       <LinearGradient
-        colors={["#0f0c29", "#302b63", "#24243e"]}
+       colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
         style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
+        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
         <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 100 }}>
           {/* Profil Fotoğrafı ve Kullanıcı Bilgileri */}
           <View style={{ alignItems: "center", marginBottom: 24 }}>

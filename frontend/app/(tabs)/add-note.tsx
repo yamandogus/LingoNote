@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { ScrollView, Text, useColorScheme, View } from "react-native";
+import { Platform, ScrollView, Text, useColorScheme, View } from "react-native";
 
 export default function AddNoteScreen() {
   const colorScheme = useColorScheme();
@@ -13,6 +13,7 @@ export default function AddNoteScreen() {
        start={{ x: 0, y: 0 }}
        end={{ x: 1, y: 1 }}
       >
+        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         <Text>Not Ekleme Sayfası</Text>
       </ScrollView>
