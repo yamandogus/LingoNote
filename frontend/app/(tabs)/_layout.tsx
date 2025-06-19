@@ -4,10 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { TouchableOpacity } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = colorScheme === "dark";
 
   return (
     <Tabs
@@ -27,9 +28,11 @@ export default function TabLayout() {
           bottom: 0,
           borderTopWidth: 0,
           borderWidth: 1,
-          borderColor: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
-          backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
-          shadowColor: isDark ? '#ffffff' : '#000000',
+          borderColor: isDark
+            ? "rgba(255, 255, 255, 0.2)"
+            : "rgba(0, 0, 0, 0.2)",
+          backgroundColor: isDark ? "#1a1a1a" : "#ffffff",
+          shadowColor: isDark ? "#ffffff" : "#000000",
           shadowOffset: {
             width: 0,
             height: 2,
@@ -48,10 +51,12 @@ export default function TabLayout() {
           headerTitleStyle: {
             fontSize: 14,
             fontWeight: "bold",
+            // marginLeft: 16,
           },
           headerStyle: {
-            height: 80,
+            height: 70,
           },
+          headerTitleAlign: "left",
           headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
@@ -67,8 +72,25 @@ export default function TabLayout() {
         name="stats"
         options={{
           headerShown: true,
+          headerLeft: () => (
+            <TouchableOpacity
+            className="ml-4"
+              onPress={() => {
+                /* handle back press */
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={Colors[colorScheme ?? "light"].tint}
+              />
+            </TouchableOpacity>
+          ),
           headerTitle: "İstatistikler",
+          headerTitleAlign: "left",
+         
           headerTitleStyle: {
+            marginLeft: 16,
             fontSize: 14,
             fontWeight: "bold",
           },
@@ -91,8 +113,23 @@ export default function TabLayout() {
         options={{
           headerShown: true,
           headerTitle: "Not Ekle",
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                /* handle back press */
+              }}
+              className="ml-4"
+            >
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={Colors[colorScheme ?? "light"].tint}
+              />
+            </TouchableOpacity>
+          ),
           headerTitleStyle: {
             fontSize: 14,
+            marginLeft: 16,
             fontWeight: "bold",
           },
           headerStyle: {
@@ -114,8 +151,23 @@ export default function TabLayout() {
         options={{
           headerShown: true,
           headerTitle: "Notlarım",
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                /* handle back press */
+              }}
+              className="ml-4"
+            >
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={Colors[colorScheme ?? "light"].tint}
+              />
+            </TouchableOpacity>
+          ),
           headerTitleStyle: {
             fontSize: 14,
+            marginLeft: 16,
             fontWeight: "bold",
           },
           headerStyle: {
@@ -137,12 +189,27 @@ export default function TabLayout() {
         options={{
           headerShown: true,
           headerTitle: "Profil",
+          headerLeft: () => (
+            <TouchableOpacity
+              className="ml-4"
+              onPress={() => {
+                /* handle back press */
+              }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color={Colors[colorScheme ?? "light"].tint}
+              />
+            </TouchableOpacity>
+          ),
           headerTitleStyle: {
             fontSize: 14,
+            marginLeft: 16,
             fontWeight: "bold",
           },
           headerStyle: {
-            height: 80,
+            height: 80, 
           },
           headerShadowVisible: false,
           tabBarIcon: ({ color, focused }) => (

@@ -29,7 +29,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className={`flex-1 ${isDark ? 'bg-[#18181b]' : 'bg-white'}`}> 
+    <View className={`flex-1 `} style={{ backgroundColor: isDark ? '#1a1a1a' : '#ffffff' }}> 
       <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 60 }}>
         <ProfileIcon isDark={isDark} />
         <WelcomeCard isDark={isDark} onAddNote={handleAddNote} />
