@@ -32,7 +32,7 @@ export default function HomeScreen() {
   return (
     <View className={`flex-1 `}> 
     <LinearGradient
-       colors={['#0f0c29', '#302b63', '#24243e']}
+       colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
        style={{ flex: 1 }}
        start={{ x: 0, y: 0 }}
        end={{ x: 1, y: 1 }}
