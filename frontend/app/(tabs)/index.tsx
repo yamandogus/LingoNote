@@ -31,7 +31,6 @@ export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
 
-
   return (
     <View className={`flex-1`}>
       <LinearGradient
@@ -50,16 +49,24 @@ export default function HomeScreen() {
           contentContainerStyle={{ paddingBottom: 120 }}
         >
           {/* <ProfileIcon isDark={isDark} /> */}
-          <View className="flex text-center">
-            <Text className="italic font-bold text-[24px] dark:text-white text-center">
+          <View className="flex-col text-center bg-[#ffffef] rounded-xl mb-6">
+            <Text className="italic font-bold text-[24px] text-center">
               LİNGONOTE
             </Text>
-          </View>
-          <View>
-            <Image
-              className="flex items-center justify-center w-full h-[400px] rounded-lg mb-4"
-              source={require("../../assets/images/homePage.png")}
-            />
+            <View className="flex-row mb-4 rounded-md">
+              <Image
+                className="flex-1 rounded-lg mr-2"
+                style={{ height: 220 }}
+                resizeMode="contain"
+                source={require("../../assets/images/homePage.png")}
+              />
+              <Image
+                className="flex-1 rounded-lg"
+                style={{ height: 220 }}
+                resizeMode="contain"
+                source={require("../../assets/images/homePage2.png")}
+              />
+            </View>
           </View>
           <WelcomeCard isDark={isDark} />
           <CategoriesBar isDark={isDark} />

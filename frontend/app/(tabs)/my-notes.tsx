@@ -7,7 +7,7 @@ import { FabAddNote } from "@/components/my-notes/FabAddNote";
 import { useNavigation } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 
-const KATEGORILER = ["Tümü", "İş", "Kişisel", "Eğitim", "Sağlık", "Fikirler"];
+export const KATEGORILER = ["Tümü", "İş", "Kişisel", "Eğitim", "Sağlık", "Fikirler"];
 
 const ORNEK_NOTLAR = [
   {
