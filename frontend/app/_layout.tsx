@@ -6,6 +6,8 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import '../global.css';
+import React from 'react';
+import Toast from 'react-native-toast-message';
 
 const CustomDarkTheme = {
   ...DarkTheme,
@@ -37,6 +39,7 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
+      <Toast />
     </ThemeProvider>
   );
 }

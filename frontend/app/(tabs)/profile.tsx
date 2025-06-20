@@ -7,226 +7,179 @@ import {
   TouchableOpacity,
   useColorScheme,
   Platform,
+  Switch,
+  StyleSheet
 } from "react-native";
-import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
-import { SettingsDetails } from "@/components/SettingsDetails";
+import { 
+  Ionicons, 
+  MaterialIcons, 
+  Feather,
+} from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+
+type MenuItem = {
+  icon: React.ReactNode;
+  title: string;
+  subtitle?: string;
+  onPress?: () => void;
+  isToggle?: boolean;
+  toggleValue?: boolean;
+  onToggleChange?: (value: boolean) => void;
+  showChevron?: boolean;
+};
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
-  const [showSettings, setShowSettings] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
+
+  const stats = [
+    { icon: 'file-text', value: '128', label: 'Toplam Not' },
+    { icon: 'star', value: '24', label: 'Favori' },
+    { icon: 'calendar', value: '5', label: 'Planlanan' },
+  ];
+
+  const menuItems: MenuItem[] = [
+    {
+      icon: <Ionicons name="person-outline" size={24} color="#6366f1" />,
+      title: 'Profil Ayarları',
+      subtitle: 'Kişisel bilgilerinizi düzenleyin',
+      showChevron: true,
+    },
+    {
+      icon: <Ionicons name="notifications-outline" size={24} color="#f59e0b" />,
+      title: 'Bildirimler',
+      isToggle: true,
+      toggleValue: notificationsEnabled,
+      onToggleChange: setNotificationsEnabled,
+    },
+    {
+      icon: <Ionicons name="moon-outline" size={24} color="#8b5cf6" />,
+      title: 'Koyu Tema',
+      isToggle: true,
+      toggleValue: darkModeEnabled,
+      onToggleChange: setDarkModeEnabled,
+    },
+    {
+      icon: <MaterialIcons name="security" size={24} color="#10b981" />,
+      title: 'Gizlilik',
+      subtitle: 'Gizlilik ayarlarınızı yönetin',
+      showChevron: true,
+    },
+    {
+      icon: <Ionicons name="help-circle-outline" size={24} color="#3b82f6" />,
+      title: 'Yardım & Destek',
+      showChevron: true,
+    },
+    {
+      icon: <Ionicons name="information-circle-outline" size={24} color="#6b7280" />,
+      title: 'Hakkında',
+      showChevron: true,
+    },
+  ];
+
+  const renderMenuItem = (item: MenuItem, index: number) => (
+    <TouchableOpacity
+      key={index}
+      onPress={item.onPress}
+      className={`flex-row items-center p-4 border-b border-gray-200 ${isDark ? 'bg-[#1f2937]' : 'bg-white'}`}
+      activeOpacity={0.7}
+    >
+      <View className="w-12 h-12 items-center justify-center">
+        {item.icon}
+      </View>
+      <View className="flex-1 ml-4">
+        <Text className={`text-lg font-semibold ${isDark ? 'text-gray-100' : 'text-gray-800'}`}>
+          {item.title}
+        </Text>
+        {item.subtitle && (
+          <Text className={`text-sm text-gray-600 mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            {item.subtitle}
+          </Text>
+        )}
+      </View>
+      {item.isToggle ? (
+        <Switch
+          value={item.toggleValue}
+          onValueChange={item.onToggleChange}
+          trackColor={{ false: '#e5e7eb', true: isDark ? '#4f46e5' : '#6366f1' }}
+          thumbColor="#ffffff"
+        />
+      ) : item.showChevron ? (
+        <Ionicons 
+          name="chevron-forward" 
+          size={20} 
+          color={isDark ? '#6b7280' : '#9ca3af'} 
+        />
+      ) : null}
+    </TouchableOpacity>
+  );
 
   return (
-    <View className="flex-1">
+    <View className={`flex-1 ${isDark ? 'bg-[#0f172a]' : 'bg-white'}`}>
       <LinearGradient
-       colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
-        style={{ flex: 1 }}
+        colors={isDark ? ['#0f172a', '#1e293b'] : ['#6366f1', '#8b5cf6']}
+        className="h-24"
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
         {Platform.OS === 'android' && <View style={{ height: 32 }} />}
-        <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 100 }}>
-          {/* Profil Fotoğrafı ve Kullanıcı Bilgileri */}
-          <View style={{ alignItems: "center", marginBottom: 24 }}>
-            <View style={{
-              width: 110,
-              height: 110,
-              borderRadius: 55,
-              backgroundColor: isDark ? '#18181b' : '#fff',
-              justifyContent: 'center',
-              alignItems: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.15,
-              shadowRadius: 8,
-              elevation: 8,
-            }}>
-              <Image
-                source={require("@/assets/images/icon.png")}
-                style={{
-                  width: 90,
-                  height: 90,
-                  borderRadius: 45,
-                  borderWidth: 3,
-                  borderColor: isDark ? "#fff" : "#e5e7eb",
-                }}
-              />
-            </View>
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: "bold",
-                color: isDark ? "#fff" : "#18181b",
-                marginTop: 14,
-              }}
-            >
-              Yaman
-            </Text>
-            <Text
-              style={{ color: isDark ? "#d1d5db" : "#6b7280", fontSize: 15, marginTop: 2 }}
-            >
-              yaman@example.com
-            </Text>
+        <View   className="flex-1 items-center">
+          <View className="w-24 h-24 items-center justify-center">
+            <Image
+              source={require("@/assets/images/icon.png")}
+              className="w-24 h-24 rounded-full"
+            />
+            <View className="w-6 h-6 rounded-full bg-green-500 items-center justify-center" />
           </View>
-
-          {/* Modern İstatistik Kartları */}
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 28 }}>
-            {[{
-              icon: <Ionicons name="document-text-outline" size={28} color={isDark ? "#60a5fa" : "#2563eb"} />,
-              value: 12,
-              label: 'Not',
-            }, {
-              icon: <MaterialIcons name="category" size={28} color={isDark ? "#fbbf24" : "#eab308"} />,
-              value: 5,
-              label: 'Kategori',
-            }, {
-              icon: <Feather name="star" size={28} color={isDark ? "#f472b6" : "#be185d"} />,
-              value: 3,
-              label: 'Favori',
-            }].map((item, idx) => (
-              <View key={idx} style={{
-                backgroundColor: isDark ? '#232323' : '#fff',
-                borderRadius: 16,
-                alignItems: 'center',
-                paddingVertical: 16,
-                paddingHorizontal: 18,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.08,
-                shadowRadius: 6,
-                elevation: 4,
-                minWidth: 80,
-              }}>
-                {item.icon}
-                <Text style={{ fontWeight: 'bold', color: isDark ? '#fff' : '#18181b', marginTop: 6, fontSize: 18 }}>{item.value}</Text>
-                <Text style={{ color: isDark ? '#d1d5db' : '#6b7280', fontSize: 13, marginTop: 2 }}>{item.label}</Text>
+          <Text className="text-lg font-semibold text-white">Yaman Doğuş</Text>
+          <Text className="text-sm text-gray-600 mt-1 text-white">yaman@example.com</Text>
+          
+          <View className="flex-row justify-around mt-8">
+            {stats.map((stat, index) => (
+              <View key={index}>
+                <View className="w-12 h-12 items-center justify-center">
+                  <Feather 
+                    name={stat.icon as any} 
+                    size={18} 
+                    color="#ffffff" 
+                  />
+                </View>
+                <Text className="text-lg font-semibold text-white">{stat.value}</Text>
+                <Text className="text-sm text-gray-600 mt-1 text-white">{stat.label}</Text>
               </View>
             ))}
           </View>
-
-          {/* Modern Ayarlar ve Diğer Seçenekler */}
-          <View
-            style={{
-              backgroundColor: isDark ? "#232323" : "#f3f4f6",
-              borderRadius: 18,
-              padding: 16,
-              marginBottom: 24,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.07,
-              shadowRadius: 6,
-              elevation: 2,
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 12,
-                borderBottomWidth: 1,
-                borderBottomColor: isDark ? '#333' : '#e5e7eb',
-              }}
-            >
-              <Ionicons
-                name="person-outline"
-                size={22}
-                color={isDark ? "#fff" : "#18181b"}
-                style={{ marginRight: 16 }}
-              />
-              <Text
-                style={{ color: isDark ? "#fff" : "#18181b", fontSize: 16 }}
-              >
-                Profil Bilgilerim
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 12,
-                borderBottomWidth: 1,
-                borderBottomColor: isDark ? '#333' : '#e5e7eb',
-              }}
-              onPress={() => setShowSettings(!showSettings)}
-            >
-              <Ionicons
-                name="settings-outline"
-                size={22}
-                color={isDark ? "#fff" : "#18181b"}
-                style={{ marginRight: 16 }}
-              />
-              <Text
-                style={{ color: isDark ? "#fff" : "#18181b", fontSize: 16 }}
-              >
-                Ayarlar
-              </Text>
-              <Ionicons
-                name={showSettings ? "chevron-up" : "chevron-down"}
-                size={20}
-                color={isDark ? "#fff" : "#18181b"}
-                style={{ marginLeft: 8 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 12,
-              }}
-            >
-              <Ionicons
-                name="moon-outline"
-                size={22}
-                color={isDark ? "#fff" : "#18181b"}
-                style={{ marginRight: 16 }}
-              />
-              <Text
-                style={{ color: isDark ? "#fff" : "#18181b", fontSize: 16 }}
-              >
-                Tema: {isDark ? "Koyu" : "Açık"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Ayar Detayları */}
-          {showSettings && <SettingsDetails isDark={isDark} />}
-
-          {/* Modern Çıkış Butonu */}
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 10,
-              paddingVertical: 16,
-              borderRadius: 14,
-              backgroundColor: isDark ? "#ef4444" : "#fee2e2",
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.10,
-              shadowRadius: 8,
-              elevation: 3,
-            }}
-          >
-            <Ionicons
-              name="log-out-outline"
-              size={22}
-              color={isDark ? "#fff" : "#b91c1c"}
-              style={{ marginRight: 10 }}
-            />
-            <Text
-              style={{
-                color: isDark ? "#fff" : "#b91c1c",
-                fontWeight: "bold",
-                fontSize: 16,
-              }}
-            >
-              Çıkış Yap
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
+        </View>
       </LinearGradient>
+      
+      <ScrollView 
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Menu Items */}
+        <View className="flex-1">
+          {menuItems.map((item, index) => renderMenuItem(item, index))}
+        </View>
+
+        {/* Logout Button */}
+        <TouchableOpacity
+          className={`flex-row items-center p-4 border-t border-gray-200 ${isDark ? 'bg-[#1f2937]' : 'bg-white'}`}
+          activeOpacity={0.8}
+        >
+          <Ionicons 
+            name="log-out-outline" 
+            size={22} 
+            color="#ef4444" 
+            className="mr-2" 
+          />
+          <Text className="text-lg font-semibold text-white">Çıkış Yap</Text>
+        </TouchableOpacity>
+
+        {/* App Version */}
+        <Text className="text-sm text-gray-600 mt-1 text-white">LingoNote v1.0.0</Text>
+      </ScrollView>
     </View>
   );
 }
