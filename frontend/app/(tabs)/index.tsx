@@ -1,4 +1,11 @@
-import { View, ScrollView, useColorScheme, Platform, Image,Text } from "react-native";
+import {
+  View,
+  ScrollView,
+  useColorScheme,
+  Platform,
+  Image,
+  Text,
+} from "react-native";
 import { ProfileIcon } from "@/components/home/ProfileIcon";
 import { WelcomeCard } from "@/components/home/WelcomeCard";
 import { CategoriesBar } from "@/components/home/CategoriesBar";
@@ -10,20 +17,20 @@ import { LinearGradient } from "expo-linear-gradient";
 const GUNUN_NOTU = {
   title: "Fikirlerim",
   summary: "Bugün aklıma gelen yeni uygulama fikrini not aldım...",
-  date: "27 Eylül 2023"
+  date: "27 Eylül 2023",
 };
 
 const STATS = {
   totalNotes: 12,
   favoriteCategory: "İş",
-  lastDate: "26 Eylül 2023"
+  lastDate: "26 Eylül 2023",
 };
 
 const MOTIVATION = "Her gün bir not, her gün bir adım!";
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = colorScheme === "dark";
 
   const handleAddNote = () => {
     alert("Not ekleme ekranına yönlendirilecek!");
@@ -32,21 +39,30 @@ export default function HomeScreen() {
   return (
     <View className={`flex-1 `}>
       <LinearGradient
-        colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#e0e0e0', '#bdbdbd', '#757575']}
+        colors={
+          isDark
+            ? ["#0f0c29", "#120f31", "#16162e"]
+            : ["#e0e0e0", "#bdbdbd", "#757575"]
+        }
         style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
-        <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 60 }}>
+        {Platform.OS === "android" && <View style={{ height: 32 }} />}
+        <ScrollView
+          className="flex-1 px-4 pt-6"
+          contentContainerStyle={{ paddingBottom: 60 }}
+        >
           {/* <ProfileIcon isDark={isDark} /> */}
-          <View>
-            <Text className="italic font-bold text-lg">LİNGONOTE</Text>
+          <View className="flex text-center">
+            <Text className="italic font-bold text-[24px] dark:text-white text-center">
+              LİNGONOTE
+            </Text>
           </View>
           <View>
             <Image
-             className="flex items-center justify-center w-full h-[400px] rounded-lg mb-4"
-             source={require('../../assets/images/homePage.png')}
+              className="flex items-center justify-center w-full h-[400px] rounded-lg mb-4"
+              source={require("../../assets/images/homePage.png")}
             />
           </View>
           <WelcomeCard isDark={isDark} onAddNote={handleAddNote} />

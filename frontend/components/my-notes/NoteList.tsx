@@ -20,7 +20,7 @@ export function NoteList({ notes, isDark }: NoteListProps) {
       {notes.map((note) => (
         <View
           key={note.id}
-          className={`mb-4 p-4 rounded-2xl ${isDark ? 'bg-[#232323]' : 'bg-gray-50'} shadow-sm`}
+          className={`mb-4 p-4 rounded-2xl ${isDark ? 'bg-[#232323]' : 'bg-gray-50'} shadow-lg border-[0.5px] border-cyan-50`}
         >
           <Text className={`text-base font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>{note.title}</Text>
           <Text className={`text-sm mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{note.summary}</Text>

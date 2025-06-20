@@ -71,7 +71,7 @@ export default function MyNotesScreen() {
           {filteredNotes.length > 0 ? (
             <NoteList notes={filteredNotes} isDark={isDark} />
           ) : (
-            <EmptyNotes onAdd={handleAddNote} isDark={isDark} />
+            <EmptyNotes  isDark={isDark} />
           )}
         </ScrollView>
         <FabAddNote
