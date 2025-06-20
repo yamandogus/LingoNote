@@ -29,113 +29,94 @@ export default function ProfileScreen() {
         <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 100 }}>
           {/* Profil Fotoğrafı ve Kullanıcı Bilgileri */}
           <View style={{ alignItems: "center", marginBottom: 24 }}>
-            <Image
-              source={require("@/assets/images/icon.png")}
-              style={{
-                width: 90,
-                height: 90,
-                borderRadius: 45,
-                borderWidth: 3,
-                borderColor: isDark ? "#fff" : "#e5e7eb",
-              }}
-            />
+            <View style={{
+              width: 110,
+              height: 110,
+              borderRadius: 55,
+              backgroundColor: isDark ? '#18181b' : '#fff',
+              justifyContent: 'center',
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.15,
+              shadowRadius: 8,
+              elevation: 8,
+            }}>
+              <Image
+                source={require("@/assets/images/icon.png")}
+                style={{
+                  width: 90,
+                  height: 90,
+                  borderRadius: 45,
+                  borderWidth: 3,
+                  borderColor: isDark ? "#fff" : "#e5e7eb",
+                }}
+              />
+            </View>
             <Text
               style={{
                 fontSize: 22,
                 fontWeight: "bold",
                 color: isDark ? "#fff" : "#18181b",
-                marginTop: 12,
+                marginTop: 14,
               }}
             >
               Yaman
             </Text>
             <Text
-              style={{ color: isDark ? "#d1d5db" : "#6b7280", fontSize: 15 }}
+              style={{ color: isDark ? "#d1d5db" : "#6b7280", fontSize: 15, marginTop: 2 }}
             >
               yaman@example.com
             </Text>
           </View>
 
-          {/* İstatistikler */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: 28,
-            }}
-          >
-            <View style={{ alignItems: "center" }}>
-              <Ionicons
-                name="document-text-outline"
-                size={28}
-                color={isDark ? "#60a5fa" : "#2563eb"}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  color: isDark ? "#fff" : "#18181b",
-                  marginTop: 4,
-                }}
-              >
-                12
-              </Text>
-              <Text
-                style={{ color: isDark ? "#d1d5db" : "#6b7280", fontSize: 13 }}
-              >
-                Not
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <MaterialIcons
-                name="category"
-                size={28}
-                color={isDark ? "#fbbf24" : "#eab308"}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  color: isDark ? "#fff" : "#18181b",
-                  marginTop: 4,
-                }}
-              >
-                5
-              </Text>
-              <Text
-                style={{ color: isDark ? "#d1d5db" : "#6b7280", fontSize: 13 }}
-              >
-                Kategori
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Feather
-                name="star"
-                size={28}
-                color={isDark ? "#f472b6" : "#be185d"}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  color: isDark ? "#fff" : "#18181b",
-                  marginTop: 4,
-                }}
-              >
-                3
-              </Text>
-              <Text
-                style={{ color: isDark ? "#d1d5db" : "#6b7280", fontSize: 13 }}
-              >
-                Favori
-              </Text>
-            </View>
+          {/* Modern İstatistik Kartları */}
+          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 28 }}>
+            {[{
+              icon: <Ionicons name="document-text-outline" size={28} color={isDark ? "#60a5fa" : "#2563eb"} />,
+              value: 12,
+              label: 'Not',
+            }, {
+              icon: <MaterialIcons name="category" size={28} color={isDark ? "#fbbf24" : "#eab308"} />,
+              value: 5,
+              label: 'Kategori',
+            }, {
+              icon: <Feather name="star" size={28} color={isDark ? "#f472b6" : "#be185d"} />,
+              value: 3,
+              label: 'Favori',
+            }].map((item, idx) => (
+              <View key={idx} style={{
+                backgroundColor: isDark ? '#232323' : '#fff',
+                borderRadius: 16,
+                alignItems: 'center',
+                paddingVertical: 16,
+                paddingHorizontal: 18,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.08,
+                shadowRadius: 6,
+                elevation: 4,
+                minWidth: 80,
+              }}>
+                {item.icon}
+                <Text style={{ fontWeight: 'bold', color: isDark ? '#fff' : '#18181b', marginTop: 6, fontSize: 18 }}>{item.value}</Text>
+                <Text style={{ color: isDark ? '#d1d5db' : '#6b7280', fontSize: 13, marginTop: 2 }}>{item.label}</Text>
+              </View>
+            ))}
           </View>
 
-          {/* Ayarlar ve Diğer Seçenekler */}
+          {/* Modern Ayarlar ve Diğer Seçenekler */}
           <View
             style={{
               backgroundColor: isDark ? "#232323" : "#f3f4f6",
               borderRadius: 18,
               padding: 16,
               marginBottom: 24,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.07,
+              shadowRadius: 6,
+              elevation: 2,
             }}
           >
             <TouchableOpacity
@@ -143,6 +124,8 @@ export default function ProfileScreen() {
                 flexDirection: "row",
                 alignItems: "center",
                 paddingVertical: 12,
+                borderBottomWidth: 1,
+                borderBottomColor: isDark ? '#333' : '#e5e7eb',
               }}
             >
               <Ionicons
@@ -162,6 +145,8 @@ export default function ProfileScreen() {
                 flexDirection: "row",
                 alignItems: "center",
                 paddingVertical: 12,
+                borderBottomWidth: 1,
+                borderBottomColor: isDark ? '#333' : '#e5e7eb',
               }}
               onPress={() => setShowSettings(!showSettings)}
             >
@@ -207,16 +192,21 @@ export default function ProfileScreen() {
           {/* Ayar Detayları */}
           {showSettings && <SettingsDetails isDark={isDark} />}
 
-          {/* Çıkış */}
+          {/* Modern Çıkış Butonu */}
           <TouchableOpacity
             style={{
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              marginTop:10,
-              paddingVertical: 14,
-              borderRadius: 12,
+              marginTop: 10,
+              paddingVertical: 16,
+              borderRadius: 14,
               backgroundColor: isDark ? "#ef4444" : "#fee2e2",
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.10,
+              shadowRadius: 8,
+              elevation: 3,
             }}
           >
             <Ionicons

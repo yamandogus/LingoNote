@@ -6,7 +6,6 @@ import {
   Image,
   Text,
 } from "react-native";
-import { ProfileIcon } from "@/components/home/ProfileIcon";
 import { WelcomeCard } from "@/components/home/WelcomeCard";
 import { CategoriesBar } from "@/components/home/CategoriesBar";
 import { NoteOfTheDay } from "@/components/home/NoteOfTheDay";
@@ -32,12 +31,9 @@ export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
 
-  const handleAddNote = () => {
-    alert("Not ekleme ekranına yönlendirilecek!");
-  };
 
   return (
-    <View className={`flex-1 `}>
+    <View className={`flex-1`}>
       <LinearGradient
         colors={
           isDark
@@ -51,7 +47,7 @@ export default function HomeScreen() {
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
         <ScrollView
           className="flex-1 px-4 pt-6"
-          contentContainerStyle={{ paddingBottom: 60 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
         >
           {/* <ProfileIcon isDark={isDark} /> */}
           <View className="flex text-center">
@@ -65,7 +61,7 @@ export default function HomeScreen() {
               source={require("../../assets/images/homePage.png")}
             />
           </View>
-          <WelcomeCard isDark={isDark} onAddNote={handleAddNote} />
+          <WelcomeCard isDark={isDark} />
           <CategoriesBar isDark={isDark} />
           <NoteOfTheDay isDark={isDark} note={GUNUN_NOTU} />
           <StatsBar isDark={isDark} stats={STATS} />
