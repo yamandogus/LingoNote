@@ -34,14 +34,10 @@ export default function HomeScreen() {
   return (
     <View className={`flex-1`}>
       <LinearGradient
-        colors={
-          isDark
-            ? ["#0f0c29", "#120f31", "#16162e"]
-            : ["#e0e0e0", "#bdbdbd", "#757575"]
-        }
-        style={{ flex: 1 }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+         colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
+         style={{ flex: 1 }}
+         start={{ x: 0, y: 0 }}
+         end={{ x: 1, y: 1 }}
       >
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
         <ScrollView

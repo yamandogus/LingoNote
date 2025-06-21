@@ -40,20 +40,16 @@ export default function AddNoteScreen() {
     });
   };
 
-  const gradientColors = isDark
-    ? ["#1a1a2e", "#16213e", "#0f3460"]
-    : ["#f8f9fa", "#e9ecef", "#dee2e6"];
-
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       className="flex-1"
     >
       <LinearGradient
-        colors={gradientColors as [string, string, string]}
-        style={{ flex: 1 }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+         colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
+         style={{ flex: 1 }}
+         start={{ x: 0, y: 0 }}
+         end={{ x: 1, y: 1 }}
       >
         <ScrollView 
           className="flex-1"

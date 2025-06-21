@@ -6,180 +6,195 @@ import {
   Image,
   TouchableOpacity,
   useColorScheme,
+  SafeAreaView,
   Platform,
   Switch,
-  StyleSheet
+  Dimensions,
 } from "react-native";
-import { 
-  Ionicons, 
-  MaterialIcons, 
-  Feather,
-} from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 type MenuItem = {
-  icon: React.ReactNode;
+  id: string;
+  icon: React.ReactElement<{ name: string; size?: number; color: string }>;
   title: string;
   subtitle?: string;
-  onPress?: () => void;
   isToggle?: boolean;
   toggleValue?: boolean;
   onToggleChange?: (value: boolean) => void;
   showChevron?: boolean;
+  color: string;
 };
 
-export default function ProfileScreen() {
+const ProfileScreen = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
 
-  const stats = [
-    { icon: 'file-text', value: '128', label: 'Toplam Not' },
-    { icon: 'star', value: '24', label: 'Favori' },
-    { icon: 'calendar', value: '5', label: 'Planlanan' },
-  ];
-
   const menuItems: MenuItem[] = [
     {
-      icon: <Ionicons name="person-outline" size={24} color="#6366f1" />,
-      title: 'Profil Ayarları',
-      subtitle: 'Kişisel bilgilerinizi düzenleyin',
+      id: "profile",
+      icon: <Ionicons name="person-outline" color="#6366f1" />,
+      title: "Profil Ayarları",
+      subtitle: "Kişisel bilgilerinizi düzenleyin",
       showChevron: true,
+      color: "#6366f1",
     },
     {
-      icon: <Ionicons name="notifications-outline" size={24} color="#f59e0b" />,
-      title: 'Bildirimler',
+      id: "notifications",
+      icon: <Ionicons name="notifications-outline" color="#f59e0b" />,
+      title: "Bildirimler",
       isToggle: true,
       toggleValue: notificationsEnabled,
       onToggleChange: setNotificationsEnabled,
+      color: "#f59e0b",
     },
     {
-      icon: <Ionicons name="moon-outline" size={24} color="#8b5cf6" />,
-      title: 'Koyu Tema',
+      id: "theme",
+      icon: <Ionicons name="moon-outline" color="#8b5cf6" />,
+      title: "Koyu Tema",
       isToggle: true,
       toggleValue: darkModeEnabled,
       onToggleChange: setDarkModeEnabled,
+      color: "#8b5cf6",
     },
     {
-      icon: <MaterialIcons name="security" size={24} color="#10b981" />,
-      title: 'Gizlilik',
-      subtitle: 'Gizlilik ayarlarınızı yönetin',
+      id: "privacy",
+      icon: <MaterialIcons name="security" color="#10b981" />,
+      title: "Gizlilik",
+      subtitle: "Gizlilik ayarlarınızı yönetin",
       showChevron: true,
+      color: "#10b981",
     },
     {
-      icon: <Ionicons name="help-circle-outline" size={24} color="#3b82f6" />,
-      title: 'Yardım & Destek',
+      id: "help",
+      icon: <Ionicons name="help-circle-outline" color="#3b82f6" />,
+      title: "Yardım & Destek",
       showChevron: true,
+      color: "#3b82f6",
     },
     {
-      icon: <Ionicons name="information-circle-outline" size={24} color="#6b7280" />,
-      title: 'Hakkında',
+      id: "about",
+      icon: <Ionicons name="information-circle-outline" color="#6b7280" />,
+      title: "Hakkında",
       showChevron: true,
+      color: "#6b7280",
     },
   ];
 
-  const renderMenuItem = (item: MenuItem, index: number) => (
-    <TouchableOpacity
-      key={index}
-      onPress={item.onPress}
-      className={`flex-row items-center p-4 border-b border-gray-200 ${isDark ? 'bg-[#1f2937]' : 'bg-white'}`}
-      activeOpacity={0.7}
-    >
-      <View className="w-12 h-12 items-center justify-center">
-        {item.icon}
-      </View>
-      <View className="flex-1 ml-4">
-        <Text className={`text-lg font-semibold ${isDark ? 'text-gray-100' : 'text-gray-800'}`}>
-          {item.title}
-        </Text>
-        {item.subtitle && (
-          <Text className={`text-sm text-gray-600 mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-            {item.subtitle}
+  const MenuItem = ({
+    icon,
+    title,
+    subtitle,
+    isToggle,
+    toggleValue,
+    onToggleChange,
+    showChevron,
+    color,
+  }: Omit<MenuItem, "id" | "onPress">) => (
+    <View className="flex-row items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
+      <View className="flex-row items-center flex-1">
+        <View
+          className="w-10 h-10 rounded-full items-center justify-center mr-3"
+          style={{ backgroundColor: `${color}15` }}
+        >
+          {React.cloneElement(icon, { size: 20 })}
+        </View>
+        <View className="flex-1">
+          <Text className="text-base font-medium text-gray-900 dark:text-white">
+            {title}
           </Text>
-        )}
+          {subtitle && (
+            <Text className="text-sm text-gray-500 dark:text-gray-400">
+              {subtitle}
+            </Text>
+          )}
+        </View>
       </View>
-      {item.isToggle ? (
+      {isToggle && onToggleChange ? (
         <Switch
-          value={item.toggleValue}
-          onValueChange={item.onToggleChange}
-          trackColor={{ false: '#e5e7eb', true: isDark ? '#4f46e5' : '#6366f1' }}
-          thumbColor="#ffffff"
+          value={toggleValue}
+          onValueChange={onToggleChange}
+          trackColor={{ false: "#767577", true: `${color}80` }}
+          thumbColor={toggleValue ? color : "#f4f3f4"}
         />
-      ) : item.showChevron ? (
-        <Ionicons 
-          name="chevron-forward" 
-          size={20} 
-          color={isDark ? '#6b7280' : '#9ca3af'} 
-        />
+      ) : showChevron ? (
+        <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
       ) : null}
-    </TouchableOpacity>
+    </View>
   );
+  const gradientColors = isDark
+  ? ["#1a1a2e", "#16213e", "#0f3460"]
+  : ["#f8f9fa", "#e9ecef", "#dee2e6"];
 
   return (
-    <View className={`flex-1 ${isDark ? 'bg-[#0f172a]' : 'bg-white'}`}>
+    <SafeAreaView className={`flex-1`}>
       <LinearGradient
-        colors={isDark ? ['#0f172a', '#1e293b'] : ['#6366f1', '#8b5cf6']}
-        className="h-24"
+        colors={gradientColors as [string, string, string]}
+        style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
-        <View   className="flex-1 items-center">
-          <View className="w-24 h-24 items-center justify-center">
-            <Image
-              source={require("@/assets/images/icon.png")}
-              className="w-24 h-24 rounded-full"
-            />
-            <View className="w-6 h-6 rounded-full bg-green-500 items-center justify-center" />
-          </View>
-          <Text className="text-lg font-semibold text-white">Yaman Doğuş</Text>
-          <Text className="text-sm text-gray-600 mt-1 text-white">yaman@example.com</Text>
-          
-          <View className="flex-row justify-around mt-8">
-            {stats.map((stat, index) => (
-              <View key={index}>
-                <View className="w-12 h-12 items-center justify-center">
-                  <Feather 
-                    name={stat.icon as any} 
-                    size={18} 
-                    color="#ffffff" 
-                  />
-                </View>
-                <Text className="text-lg font-semibold text-white">{stat.value}</Text>
-                <Text className="text-sm text-gray-600 mt-1 text-white">{stat.label}</Text>
+        {Platform.OS === "android" && <View style={{ height: 32 }} />}
+        <ScrollView className="flex-1">
+          {/* Profile Header */}
+          <View className="items-center mt-10 px-6">
+            <View className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 items-center justify-center shadow-lg mb-4">
+              <Ionicons
+                name="person"
+                size={34}
+                color={isDark ? "#9ca3af" : "#6b7280"}
+              />
+            </View>
+            <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              John Mobbin
+            </Text>
+
+            {/* Stats */}
+            <View className="flex-row justify-between w-full mt-8 mb-6">
+              <View className="items-center bg-amber-100 dark:bg-amber-100/30 px-8 py-2 rounded-full">
+                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+                  128
+                </Text>
+                <Text className="text-gray-500 dark:text-gray-400 text-sm">
+                  Not
+                </Text>
               </View>
+              <View className="items-center bg-amber-100 dark:bg-amber-100/30 px-8 py-2 rounded-full">
+                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+                  24
+                </Text>
+                <Text className="text-gray-500 dark:text-gray-400 text-sm">
+                  Favori
+                </Text>
+              </View>
+              <View className="items-center bg-amber-100 dark:bg-amber-100/30 px-8 py-2 rounded-full">
+                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+                  5
+                </Text>
+                <Text className="text-gray-500 dark:text-gray-400 text-sm">
+                  Planlanan
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View className="mx-4 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm mb-8">
+            {menuItems.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                activeOpacity={0.7}
+                onPress={() => item.onToggleChange?.(!item.toggleValue)}
+              >
+                <MenuItem {...item} />
+              </TouchableOpacity>
             ))}
           </View>
-        </View>
+        </ScrollView>
       </LinearGradient>
-      
-      <ScrollView 
-        className="flex-1"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Menu Items */}
-        <View className="flex-1">
-          {menuItems.map((item, index) => renderMenuItem(item, index))}
-        </View>
-
-        {/* Logout Button */}
-        <TouchableOpacity
-          className={`flex-row items-center p-4 border-t border-gray-200 ${isDark ? 'bg-[#1f2937]' : 'bg-white'}`}
-          activeOpacity={0.8}
-        >
-          <Ionicons 
-            name="log-out-outline" 
-            size={22} 
-            color="#ef4444" 
-            className="mr-2" 
-          />
-          <Text className="text-lg font-semibold text-white">Çıkış Yap</Text>
-        </TouchableOpacity>
-
-        {/* App Version */}
-        <Text className="text-sm text-gray-600 mt-1 text-white">LingoNote v1.0.0</Text>
-      </ScrollView>
-    </View>
+    </SafeAreaView>
   );
-}
+};
+
+export default ProfileScreen;
