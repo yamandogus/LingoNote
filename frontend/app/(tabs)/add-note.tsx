@@ -216,7 +216,7 @@ export default function AddNoteScreen() {
                 elevation: 5,
               }}
             >
-              <Text className="text-center text-white text-lg font-bold">
+              <Text className="text-center text-gray-600 dark:text-black text-lg font-bold">
                 Notu Kaydet
               </Text>
             </TouchableOpacity>
