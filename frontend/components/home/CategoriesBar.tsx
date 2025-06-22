@@ -3,6 +3,12 @@ import { Ionicons } from "@expo/vector-icons";
 
 const KATEGORILER = [
   {
+    name: "Tümü",
+    color: "#2563eb",
+    icon: "home-outline",
+    iconPack: "Ionicons",
+  },
+  {
     name: "İş",
     color: "#2563eb",
     icon: "briefcase-outline",
