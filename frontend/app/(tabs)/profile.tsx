@@ -3,16 +3,16 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
   TouchableOpacity,
   useColorScheme,
   SafeAreaView,
   Platform,
   Switch,
-  Dimensions,
+  Image,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import AvatarSelector from "@/components/profile/avatar";
 
 type MenuItem = {
   id: string;
@@ -31,6 +31,8 @@ const ProfileScreen = () => {
   const isDark = colorScheme === "dark";
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const menuItems: MenuItem[] = [
     {
@@ -125,8 +127,13 @@ const ProfileScreen = () => {
     </View>
   );
   const gradientColors = isDark
-  ? ["#1a1a2e", "#16213e", "#0f3460"]
-  : ["#f8f9fa", "#e9ecef", "#dee2e6"];
+    ? ["#1a1a2e", "#16213e", "#0f3460"]
+    : ["#f8f9fa", "#e9ecef", "#dee2e6"];
+
+  const handleAvatarSelect = (avatarUrl: string) => {
+    setAvatar(avatarUrl);
+    setModalVisible(false);
+  };
 
   return (
     <SafeAreaView className={`flex-1`}>
@@ -138,14 +145,29 @@ const ProfileScreen = () => {
       >
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
         <ScrollView className="flex-1">
-          {/* Profile Header */}
           <View className="items-center mt-10 px-6">
             <View className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 items-center justify-center shadow-lg mb-4">
-              <Ionicons
-                name="person"
-                size={34}
-                color={isDark ? "#9ca3af" : "#6b7280"}
-              />
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                {avatar ? (
+                  <Image
+                    source={{ uri: avatar }}
+                    style={{ width: 100, height: 100, borderRadius: 50 }}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 50,
+                      backgroundColor: "#ccc",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text>Seç</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
             </View>
             <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
               John Mobbin
@@ -192,6 +214,11 @@ const ProfileScreen = () => {
             ))}
           </View>
         </ScrollView>
+        <AvatarSelector
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSelectAvatar={handleAvatarSelect}
+        />
       </LinearGradient>
     </SafeAreaView>
   );
