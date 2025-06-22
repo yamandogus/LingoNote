@@ -31,13 +31,17 @@ export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
 
+  const gradientColors = isDark
+  ? ["#1a1a2e", "#16213e", "#0f3460"]
+  : ["#f8f9fa", "#e9ecef", "#dee2e6"];
+
   return (
     <View className={`flex-1`}>
       <LinearGradient
-         colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
-         style={{ flex: 1 }}
-         start={{ x: 0, y: 0 }}
-         end={{ x: 1, y: 1 }}
+          colors={gradientColors as [string, string, string]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
       >
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
         <ScrollView
