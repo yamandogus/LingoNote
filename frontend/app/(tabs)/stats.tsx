@@ -10,7 +10,6 @@ import {
   Dimensions
 } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { ProgressChart } from "react-native-chart-kit";
 
 const { width } = Dimensions.get('window');
 
@@ -72,12 +71,23 @@ const StreakCounter = ({ currentStreak, isDark }: { currentStreak: number; isDar
 const chartConfig = (isDark: boolean) => ({
   backgroundGradientFrom: 'transparent',
   backgroundGradientTo: 'transparent',
-  color: (opacity = 1) => isDark ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`,
-  labelColor: () => isDark ? '#fff' : '#000',
-  strokeWidth: 2,
+  color: (opacity = 1) => isDark ? `rgba(99, 102, 241, ${opacity})` : `rgba(79, 70, 229, ${opacity})`,
+  labelColor: () => isDark ? '#e5e7eb' : '#4b5563',
+  strokeWidth: 16,
   barPercentage: 0.5,
   useShadowColorFromDataset: false,
   decimalPlaces: 0,
+  propsForBackgroundLines: {
+    strokeWidth: 1,
+    stroke: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+    strokeDasharray: '4',
+  },
+  propsForLabels: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  fillShadowGradientOpacity: 0.7,
+  fillShadowGradient: isDark ? '#4f46e5' : '#6366f1',
 });
 
 export default function StatsScreen() {
@@ -165,31 +175,6 @@ export default function StatsScreen() {
           {/* Streak Counter */}
           <View className="mb-6">
             <StreakCounter currentStreak={statsData.streak} isDark={isDark} />
-          </View>
-
-          {/* Weekly Progress */}
-          <View className={`p-5 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-sm mb-6`}>
-            <Text className={`text-lg font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Haftalık İlerleme
-            </Text>
-            <View style={{ alignItems: 'center' }}>
-              <ProgressChart
-                data={{
-                  labels: chartData.labels,
-                  data: chartData.data,
-                }}
-                width={width - 72}
-                height={220}
-                strokeWidth={16}
-                radius={32}
-                chartConfig={chartConfig(isDark)}
-                hideLegend={false}
-                style={{
-                  marginVertical: 8,
-                  borderRadius: 16,
-                }}
-              />
-            </View>
           </View>
 
           {/* Recent Activity */}
