@@ -16,6 +16,7 @@ const ORNEK_NOTLAR = [
     summary: "Bugünkü toplantıda konuşulan ana başlıklar ve alınan kararlar...",
     date: "25 Eylül 2023",
     tags: ["İş"],
+    color: "blue"
   },
   {
     id: "2",
@@ -23,6 +24,7 @@ const ORNEK_NOTLAR = [
     summary: "Süt, yumurta, ekmek, kahve ve sebzeler alınacak.",
     date: "24 Eylül 2023",
     tags: ["Kişisel"],
+    color: "green"
   },
   {
     id: "3",
@@ -30,6 +32,7 @@ const ORNEK_NOTLAR = [
     summary: "Component, props, state ve hook'lar hakkında özet bilgiler...",
     date: "22 Eylül 2023",
     tags: ["Eğitim"],
+    color: "red"
   },
 ];
 

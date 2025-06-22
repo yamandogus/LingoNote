@@ -15,6 +15,7 @@ interface NoteCardProps {
 
 export function NoteCard({ isDark, title, progress, progressColor, status, teamCount }: NoteCardProps) {
   return (
+    
     <View className={`${isDark ? 'bg-[#2a2a2a]' : 'bg-white'} rounded-xl shadow-sm p-4 mb-4 w-[48%]`}>
       <View className="flex-row justify-between items-center mb-2">
         <Text className={`text-lg font-semibold ${isDark ? 'text-gray-100' : 'text-gray-800'}`}>
