@@ -1,0 +1,1 @@
+// Kullanıcı veritabanı modeli burada tanımlanacak. 

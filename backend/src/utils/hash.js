@@ -1,0 +1,1 @@
+// Şifreleme (hash) işlemleri burada yapılacak. 

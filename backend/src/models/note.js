@@ -1,0 +1,1 @@
+// Not veritabanı modeli burada tanımlanacak. 

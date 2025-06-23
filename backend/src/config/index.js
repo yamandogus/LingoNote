@@ -1,0 +1,1 @@
+// Diğer konfigürasyonlar burada yönetilecek. 

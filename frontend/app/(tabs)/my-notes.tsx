@@ -32,7 +32,7 @@ const ORNEK_NOTLAR = [
     summary: "Component, props, state ve hook'lar hakkında özet bilgiler...",
     date: "22 Eylül 2023",
     tags: ["Eğitim"],
-    color: "red"
+    color: "purple"
   },
 ];
 

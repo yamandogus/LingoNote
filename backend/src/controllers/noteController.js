@@ -1,0 +1,1 @@
+// Notlarla ilgili iş mantığı burada yazılacak. 

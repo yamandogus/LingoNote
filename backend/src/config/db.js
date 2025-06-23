@@ -1,0 +1,1 @@
+// Bu dosyada PostgreSQL veritabanı bağlantısı yapılacak. 
