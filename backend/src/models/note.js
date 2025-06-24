@@ -6,7 +6,7 @@ const noteSchema = new mongoose.Schema({
     category:{type:String, required:true},
     color:{type:String, required:true},
     user:{type:mongoose.Schema.Types.ObjectId, ref:"User", required:true},
-    createdAt:{type:Date, default:Date.now ,required:true},
+    createdAt:{type:Date, default:Date.now},
 });
 
 const Note = mongoose.model("Note", noteSchema);
