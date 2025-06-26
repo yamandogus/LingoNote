@@ -1,12 +1,13 @@
 import { Router } from 'express';
+import { register, login, getUser } from '../controllers/userController.js';
+import auth from '../middlewares/auth.js';
 
 const router = Router();
 
-// Kullanıcılarla ilgili API endpointleri burada tanımlanacak.
+router.post('/register', register);
 
-// Örnek route:
-// router.get('/users', (req, res) => {
-//   res.json({ message: 'Kullanıcılar listelenecek' });
-// });
+router.post('/login', login);
+
+router.get("/profile", auth, getUser);
 
 export default router; 
