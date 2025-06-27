@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import AvatarSelector from "@/components/profile/avatar";
 
 type MenuItem = {
@@ -82,6 +83,14 @@ const ProfileScreen = () => {
       title: "Hakkında",
       showChevron: true,
       color: "#6b7280",
+    },
+    {
+      id: "login",
+      icon: <Ionicons name="log-in-outline" color="#ef4444" />,
+      title: "Giriş Yap",
+      subtitle: "Hesabınıza giriş yapın",
+      showChevron: true,
+      color: "#ef4444",
     },
   ];
 
@@ -207,7 +216,13 @@ const ProfileScreen = () => {
               <TouchableOpacity
                 key={item.id}
                 activeOpacity={0.7}
-                onPress={() => item.onToggleChange?.(!item.toggleValue)}
+                onPress={() => {
+                  if (item.id === "login") {
+                    router.push("/auth/login");
+                  } else {
+                    item.onToggleChange?.(!item.toggleValue);
+                  }
+                }}
               >
                 <MenuItem {...item} />
               </TouchableOpacity>
