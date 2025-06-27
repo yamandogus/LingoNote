@@ -5,11 +5,8 @@ export default function AuthLayout() {
     <Stack 
       screenOptions={{ 
         headerShown: false,
-        animation: 'slide_from_right',
-        animationDuration: 200,
-        gestureEnabled: true,
-        gestureDirection: 'horizontal',
-        contentStyle: { backgroundColor: 'transparent' },
+        animation: 'none',
+        contentStyle: { backgroundColor: '#667eea' },
       }}
     >
       <Stack.Screen 

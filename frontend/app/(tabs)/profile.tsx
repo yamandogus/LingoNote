@@ -14,6 +14,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import AvatarSelector from "@/components/profile/avatar";
+import Stats from "@/components/profile/stats";
 
 type MenuItem = {
   id: string;
@@ -153,7 +154,10 @@ const ProfileScreen = () => {
         end={{ x: 1, y: 1 }}
       >
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
-        <ScrollView className="flex-1">
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{ paddingBottom: 120 }}
+        >
           <View className="items-center mt-10 px-6">
             <View className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 items-center justify-center shadow-lg mb-4">
               <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -183,32 +187,7 @@ const ProfileScreen = () => {
             </Text>
 
             {/* Stats */}
-            <View className="flex-row justify-between w-full mt-8 mb-6">
-              <View className="items-center bg-amber-100 dark:bg-amber-100/30 px-8 py-2 rounded-full">
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-                  128
-                </Text>
-                <Text className="text-gray-500 dark:text-gray-400 text-sm">
-                  Not
-                </Text>
-              </View>
-              <View className="items-center bg-amber-100 dark:bg-amber-100/30 px-8 py-2 rounded-full">
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-                  24
-                </Text>
-                <Text className="text-gray-500 dark:text-gray-400 text-sm">
-                  Favori
-                </Text>
-              </View>
-              <View className="items-center bg-amber-100 dark:bg-amber-100/30 px-8 py-2 rounded-full">
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-                  5
-                </Text>
-                <Text className="text-gray-500 dark:text-gray-400 text-sm">
-                  Planlanan
-                </Text>
-              </View>
-            </View>
+            <Stats />
           </View>
 
           <View className="mx-4 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm mb-8">

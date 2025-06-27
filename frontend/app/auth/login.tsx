@@ -53,7 +53,7 @@ const Login = () => {
             </View>
 
             {/* Login Form */}
-            <View className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 mb-6">
+            <View className="bg-white/10 backdrop-blur-lg rounded-3xl py-8 px-4 mb-2">
               <Text className="text-2xl font-bold text-white mb-6 text-center">
                 Giriş Yap
               </Text>
@@ -90,7 +90,7 @@ const Login = () => {
 
               {/* Forgot Password Link */}
               <TouchableOpacity
-                className="mt-4"
+                className="mt-2"
                 onPress={() => router.push("/auth/forgot-password")}
               >
                 <Text className="text-center text-white/80 underline">
@@ -100,7 +100,7 @@ const Login = () => {
             </View>
 
             {/* Register Link */}
-            <View className="items-center">
+            <View className="items-center mt-2">
               <Text className="text-white/80 mb-2">Hesabınız yok mu?</Text>
               <TouchableOpacity className="flex-row items-center gap-2" onPress={() => router.replace("/auth/register")}>
                 <Text className="text-white font-bold text-lg underline">
