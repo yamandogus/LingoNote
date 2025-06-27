@@ -32,13 +32,15 @@ export default function RootLayout() {
     return null;
   }
 
+  const backgroundColor = colorScheme === 'dark' ? '#1a1a2e' : '#667eea';
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? CustomDarkTheme : DefaultTheme}>
       <Stack 
         screenOptions={{ 
           headerShown: false,
           animation: 'none',
-          contentStyle: { backgroundColor: '#667eea' }
+          contentStyle: { backgroundColor }
         }}
       >
         <Stack.Screen name="auth" />
