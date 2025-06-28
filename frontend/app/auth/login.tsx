@@ -53,22 +53,22 @@ const Login = () => {
               <View className="w-20 h-20 rounded-full items-center justify-center mb-4">
                 <Ionicons name="book-outline" size={40} color={isDark ? "white" : "#22223b"} />
               </View>
-              <Text className="text-3xl font-bold mb-2">
+              <Text className="text-3xl font-bold mb-2 dark:text-gray-200">
                 LingoNote
               </Text>
-              <Text className="text-center">
+              <Text className="text-center dark:text-gray-200">
                 Dil öğrenme yolculuğunuza hoş geldiniz
               </Text>
             </View>
 
             {/* Login Form */}
             <View className="rounded-3xl py-8 px-4 mb-2">
-              <Text className="text-2xl font-bold mb-6 text-center">
+              <Text className="text-2xl font-bold mb-6 text-center dark:text-gray-200">
                 Giriş Yap
               </Text>
 
               <View className="space-y-4 gap-6">
-                <View className="rounded-xl p-2 border-[0.3px]">
+                <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
                   <TextInput
                     placeholder="E-posta"
                     placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
@@ -78,7 +78,7 @@ const Login = () => {
                   />
                 </View>
 
-                <View className="rounded-xl p-2 border-[0.3px]">
+                <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
                   <TextInput
                     placeholder="Şifre"
                     placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
@@ -103,7 +103,7 @@ const Login = () => {
                 className="mt-2"
                 onPress={() => router.push("/auth/forgot-password")}
               >
-                <Text className="text-center">
+                <Text className="text-center dark:text-gray-200">
                   Şifremi Unuttum
                 </Text>
               </TouchableOpacity>
@@ -111,9 +111,9 @@ const Login = () => {
 
             {/* Register Link */}
             <View className="items-center mt-2">
-              <Text className="mb-2">Hesabınız yok mu?</Text>
+              <Text className="mb-2 dark:text-gray-200">Hesabınız yok mu?</Text>
               <TouchableOpacity className="flex-row items-center gap-2" onPress={() => router.replace("/auth/register")}>
-                <Text className="font-bold text-lg">
+                <Text className="font-bold text-lg dark:text-gray-200">
                   Kayıt Ol
                 </Text>
                 <Ionicons name="arrow-forward-outline" size={16} color={isDark ? "white" : "#22223b"} />

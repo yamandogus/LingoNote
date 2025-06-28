@@ -29,14 +29,14 @@ const ForgotPassword = () => {
                         <View className="w-20 h-20 rounded-full items-center justify-center mb-4">
                             <Ionicons name="key-outline" size={40} color={isDark ? "white" : "#22223b"} />
                         </View>
-                        <Text className="text-3xl font-bold mb-2">Şifremi Unuttum</Text>
-                        <Text className="text-center">E-posta adresinizi girin, şifre sıfırlama bağlantısı gönderelim</Text>
+                        <Text className="text-3xl font-bold mb-2 dark:text-gray-200">Şifremi Unuttum</Text>
+                        <Text className="text-center dark:text-gray-200">E-posta adresinizi girin, şifre sıfırlama bağlantısı gönderelim</Text>
                     </View>
 
                     {/* Form */}
-                    <View className="rounded-3xl py-8 px-4 mb-6">
+                    <View className="rounded-3xl py-6 px-2 mb-6">
                         <View className="space-y-4">
-                            <View className="rounded-xl p-2 border-[0.3px]">
+                            <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
                                 <TextInput
                                     placeholder="E-posta adresiniz"
                                     placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
@@ -62,7 +62,7 @@ const ForgotPassword = () => {
                     {/* Back to Login */}
                     <View className="items-center">
                         <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                            <Text className="font-bold text-lg">Giriş Sayfasına Dön</Text>
+                            <Text className="font-bold text-lg dark:text-gray-200">Giriş Sayfasına Dön</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
