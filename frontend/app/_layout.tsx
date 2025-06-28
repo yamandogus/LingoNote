@@ -32,7 +32,7 @@ export default function RootLayout() {
     return null;
   }
 
-  const backgroundColor = colorScheme === 'dark' ? '#1a1a2e' : '#667eea';
+  const backgroundColor = colorScheme === 'dark' ? '#1a1a2e' : '#f8f9fa';
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? CustomDarkTheme : DefaultTheme}>

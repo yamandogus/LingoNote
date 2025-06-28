@@ -3,13 +3,12 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function AuthLayout() {
   const colorScheme = useColorScheme();
-  const backgroundColor = colorScheme === 'dark' ? '#1a1a2e' : '#667eea';
+  const backgroundColor = colorScheme === 'dark' ? '#1a1a2e' : '#f8f9fa';
 
   return (
     <Stack 
       screenOptions={{ 
         headerShown: false,
-        animation: 'none',
         contentStyle: { backgroundColor },
       }}
     >
