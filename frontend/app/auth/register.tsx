@@ -1,16 +1,62 @@
 import { router } from 'expo-router';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Platform, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useAuth } from '@/contexts/AuthContext';
+import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 const Register = () => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === "dark";
+    const { register } = useAuth();
+    
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const gradientColors = isDark
         ? ["#1a1a2e", "#16213e", "#0f3460"]
         : ["#f8f9fa", "#e9ecef", "#dee2e6"];
+
+    const handleRegister = async () => {
+        if (!username || !email || !password || !confirmPassword) {
+            Alert.alert("Hata", "Lütfen tüm alanları doldurun");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            Alert.alert("Hata", "Şifreler eşleşmiyor");
+            return;
+        }
+
+        if (password.length < 6) {
+            Alert.alert("Hata", "Şifre en az 6 karakter olmalıdır");
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            await register(username, email, password);
+            Toast.show({
+                type: 'success',
+                text1: 'Başarılı',
+                text2: 'Hesap oluşturuldu. Giriş yapabilirsiniz.'
+            });
+            router.replace("/auth/login");
+        } catch (error: any) {
+            Toast.show({
+                type: 'error',
+                text1: 'Hata',
+                text2: error.message || 'Kayıt oluşturulamadı'
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <SafeAreaView className="flex-1">
@@ -47,64 +93,106 @@ const Register = () => {
                         </View>
 
                         {/* Register Form */}
-                        <View className="rounded-3xl p-8 mb-6">
-                            <Text className="text-2xl font-bold mb-6 text-center dark:text-gray-200">Kayıt Ol</Text>
+                        <View className="space-y-4">
+                            <View>
+                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
+                                    Kullanıcı Adı
+                                </Text>
+                                <TextInput
+                                    className={`w-full px-4 py-3 rounded-lg border ${
+                                        isDark 
+                                            ? 'bg-gray-800 border-gray-600 text-white' 
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    }`}
+                                    placeholder="Kullanıcı adınızı girin"
+                                    placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
+                                    value={username}
+                                    onChangeText={setUsername}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                />
+                            </View>
                             
-                            <View className="space-y-4 gap-6">
-                                <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
-                                    <TextInput
-                                        placeholder="Ad Soyad"
-                                        placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
-                                        style={{ color: isDark ? "white" : "#22223b", fontSize: 18 }}
-                                        autoCapitalize="words"
-                                    />
-                                </View>
-                                
-                                <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
-                                    <TextInput
-                                        placeholder="E-posta"
-                                        placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
-                                        style={{ color: isDark ? "white" : "#22223b", fontSize: 18 }}
-                                        keyboardType="email-address"
-                                        autoCapitalize="none"
-                                    />
-                                </View>
-                                
-                                <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
-                                    <TextInput
-                                        placeholder="Şifre"
-                                        placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
-                                        style={{ color: isDark ? "white" : "#22223b", fontSize: 18 }}
-                                        secureTextEntry
-                                    />
-                                </View>
-                                
-                                <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
-                                    <TextInput
-                                        placeholder="Şifre Tekrar"
-                                        placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
-                                        style={{ color: isDark ? "white" : "#22223b", fontSize: 18 }}
-                                        secureTextEntry
-                                    />
-                                </View>
+                            <View>
+                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
+                                    E-posta
+                                </Text>
+                                <TextInput
+                                    className={`w-full px-4 py-3 rounded-lg border ${
+                                        isDark 
+                                            ? 'bg-gray-800 border-gray-600 text-white' 
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    }`}
+                                    placeholder="E-posta adresinizi girin"
+                                    placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                />
+                            </View>
+                            
+                            <View>
+                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
+                                    Şifre
+                                </Text>
+                                <TextInput
+                                    className={`w-full px-4 py-3 rounded-lg border ${
+                                        isDark 
+                                            ? 'bg-gray-800 border-gray-600 text-white' 
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    }`}
+                                    placeholder="Şifrenizi girin"
+                                    placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    secureTextEntry
+                                    autoCapitalize="none"
+                                />
+                            </View>
+                            
+                            <View>
+                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
+                                    Şifre Tekrar
+                                </Text>
+                                <TextInput
+                                    className={`w-full px-4 py-3 rounded-lg border ${
+                                        isDark 
+                                            ? 'bg-gray-800 border-gray-600 text-white' 
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    }`}
+                                    placeholder="Şifrenizi tekrar girin"
+                                    placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
+                                    value={confirmPassword}
+                                    onChangeText={setConfirmPassword}
+                                    secureTextEntry
+                                    autoCapitalize="none"
+                                />
                             </View>
 
                             <TouchableOpacity
-                                style={{ backgroundColor: isDark ? "white" : "white" }}
-                                className="rounded-xl p-4 mt-6"
-                                onPress={() => router.replace('/(tabs)')}
+                                className={`w-full py-3 rounded-lg mt-6 ${
+                                    isDark ? 'bg-blue-600' : 'bg-blue-500'
+                                } ${isLoading ? 'opacity-50' : ''}`}
+                                onPress={handleRegister}
+                                disabled={isLoading}
                             >
-                                <Text className="text-center font-bold text-lg">Kayıt Ol</Text>
+                                <Text className="text-white text-center font-semibold text-lg">
+                                    {isLoading ? "Kayıt oluşturuluyor..." : "Kayıt Ol"}
+                                </Text>
                             </TouchableOpacity>
                         </View>
 
                         {/* Login Link */}
-                        <View className="items-center">
-                            <Text className="mb-2 dark:text-gray-200">Zaten hesabınız var mı?</Text>
-                            <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                                <Text className="font-bold text-lg dark:text-gray-200">Giriş Yap</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity
+                            className="mt-6"
+                            onPress={() => router.replace('/auth/login')}
+                        >
+                            <Text className="text-center text-blue-500 dark:text-blue-400">
+                                Zaten hesabınız var mı? Giriş yapın
+                            </Text>
+                        </TouchableOpacity>
                     </ScrollView>
                 </KeyboardAvoidingView>
             </LinearGradient>

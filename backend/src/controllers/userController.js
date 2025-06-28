@@ -1,4 +1,4 @@
-import User from "../models/user.js";
+import { prisma } from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -6,7 +6,10 @@ export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
+    });
+    
     if (existingUser) {
       return res
         .status(400)
@@ -15,13 +18,13 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        email,
+        password: hashedPassword,
+      }
     });
-
-    await newUser.save();
 
     res.status(201).json({ message: "Kullanıcı başarıyla oluşturuldu." });
   } catch (error) {
@@ -33,7 +36,9 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body; 
 
-    const user = await User.findOne({ email });
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
 
     if (!user) {
       return res.status(400).json({ message: "Kullanıcı bulunamadı." });
@@ -46,7 +51,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: user._id, username: user.username },
+      { userId: user.id, username: user.username },
       process.env.JWT_SECRET, 
       { expiresIn: "1d" }
     );
@@ -60,7 +65,16 @@ export const login = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const user = await User.findById(userId).select("-password");
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        createdAt: true
+      }
+    });
+    
     if (!user) {
       return res.status(404).json({ message: "Kullanıcı bulunamadı." });
     }

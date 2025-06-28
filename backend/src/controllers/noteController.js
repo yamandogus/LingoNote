@@ -1,22 +1,21 @@
-import Note from "../models/note.js";
+import { prisma } from "../config/db.js";
 
 // Not oluşturma
-
 export const createNote = async (req, res) => {
   try {
     const { title, content, category, color } = req.body;
-
     const userId = req.user.userId;
 
-    const newNote = new Note({
-      title,
-      content,
-      category,
-      color,
-      user: userId,
+    const newNote = await prisma.note.create({
+      data: {
+        title,
+        content,
+        category,
+        color,
+        userId,
+      }
     });
 
-    await newNote.save();
     res
       .status(201)
       .json({ message: "Not başarıyla oluşturuldu.", note: newNote });
@@ -26,11 +25,12 @@ export const createNote = async (req, res) => {
 };
 
 // Tüm notları listeleme (kullanıcıya ait)
-
 export const getNotes = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const notes = await Note.find({ user: userId });
+    const notes = await prisma.note.findMany({
+      where: { userId }
+    });
     res.status(200).json({ notes });
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });
@@ -38,12 +38,17 @@ export const getNotes = async (req, res) => {
 };
 
 // Tek bir notu getirme
-
 export const getNoteById = async (req, res) => {
   try {
     const noteId = req.params.id;
     const userId = req.user.userId;
-    const note = await Note.findOne({ _id: noteId, user: userId });
+    const note = await prisma.note.findFirst({
+      where: { 
+        id: noteId, 
+        userId 
+      }
+    });
+    
     if (!note) {
       return res.status(404).json({ message: "Not bulunamadı." });
     }
@@ -58,46 +63,54 @@ export const updateNote = async (req, res) => {
   try {
     const noteId = req.params.id;
     const userId = req.user.userId;
-    const { title, content, category } = req.body;
+    const { title, content, category, color } = req.body;
 
-    const updatedNote = await Note.findOneAndUpdate(
-      {
-        _id: noteId,
-        user: userId,
+    const updatedNote = await prisma.note.updateMany({
+      where: {
+        id: noteId,
+        userId,
       },
-      {
+      data: {
         title,
         content,
         category,
-      },
-      { new: true }
-    );
+        color,
+      }
+    });
 
-    if (!updatedNote) {
+    if (updatedNote.count === 0) {
       return res
         .status(404)
         .json({ message: "Not bulunamadı veya güncellenemedi." });
     }
-    res.status(200).json({ message: "Not güncellendi.", note: updatedNote });
+
+    const note = await prisma.note.findUnique({
+      where: { id: noteId }
+    });
+
+    res.status(200).json({ message: "Not güncellendi.", note });
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });
   }
 };
 
 // Not Silme
-
 export const deleteNote = async (req, res) => {
   try {
     const userId = req.user.userId;
     const noteId = req.params.id;
-    const deletedNote = await Note.findOneAndDelete({
-      _id: noteId,
-      user: userId,
+    
+    const deletedNote = await prisma.note.deleteMany({
+      where: {
+        id: noteId,
+        userId,
+      }
     });
 
-    if (!deletedNote) {
-      res.status(400).json({ message: "Not bulunamadı veya silinemedi." });
+    if (deletedNote.count === 0) {
+      return res.status(400).json({ message: "Not bulunamadı veya silinemedi." });
     }
+    
     res.status(200).json({ message: "Not silindi" });
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });

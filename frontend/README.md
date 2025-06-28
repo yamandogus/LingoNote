@@ -1,50 +1,85 @@
-# Welcome to your Expo app 👋
+# LingoNote Frontend
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+React Native ve Expo kullanılarak geliştirilmiş mobil uygulama.
 
-## Get started
+## Kurulum
 
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+1. **Dependencies yükleyin:**
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. **Expo CLI ile çalıştırın:**
+```bash
+npm start
+```
 
-## Learn more
+## Özellikler
 
-To learn more about developing your project with Expo, look at the following resources:
+- **Authentication** - Kullanıcı kaydı ve girişi
+- **Note Management** - Not oluşturma, düzenleme, silme
+- **Categories** - Notları kategorilere ayırma
+- **Dark/Light Theme** - Tema desteği
+- **Responsive Design** - Farklı ekran boyutlarına uyum
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Teknolojiler
 
-## Join the community
+- **React Native** - Mobil uygulama framework'ü
+- **Expo** - Development platform
+- **TypeScript** - Type safety
+- **NativeWind** - Tailwind CSS for React Native
+- **Expo Router** - Navigation
+- **AsyncStorage** - Local storage
+- **React Native Toast Message** - Bildirimler
 
-Join our community of developers creating universal apps.
+## Proje Yapısı
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+frontend/
+├── app/                    # Expo Router sayfaları
+│   ├── auth/              # Authentication sayfaları
+│   └── (tabs)/            # Ana uygulama sayfaları
+├── components/            # Yeniden kullanılabilir bileşenler
+├── contexts/              # React Context'ler
+├── services/              # API servisleri
+├── hooks/                 # Custom hooks
+└── constants/             # Sabitler
+```
+
+## API Bağlantısı
+
+Uygulama `http://localhost:3000/api` adresindeki backend API'sine bağlanır.
+
+### Gerekli Environment Variables
+
+Backend'in çalışır durumda olması ve aşağıdaki endpoint'lerin mevcut olması gerekir:
+
+- `POST /api/auth/register` - Kullanıcı kaydı
+- `POST /api/auth/login` - Kullanıcı girişi
+- `GET /api/auth/user` - Kullanıcı bilgileri
+- `GET /api/notes` - Notları listele
+- `POST /api/notes` - Not oluştur
+- `PUT /api/notes/:id` - Not güncelle
+- `DELETE /api/notes/:id` - Not sil
+
+## Çalıştırma
+
+**Development:**
+```bash
+npm start
+```
+
+**Android:**
+```bash
+npm run android
+```
+
+**iOS:**
+```bash
+npm run ios
+```
+
+**Web:**
+```bash
+npm run web
+```

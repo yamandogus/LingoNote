@@ -13,15 +13,15 @@ import {
 const router = Router();
 
 
-router.get("/", auth, getNotes)
+router.get("/notes", auth, getNotes)
 
-router.post("/", auth, createNote)
+router.post("/notes", auth, createNote)
 
-router.get("/:id", auth, getNoteById)
+router.get("/notes/:id", auth, getNoteById)
 
-router.put("/:id", auth, updateNote)
+router.put("/notes/:id", auth, updateNote)
 
-router.delete("/:id", auth, deleteNote)
+router.delete("/notes/:id", auth, deleteNote)
 
 
 export default router;

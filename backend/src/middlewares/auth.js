@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 
 const auth = (req, res, next) => {
-  const authHeader = neq.headers.authorization;
+  const authHeader = req.headers.authorization;
   if (!authHeader) {
-    res.status(401).json({ message: "Yetkisiz erişim" });
+    return res.status(401).json({ message: "Yetkisiz erişim" });
   }
   const token = authHeader.split(" ")[1];
   try {
@@ -11,7 +11,7 @@ const auth = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Geçersiz token" });
+    return res.status(401).json({ message: "Geçersiz token" });
   }
 };
 

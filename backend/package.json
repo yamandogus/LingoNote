@@ -6,11 +6,15 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
     "helmet": "^7.0.0",

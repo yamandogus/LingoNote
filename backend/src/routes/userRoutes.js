@@ -4,10 +4,8 @@ import auth from '../middlewares/auth.js';
 
 const router = Router();
 
-router.post('/register', register);
-
-router.post('/login', login);
-
-router.get("/profile", auth, getUser);
+router.post('/auth/register', register);
+router.post('/auth/login', login);
+router.get('/auth/user', auth, getUser);
 
 export default router; 

@@ -8,6 +8,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import '../global.css';
 import React from 'react';
 import Toast from 'react-native-toast-message';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const CustomDarkTheme = {
   ...DarkTheme,
@@ -35,20 +36,22 @@ export default function RootLayout() {
   const backgroundColor = colorScheme === 'dark' ? '#1a1a2e' : '#f8f9fa';
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? CustomDarkTheme : DefaultTheme}>
-      <Stack 
-        screenOptions={{ 
-          headerShown: false,
-          animation: 'none',
-          contentStyle: { backgroundColor }
-        }}
-      >
-        <Stack.Screen name="auth" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-      <Toast />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? CustomDarkTheme : DefaultTheme}>
+        <Stack 
+          screenOptions={{ 
+            headerShown: false,
+            animation: 'none',
+            contentStyle: { backgroundColor }
+          }}
+        >
+          <Stack.Screen name="auth" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+        <Toast />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }

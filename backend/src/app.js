@@ -1,20 +1,25 @@
 import express from "express";
+import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
-import db from "./db.js";
+import noteRoutes from "./routes/noteRoutes.js";
+import { connectDB } from "./config/db.js";
 
 const app = express();
 
+// Database bağlantısı
+connectDB();
+
 // Middleware
+app.use(cors());
 app.use(express.json());
 
 // Test database connection
 app.get('/api/health', async (req, res) => {
   try {
-    const result = await db.query('SELECT NOW()');
     res.json({
       status: 'success',
       message: 'Database connection successful',
-      timestamp: result.rows[0].now
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Database connection error:', error);
@@ -28,6 +33,7 @@ app.get('/api/health', async (req, res) => {
 
 // Routes
 app.use("/api", userRoutes);
+app.use("/api", noteRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

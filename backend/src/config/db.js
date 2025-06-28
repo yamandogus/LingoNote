@@ -1,21 +1,19 @@
 // Bu dosyada PostgreSQL veritabanı bağlantısı yapılacak.
-import mongoose from "mongoose";
-
-import dotenv from "dotenv";
+import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
+const prisma = new PrismaClient();
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-     console.log("MongoDB bağlantısı başarılı!");
+    await prisma.$connect();
+    console.log('PostgreSQL bağlantısı başarılı!');
   } catch (error) {
-    console.error("MongoDB bağlantı hatası:", error.message);
+    console.error('PostgreSQL bağlantı hatası:', error.message);
     process.exit(1);
   }
 };
 
-export default connectDB;
+export { prisma, connectDB };
