@@ -197,7 +197,7 @@ const ProfileScreen = () => {
                 activeOpacity={0.7}
                 onPress={() => {
                   if (item.id === "login") {
-                    router.push("/auth/login");
+                    router.replace("/auth/login");
                   } else {
                     item.onToggleChange?.(!item.toggleValue);
                   }

@@ -25,45 +25,65 @@ const ForgotPassword = () => {
                 
                 <View className="flex-1 justify-center px-8">
                     {/* Header */}
-                    <View className="items-center mb-8">
-                        <View className="w-20 h-20 rounded-full items-center justify-center mb-4">
-                            <Ionicons name="key-outline" size={40} color={isDark ? "white" : "#22223b"} />
+                    <View className="items-center mb-10">
+                        <View 
+                            className="w-24 h-24 bg-white/20 rounded-full items-center justify-center mb-6"
+                            style={{
+                                shadowColor: '#000',
+                                shadowOffset: { width: 0, height: 4 },
+                                shadowOpacity: 0.2,
+                                shadowRadius: 8,
+                                elevation: 5,
+                            }}
+                        >
+                            <Ionicons name="key" size={50} color={isDark ? "white" : "#0f3460"} />
                         </View>
-                        <Text className="text-3xl font-bold mb-2 dark:text-gray-200">Şifremi Unuttum</Text>
-                        <Text className="text-center dark:text-gray-200">E-posta adresinizi girin, şifre sıfırlama bağlantısı gönderelim</Text>
+                        <Text className="text-4xl font-extrabold mb-2 dark:text-white text-gray-800 tracking-wider">
+                            Şifremi Unuttum
+                        </Text>
+                        <Text className="text-lg text-center dark:text-gray-300 text-gray-600">
+                            Şifrenizi sıfırlamak için e-postanızı girin
+                        </Text>
                     </View>
 
                     {/* Form */}
-                    <View className="rounded-3xl py-6 px-2 mb-6">
-                        <View className="space-y-4">
-                            <View className="rounded-xl p-2 border-[0.3px] dark:border-gray-200">
-                                <TextInput
-                                    placeholder="E-posta adresiniz"
-                                    placeholderTextColor={isDark ? "rgba(255,255,255,0.7)" : "#6b7280"}
-                                    style={{ color: isDark ? "white" : "#22223b", fontSize: 18 }}
-                                    keyboardType="email-address"
-                                    autoCapitalize="none"
-                                />
-                            </View>
+                    <View className="space-y-6">
+                        {/* Email Input */}
+                        <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                            <Ionicons name="mail-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
+                            <TextInput
+                                className="flex-1 text-base dark:text-white text-gray-800"
+                                placeholder="E-posta adresiniz"
+                                placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
                         </View>
 
+                        {/* Submit Button */}
                         <TouchableOpacity
-                            style={{ backgroundColor: isDark ? "white" : "white" }}
-                            className="rounded-xl p-4 mt-6"
+                            className={`w-full py-4 rounded-2xl mt-6 ${
+                                isDark ? 'bg-indigo-600' : 'bg-blue-600'
+                            } shadow-lg`}
                             onPress={() => {
                                 // Burada şifre sıfırlama işlemi yapılacak
                                 alert('Şifre sıfırlama bağlantısı e-posta adresinize gönderildi!');
                             }}
                         >
-                            <Text className="text-center font-bold text-lg">Şifre Sıfırlama Bağlantısı Gönder</Text>
+                            <Text className="text-white text-center font-bold text-lg tracking-wide">
+                                Sıfırlama Linki Gönder
+                            </Text>
                         </TouchableOpacity>
-                    </View>
 
-                    {/* Back to Login */}
-                    <View className="items-center">
-                        <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-                            <Text className="font-bold text-lg dark:text-gray-200">Giriş Sayfasına Dön</Text>
-                        </TouchableOpacity>
+                        {/* Back to Login */}
+                        <View className="flex-row justify-center items-center mt-6">
+                            <TouchableOpacity onPress={() => router.replace('/auth/login')}>
+                                <Text className="font-semibold text-indigo-600 dark:text-blue-400">
+                                    Giriş Yap'a Geri Dön
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </LinearGradient>

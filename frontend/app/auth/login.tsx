@@ -32,7 +32,11 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert("Hata", "Lütfen tüm alanları doldurun");
+      Toast.show({
+        type: 'error',
+        text1: 'Tüm alanları doldurun',
+        text2: 'Lütfen e-posta ve şifrenizi doldurun'
+      });
       return;
     }
 
@@ -83,31 +87,35 @@ const Login = () => {
             showsVerticalScrollIndicator={false}
           >
             {/* Header */}
-            <View className="items-center mb-12">
-              <View className="w-20 h-20 rounded-full items-center justify-center mb-4">
-                <Ionicons name="book-outline" size={40} color={isDark ? "white" : "#22223b"} />
+            <View className="items-center mb-10">
+              <View 
+                className="w-24 h-24 bg-white/20 rounded-full items-center justify-center mb-6"
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 8,
+                  elevation: 5,
+                }}
+              >
+                <Ionicons name="book" size={50} color={isDark ? "white" : "#0f3460"} />
               </View>
-              <Text className="text-3xl font-bold mb-2 dark:text-gray-200">
+              <Text className="text-4xl font-extrabold mb-2 dark:text-white text-gray-800 tracking-wider">
                 LingoNote
               </Text>
-              <Text className="text-center dark:text-gray-200">
-                Dil öğrenme yolculuğunuza hoş geldiniz
+              <Text className="text-lg text-center dark:text-gray-300 text-gray-600">
+                Tekrar hoş geldiniz!
               </Text>
             </View>
 
             {/* Login Form */}
-            <View className="space-y-4">
-              <View>
-                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
-                  E-posta
-                </Text>
+            <View className="space-y-6 gap-4">
+              {/* Email Input */}
+              <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                <Ionicons name="mail-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
                 <TextInput
-                  className={`w-full px-4 py-3 rounded-lg border ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white' 
-                      : 'bg-white border-gray-300 text-gray-900'
-                  }`}
-                  placeholder="E-posta adresinizi girin"
+                  className="flex-1 text-base dark:text-white text-gray-800"
+                  placeholder="E-posta adresiniz"
                   placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
                   value={email}
                   onChangeText={setEmail}
@@ -117,17 +125,12 @@ const Login = () => {
                 />
               </View>
 
-              <View>
-                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
-                  Şifre
-                </Text>
+              {/* Password Input */}
+              <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                <Ionicons name="lock-closed-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
                 <TextInput
-                  className={`w-full px-4 py-3 rounded-lg border ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-600 text-white' 
-                      : 'bg-white border-gray-300 text-gray-900'
-                  }`}
-                  placeholder="Şifrenizi girin"
+                  className="flex-1 text-base dark:text-white text-gray-800"
+                  placeholder="Şifreniz"
                   placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
                   value={password}
                   onChangeText={setPassword}
@@ -136,24 +139,42 @@ const Login = () => {
                 />
               </View>
 
+              {/* Login Button */}
               <TouchableOpacity
-                className={`w-full py-3 rounded-lg mt-6 ${
-                  isDark ? 'bg-blue-600' : 'bg-blue-500'
-                } ${isLoading ? 'opacity-50' : ''}`}
+                className={`w-full py-4 rounded-2xl mt-6 ${
+                  isDark ? 'bg-indigo-600' : 'bg-blue-600'
+                } ${isLoading ? 'opacity-60' : ''} shadow-lg`}
                 onPress={handleLogin}
                 disabled={isLoading}
               >
-                <Text className="text-white text-center font-semibold text-lg">
+                <Text className="text-white text-center font-bold text-lg tracking-wide">
                   {isLoading ? "Giriş yapılıyor..." : "Giriş Yap"}
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                className="mt-4"
-                onPress={() => router.push("/auth/register")}
-              >
-                <Text className="text-center text-blue-500 dark:text-blue-400">
-                  Hesabınız yok mu? Kayıt olun
+              {/* Register Link */}
+              <View className="flex-row justify-center items-center mt-6">
+                <Text className="text-center dark:text-gray-300 text-gray-600">
+                  Hesabınız yok mu?{' '}
+                </Text>
+                <TouchableOpacity onPress={() => router.replace("/auth/register")}>
+                  <Text className="font-semibold text-indigo-600 dark:text-blue-400">
+                    Kayıt Olun
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View className="flex-row justify-center items-center mt-6">
+                <TouchableOpacity onPress={() => router.replace("/auth/forgot-password")}>
+                  <Text className="font-semibold text-indigo-600 dark:text-blue-400">
+                    Şifremi unuttum
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View className="flex-row justify-center items-center mt-6">
+              <TouchableOpacity onPress={() => router.replace("/(tabs)")}>
+                <Text className="font-semibold text-indigo-600 dark:text-blue-400">
+                  Anasayfaya dön
                 </Text>
               </TouchableOpacity>
             </View>

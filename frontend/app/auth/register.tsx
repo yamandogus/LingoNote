@@ -84,27 +84,35 @@ const Register = () => {
                         showsVerticalScrollIndicator={false}
                     >
                         {/* Header */}
-                        <View className="items-center mb-8">
-                            <View className="w-20 h-20 rounded-full items-center justify-center mb-4">
-                                <Ionicons name="person-add-outline" size={40} color={isDark ? "white" : "#22223b"} />
+                        <View className="items-center mb-10">
+                            <View 
+                                className="w-24 h-24 bg-white/20 rounded-full items-center justify-center mb-6"
+                                style={{
+                                    shadowColor: '#000',
+                                    shadowOffset: { width: 0, height: 4 },
+                                    shadowOpacity: 0.2,
+                                    shadowRadius: 8,
+                                    elevation: 5,
+                                }}
+                            >
+                                <Ionicons name="person-add" size={50} color={isDark ? "white" : "#0f3460"} />
                             </View>
-                            <Text className="text-3xl font-bold mb-2 dark:text-gray-200">LingoNote</Text>
-                            <Text className="text-center dark:text-gray-200">Hesabınızı oluşturun</Text>
+                            <Text className="text-4xl font-extrabold mb-2 dark:text-white text-gray-800 tracking-wider">
+                                Hesap Oluştur
+                            </Text>
+                            <Text className="text-lg text-center dark:text-gray-300 text-gray-600">
+                                LingoNote&apos;a katılın
+                            </Text>
                         </View>
 
                         {/* Register Form */}
-                        <View className="space-y-4">
-                            <View>
-                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
-                                    Kullanıcı Adı
-                                </Text>
+                        <View className="space-y-5 gap-2">
+                            {/* Username Input */}
+                            <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                                <Ionicons name="person-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
                                 <TextInput
-                                    className={`w-full px-4 py-3 rounded-lg border ${
-                                        isDark 
-                                            ? 'bg-gray-800 border-gray-600 text-white' 
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
-                                    placeholder="Kullanıcı adınızı girin"
+                                    className="flex-1 text-base dark:text-white text-gray-800"
+                                    placeholder="Kullanıcı adınız"
                                     placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
                                     value={username}
                                     onChangeText={setUsername}
@@ -112,18 +120,13 @@ const Register = () => {
                                     autoCorrect={false}
                                 />
                             </View>
-                            
-                            <View>
-                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
-                                    E-posta
-                                </Text>
+
+                            {/* Email Input */}
+                            <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                                <Ionicons name="mail-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
                                 <TextInput
-                                    className={`w-full px-4 py-3 rounded-lg border ${
-                                        isDark 
-                                            ? 'bg-gray-800 border-gray-600 text-white' 
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
-                                    placeholder="E-posta adresinizi girin"
+                                    className="flex-1 text-base dark:text-white text-gray-800"
+                                    placeholder="E-posta adresiniz"
                                     placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
                                     value={email}
                                     onChangeText={setEmail}
@@ -132,18 +135,13 @@ const Register = () => {
                                     autoCorrect={false}
                                 />
                             </View>
-                            
-                            <View>
-                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
-                                    Şifre
-                                </Text>
+
+                            {/* Password Input */}
+                            <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                                <Ionicons name="lock-closed-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
                                 <TextInput
-                                    className={`w-full px-4 py-3 rounded-lg border ${
-                                        isDark 
-                                            ? 'bg-gray-800 border-gray-600 text-white' 
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
-                                    placeholder="Şifrenizi girin"
+                                    className="flex-1 text-base dark:text-white text-gray-800"
+                                    placeholder="Şifreniz"
                                     placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
                                     value={password}
                                     onChangeText={setPassword}
@@ -151,17 +149,12 @@ const Register = () => {
                                     autoCapitalize="none"
                                 />
                             </View>
-                            
-                            <View>
-                                <Text className="text-sm font-medium mb-2 dark:text-gray-200">
-                                    Şifre Tekrar
-                                </Text>
+
+                            {/* Confirm Password Input */}
+                            <View className="flex-row items-center w-full bg-white/30 dark:bg-black/20 rounded-2xl p-4">
+                                <Ionicons name="lock-closed-outline" size={22} color={isDark ? "#9ca3af" : "#6b7280"} className="mr-3" />
                                 <TextInput
-                                    className={`w-full px-4 py-3 rounded-lg border ${
-                                        isDark 
-                                            ? 'bg-gray-800 border-gray-600 text-white' 
-                                            : 'bg-white border-gray-300 text-gray-900'
-                                    }`}
+                                    className="flex-1 text-base dark:text-white text-gray-800"
                                     placeholder="Şifrenizi tekrar girin"
                                     placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
                                     value={confirmPassword}
@@ -171,28 +164,31 @@ const Register = () => {
                                 />
                             </View>
 
+                            {/* Register Button */}
                             <TouchableOpacity
-                                className={`w-full py-3 rounded-lg mt-6 ${
-                                    isDark ? 'bg-blue-600' : 'bg-blue-500'
-                                } ${isLoading ? 'opacity-50' : ''}`}
+                                className={`w-full py-4 rounded-2xl mt-6 ${
+                                    isDark ? 'bg-indigo-600' : 'bg-blue-600'
+                                } ${isLoading ? 'opacity-60' : ''} shadow-lg`}
                                 onPress={handleRegister}
                                 disabled={isLoading}
                             >
-                                <Text className="text-white text-center font-semibold text-lg">
-                                    {isLoading ? "Kayıt oluşturuluyor..." : "Kayıt Ol"}
+                                <Text className="text-white text-center font-bold text-lg tracking-wide">
+                                    {isLoading ? "Oluşturuluyor..." : "Hesap Oluştur"}
                                 </Text>
                             </TouchableOpacity>
-                        </View>
 
-                        {/* Login Link */}
-                        <TouchableOpacity
-                            className="mt-6"
-                            onPress={() => router.replace('/auth/login')}
-                        >
-                            <Text className="text-center text-blue-500 dark:text-blue-400">
-                                Zaten hesabınız var mı? Giriş yapın
-                            </Text>
-                        </TouchableOpacity>
+                            {/* Login Link */}
+                            <View className="flex-row justify-center items-center mt-6">
+                                <Text className="text-center dark:text-gray-300 text-gray-600">
+                                    Zaten hesabınız var mı?{' '}
+                                </Text>
+                                <TouchableOpacity onPress={() => router.replace('/auth/login')}>
+                                    <Text className="font-semibold text-indigo-600 dark:text-blue-400">
+                                        Giriş Yapın
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
             </LinearGradient>

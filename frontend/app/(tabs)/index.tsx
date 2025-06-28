@@ -12,6 +12,7 @@ import { NoteOfTheDay } from "@/components/home/NoteOfTheDay";
 import { StatsBar } from "@/components/home/StatsBar";
 import { MotivationQuote } from "@/components/home/MotivationQuote";
 import { LinearGradient } from "expo-linear-gradient";
+import Header from "@/components/home/Header";
 
 const GUNUN_NOTU = {
   title: "Fikirlerim",
@@ -48,7 +49,7 @@ export default function HomeScreen() {
           className="flex-1 px-4 pt-6"
           contentContainerStyle={{ paddingBottom: 120 }}
         >
-          {/* <ProfileIcon isDark={isDark} /> */}
+          <Header />
           <View className="flex-col text-center bg-[#ffffef] rounded-xl mb-6">
             <Text className="italic font-bold text-[24px] text-center">
               LİNGONOTE
