@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import { View, Text, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
+import UpdateNote from "./updateNote";
 
 interface Note {
   id: string;
@@ -15,23 +17,49 @@ interface NoteListProps {
   notes: Note[];
   isDark: boolean;
   handleDeleteNote: (id: string) => void;
-  handleUpdateNote: (id: string, updatedData: any) => void;
+  handleUpdateNote: (id: string, updatedData: Note) => void;
 }
 
-export function NoteList({ notes, isDark, handleDeleteNote, handleUpdateNote }: NoteListProps) {
+const COLORS = [
+  "#A7C7E7", 
+  "#B7E5B4", 
+  "#FFF6B7",  
+  "#FFD6A5", 
+  "#D7B4F3", 
+  "#FFB7B2",
+];
+
+const KATEGORILER = [
+  "Tümü", "Kişisel", "İş", "Eğitim", "Sağlık", "Spor", "Hobi", "Diğer"
+];
+
+export function NoteList({
+  notes,
+  isDark,
+  handleDeleteNote,
+  handleUpdateNote,
+}: NoteListProps) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+
   if (!notes.length) return null;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('tr-TR', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return date.toLocaleDateString("tr-TR", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   const getSummary = (content: string) => {
-    return content.length > 100 ? content.substring(0, 100) + '...' : content;
+    return content.length > 100 ? content.substring(0, 100) + "..." : content;
+  };
+
+  const openEditModal = (note: Note) => {
+    setSelectedNote(note);
+    setIsModalVisible(true);
   };
 
   return (
@@ -39,13 +67,13 @@ export function NoteList({ notes, isDark, handleDeleteNote, handleUpdateNote }: 
       {notes.map((note) => (
         <View
           key={note.id}
-          className={`mb-4 p-4 rounded-2xl ${isDark ? "bg-gray-800" : "bg-gray-50"} shadow-lg border-[0.5px] border-cyan-50 relative overflow-hidden`}
+          style={{ borderColor: note.color }}
+          className={`mb-4 p-4 rounded-2xl ${isDark ? "bg-gray-800" : "bg-gray-50"} shadow-lg border-[0.7px] relative overflow-hidden`}
         >
-          <View 
+          <View
             className="absolute top-0 right-0 w-10 h-6 rounded-bl-full"
             style={{ backgroundColor: note.color }}
-          >
-          </View>
+          ></View>
           <Text
             className={`text-base font-bold mb-1 ${isDark ? "text-white" : "text-gray-900"}`}
           >
@@ -81,16 +109,47 @@ export function NoteList({ notes, isDark, handleDeleteNote, handleUpdateNote }: 
               </View>
             </View>
           </View>
-            <View className="flex-row gap-2 justify-end mt-4">
-              <TouchableOpacity className="bg-red-500/20 p-2 rounded-full" onPress={() => handleDeleteNote(note.id)}>
-                <Ionicons name="trash-outline" size={20} color="red" />
-              </TouchableOpacity>
-              <TouchableOpacity className="bg-blue-500/20 p-2 rounded-full" onPress={() => handleUpdateNote(note.id, {title: note.title, content: note.content, category: note.category, color: note.color})}>
-                <Ionicons name="pencil-outline" size={20} color="white" />
-              </TouchableOpacity>
-            </View>
+          <View className="flex-row gap-2 justify-end mt-4">
+            <TouchableOpacity
+              className="bg-red-500/20 p-2 rounded-full"
+              onPress={() => handleDeleteNote(note.id)}
+            >
+              <Ionicons name="trash-outline" size={20} color="red" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-blue-500/20 p-2 rounded-full"
+              onPress={() => openEditModal(note)}
+            >
+              <Ionicons name="pencil-outline" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
         </View>
       ))}
+      <Modal
+        visible={isModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-black/50">
+          <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
+            {selectedNote && (
+              <UpdateNote
+                note={selectedNote}
+                setNote={setSelectedNote as (note: Note) => void}
+                setIsModalVisible={setIsModalVisible}
+                categories={KATEGORILER.filter(k => k !== "Tümü")}
+                colors={COLORS}
+                isDark={isDark}
+                onSave={(updatedNote: Note) => {
+                  handleUpdateNote(updatedNote.id, updatedNote);
+                  setIsModalVisible(false);
+                }}
+              />
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
