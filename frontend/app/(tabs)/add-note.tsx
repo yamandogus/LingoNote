@@ -9,9 +9,13 @@ import {
   useColorScheme,
   View,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { KATEGORILER } from "./my-notes";
 import Toast from "react-native-toast-message";
+import { noteService } from "../../services/note";
+import { useRouter } from "expo-router";
+
 const COLORS = [
   "#A7C7E7", 
   "#B7E5B4", 
@@ -24,20 +28,76 @@ const COLORS = [
 export default function AddNoteScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+  const router = useRouter();
+  
   const [selectedColor, setSelectedColor] = useState<string>("#A7C7E7");
   const [selectedCategory, setSelectedCategory] = useState<string>("Tümü");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState({
     title: false,
     content: false,
   });
 
-  const handleAddNote = () => {
-    Toast.show({
-      type: "success",
-      text1: "Not eklendi!",
-      text2: "Not başarıyla eklendi.",
-      position: "top",
-    });
+  const handleAddNote = async () => {
+    // Validasyon
+    if (!title.trim()) {
+      Alert.alert("Hata", "Lütfen not başlığını girin.");
+      return;
+    }
+
+    if (!content.trim()) {
+      Alert.alert("Hata", "Lütfen not içeriğini girin.");
+      return;
+    }
+
+    if (selectedCategory === "Tümü") {
+      Alert.alert("Hata", "Lütfen bir kategori seçin.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const noteData = {
+        title: title.trim(),
+        content: content.trim(),
+        category: selectedCategory,
+        color: selectedColor,
+      };
+
+      await noteService.createNote(noteData);
+
+      Toast.show({
+        type: "success",
+        text1: "Başarılı!",
+        text2: "Not başarıyla eklendi.",
+        position: "top",
+      });
+
+      // Formu temizle
+      setTitle("");
+      setContent("");
+      setSelectedCategory("Tümü");
+      setSelectedColor("#A7C7E7");
+
+      // Notlar sayfasına yönlendir
+      setTimeout(() => {
+        router.push("/(tabs)/my-notes");
+      }, 1000);
+
+    } catch (error) {
+      console.error("Not ekleme hatası:", error);
+      Toast.show({
+        type: "error",
+        text1: "Hata!",
+        text2: "Not eklenirken bir hata oluştu. Lütfen tekrar deneyin.",
+        position: "top",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,6 +127,8 @@ export default function AddNoteScreen() {
                 Başlık
               </Text>
               <TextInput
+                value={title}
+                onChangeText={setTitle}
                 className={`rounded-xl px-4 py-3 text-base ${
                   isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
                 }`}
@@ -92,6 +154,8 @@ export default function AddNoteScreen() {
                 İçerik
               </Text>
               <TextInput
+                value={content}
+                onChangeText={setContent}
                 multiline
                 className={`rounded-xl px-4 py-3 text-base min-h-[150px] ${
                   isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
@@ -206,7 +270,8 @@ export default function AddNoteScreen() {
             {/* Kaydet Butonu */}
             <TouchableOpacity
               onPress={handleAddNote}
-              className="py-4 rounded-xl overflow-hidden"
+              disabled={isLoading}
+              className={`py-4 rounded-xl overflow-hidden ${isLoading ? 'opacity-50' : ''}`}
               style={{
                 backgroundColor: selectedColor,
                 shadowColor: selectedColor,
@@ -217,7 +282,7 @@ export default function AddNoteScreen() {
               }}
             >
               <Text className="text-center text-gray-600 dark:text-black text-lg font-bold">
-                Notu Kaydet
+                {isLoading ? "Kaydediliyor..." : "Notu Kaydet"}
               </Text>
             </TouchableOpacity>
           </View>

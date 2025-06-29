@@ -9,6 +9,7 @@ import {
   Platform,
   Switch,
   Image,
+  Alert,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -16,6 +17,7 @@ import { router } from "expo-router";
 import AvatarSelector from "@/components/profile/avatar";
 import Stats from "@/components/profile/stats";
 import { useAuth } from "@/contexts/AuthContext";
+import { userService } from "@/services/user";
 
 type MenuItem = {
   id: string;
@@ -37,7 +39,34 @@ const ProfileScreen = () => {
   const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
   const [avatar, setAvatar] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('tr-TR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const handleProfileEdit = () => {
+    // Profil düzenleme sayfasına yönlendirme
+    Alert.alert("Bilgi", "Profil düzenleme özelliği yakında eklenecek!");
+  };
+
+  const handlePrivacySettings = () => {
+    Alert.alert("Bilgi", "Gizlilik ayarları yakında eklenecek!");
+  };
+
+  const handleHelpSupport = () => {
+    Alert.alert("Bilgi", "Yardım ve destek özelliği yakında eklenecek!");
+  };
+
+  const handleAbout = () => {
+    Alert.alert("Hakkında", "LingoNote v1.0.0\n\nDil öğrenme notlarınızı organize etmenizi sağlayan uygulama.");
+  };
+
   const menuItems: MenuItem[] = [
     {
       id: "profile",
@@ -46,6 +75,7 @@ const ProfileScreen = () => {
       subtitle: "Kişisel bilgilerinizi düzenleyin",
       showChevron: true,
       color: "#6366f1",
+      onPress: handleProfileEdit,
     },
     {
       id: "notifications",
@@ -72,6 +102,7 @@ const ProfileScreen = () => {
       subtitle: "Gizlilik ayarlarınızı yönetin",
       showChevron: true,
       color: "#10b981",
+      onPress: handlePrivacySettings,
     },
     {
       id: "help",
@@ -79,6 +110,7 @@ const ProfileScreen = () => {
       title: "Yardım & Destek",
       showChevron: true,
       color: "#3b82f6",
+      onPress: handleHelpSupport,
     },
     {
       id: "about",
@@ -86,6 +118,7 @@ const ProfileScreen = () => {
       title: "Hakkında",
       showChevron: true,
       color: "#6b7280",
+      onPress: handleAbout,
     },
     {
       id: "login",
@@ -109,7 +142,8 @@ const ProfileScreen = () => {
     onToggleChange,
     showChevron,
     color,
-  }: Omit<MenuItem, "id" | "onPress">) => (
+    onPress,
+  }: MenuItem) => (
     <View className="flex-row items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
       <View className="flex-row items-center flex-1">
         <View
@@ -144,7 +178,6 @@ const ProfileScreen = () => {
   const gradientColors = isDark
     ? ["#1a1a2e", "#16213e", "#0f3460"]
     : ["#f8f9fa", "#e9ecef", "#dee2e6"];
-  const { user } = useAuth();
 
   const handleAvatarSelect = (avatarUrl: string) => {
     setAvatar(avatarUrl);
@@ -191,6 +224,12 @@ const ProfileScreen = () => {
             <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
               {user?.username}
             </Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+              {user?.email}
+            </Text>
+            <Text className="text-xs text-gray-400 dark:text-gray-500 mb-4">
+              Üye olma tarihi: {user?.createdAt ? formatDate(user.createdAt) : 'Bilinmiyor'}
+            </Text>
 
             {/* Stats */}
             <Stats />
@@ -204,7 +243,7 @@ const ProfileScreen = () => {
                 onPress={() => {
                   if (item.onPress) {
                     item.onPress();
-                  } else if (item.onToggleChange) {
+                  } else if (item.onToggleChange && item.toggleValue !== undefined) {
                     item.onToggleChange(!item.toggleValue);
                   }
                 }}

@@ -98,6 +98,26 @@ class ApiService {
     }>('/auth/user');
   }
 
+  async updateUser(data: { username?: string; email?: string }) {
+    return this.request<{ message: string; user: any }>('/auth/update', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async changePassword(currentPassword: string, newPassword: string) {
+    return this.request<{ message: string }>('/auth/change-password', {
+      method: 'PUT',
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+  }
+
+  async deleteAccount() {
+    return this.request<{ message: string }>('/auth/delete', {
+      method: 'DELETE',
+    });
+  }
+
   // Note endpoints
   async getNotes() {
     return this.request<{ notes: Note[] }>('/notes');

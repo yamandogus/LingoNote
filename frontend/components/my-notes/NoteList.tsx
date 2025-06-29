@@ -3,10 +3,11 @@ import { View, Text } from "react-native";
 interface Note {
   id: string;
   title: string;
-  summary: string;
-  date: string;
-  tags: string[];
+  content: string;
+  category: string;
   color: string;
+  userId: string;
+  createdAt: string;
 }
 
 interface NoteListProps {
@@ -16,6 +17,20 @@ interface NoteListProps {
 
 export function NoteList({ notes, isDark }: NoteListProps) {
   if (!notes.length) return null;
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('tr-TR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const getSummary = (content: string) => {
+    return content.length > 100 ? content.substring(0, 100) + '...' : content;
+  };
+
   return (
     <View>
       {notes.map((note) => (
@@ -33,36 +48,31 @@ export function NoteList({ notes, isDark }: NoteListProps) {
           <Text
             className={`text-sm mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}
           >
-            {note.summary}
+            {getSummary(note.content)}
           </Text>
           <View className="flex-row items-center justify-between border-t-[0.5px] dark:border-gray-600 border-gray-300 pt-2">
             <View className="flex-col gap-1">
               <Text
                 className={`text-xs font-medium ${isDark ? "text-gray-400" : "text-gray-500"}`}
               >
-                Oluşturulma Tarihi: {note.date}
+                Kategori: {note.category}
               </Text>
               <Text
                 className={`text-xs font-medium ${isDark ? "text-gray-400" : "text-gray-500"}`}
               >
-                Bitiş Tarihi: {note.date}
+                Oluşturulma: {formatDate(note.createdAt)}
               </Text>
             </View>
             <View className="flex-row">
-              {note.tags.map((tag) => (
-                <View
-                  key={tag}
-                  className={`px-2 py-0.5 rounded-full ml-1 ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
+              <View
+                className={`px-2 py-0.5 rounded-full ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
+              >
+                <Text
+                  className={`text-xs ${isDark ? "text-blue-200" : "text-blue-700"}`}
                 >
-                  <Text
-                    className={`text-xs ${isDark ? "text-blue-200" : "text-blue-700"}`}
-                  >
-                    {tag}
-                  </Text>
-                </View>
-              ))}
-            </View>
-            <View className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-50 to-cyan-100 w-20 h-20 rounded-full">
+                  {note.category}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
