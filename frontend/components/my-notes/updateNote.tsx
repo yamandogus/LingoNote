@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import ContentInput from "../add-note/ContentInput";
 import CategorySelector from "../add-note/CategorySelector";
 import ColorSelector from "../add-note/ColorSelector";
+import TitleInput from "../add-note/TitleInput";
 
 interface Note {
   id: string;
@@ -50,11 +51,14 @@ export default function UpdateNote({
         </TouchableOpacity>
       </View>
       <View>
-        <TextInput
-          className="text-2xl font-bold"
-          value={note.title}
-          onChangeText={(text) => setNote({ ...note, title: text })}
-        />
+         <TitleInput
+            title={note.title}
+            setTitle={(text) => setNote({ ...note, title: text })}
+            isFocused={false}
+            setIsFocused={() => {}}
+            selectedColor={note.color}
+            isDark={isDark}
+         />
         <ContentInput
           content={note.content}
           setContent={(text) => setNote({ ...note, content: text })}
