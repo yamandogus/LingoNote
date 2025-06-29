@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, ScrollView, useColorScheme, Platform, Text, RefreshControl, TouchableOpacity } from "react-native";
 import { CategoryFilter } from "@/components/my-notes/CategoryFilter";
 import { NoteList } from "@/components/my-notes/NoteList";

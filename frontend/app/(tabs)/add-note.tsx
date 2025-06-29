@@ -4,8 +4,6 @@ import {
   Platform,
   ScrollView,
   Text,
-  TextInput,
-  TouchableOpacity,
   useColorScheme,
   View,
   KeyboardAvoidingView,
@@ -15,6 +13,13 @@ import { KATEGORILER } from "./my-notes";
 import Toast from "react-native-toast-message";
 import { noteService } from "../../services/note";
 import { useRouter } from "expo-router";
+
+// Components
+import TitleInput from "../../components/add-note/TitleInput";
+import ContentInput from "../../components/add-note/ContentInput";
+import CategorySelector from "../../components/add-note/CategorySelector";
+import ColorSelector from "../../components/add-note/ColorSelector";
+import SaveButton from "../../components/add-note/SaveButton";
 
 const COLORS = [
   "#A7C7E7", 
@@ -121,170 +126,44 @@ export default function AddNoteScreen() {
               Yeni Not Ekle
             </Text>
             
-            {/* Başlık Input */}
-            <View className="mb-6">
-              <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
-                Başlık
-              </Text>
-              <TextInput
-                value={title}
-                onChangeText={setTitle}
-                className={`rounded-xl px-4 py-3 text-base ${
-                  isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-                }`}
-                style={{
-                  borderWidth: 2,
-                  borderColor: isFocused.title ? selectedColor : isDark ? "#374151" : "#e5e7eb",
-                  shadowColor: isFocused.title ? `${selectedColor}40` : "transparent",
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 1,
-                  shadowRadius: 8,
-                  elevation: isFocused.title ? 4 : 0,
-                }}
-                placeholder="Not başlığını yazın"
-                placeholderTextColor={isDark ? "#9ca3af" : "#9ca3af"}
-                onFocus={() => setIsFocused({...isFocused, title: true})}
-                onBlur={() => setIsFocused({...isFocused, title: false})}
-              />
-            </View>
+            <TitleInput
+              title={title}
+              setTitle={setTitle}
+              isFocused={isFocused.title}
+              setIsFocused={setIsFocused}
+              selectedColor={selectedColor}
+              isDark={isDark}
+            />
 
-            {/* İçerik Input */}
-            <View className="mb-6">
-              <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
-                İçerik
-              </Text>
-              <TextInput
-                value={content}
-                onChangeText={setContent}
-                multiline
-                className={`rounded-xl px-4 py-3 text-base min-h-[150px] ${
-                  isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-                }`}
-                style={{
-                  textAlignVertical: "top",
-                  borderWidth: 2,
-                  borderColor: isFocused.content ? selectedColor : isDark ? "#374151" : "#e5e7eb",
-                  shadowColor: isFocused.content ? `${selectedColor}40` : "transparent",
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 1,
-                  shadowRadius: 8,
-                  elevation: isFocused.content ? 4 : 0,
-                }}
-                placeholder="Not içeriğinizi yazın..."
-                placeholderTextColor={isDark ? "#9ca3af" : "#9ca3af"}
-                onFocus={() => setIsFocused({...isFocused, content: true})}
-                onBlur={() => setIsFocused({...isFocused, content: false})}
-              />
-            </View>
+            <ContentInput
+              content={content}
+              setContent={setContent}
+              isFocused={isFocused.content}
+              setIsFocused={setIsFocused}
+              selectedColor={selectedColor}
+              isDark={isDark}
+            />
 
+            <CategorySelector
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              selectedColor={selectedColor}
+              isDark={isDark}
+              categories={KATEGORILER}
+            />
 
-            {/* Kategoriler */}
-            <View className="mb-6">
-              <Text className="text-sm font-medium mb-2 dark:text-gray-300 text-gray-600">
-                Kategori Seçin
-              </Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingRight: 20 }}
-                className="pb-2 -mx-1"
-              >
-                {KATEGORILER.map((kategori, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => setSelectedCategory(kategori)}
-                    className={`py-2 px-4 mx-1 rounded-full ${
-                      selectedCategory === kategori 
-                        ? `bg-[${selectedColor}]` 
-                        : isDark 
-                          ? "bg-gray-700" 
-                          : "bg-gray-100"
-                    }`}
-                    style={{
-                      backgroundColor: selectedCategory === kategori ? selectedColor : isDark ? "#374151" : "#f3f4f6",
-                      shadowColor: selectedCategory === kategori ? `${selectedColor}80` : "transparent",
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 1,
-                      shadowRadius: 4,
-                      elevation: selectedCategory === kategori ? 3 : 0,
-                    }}
-                  >
-                    <Text 
-                      className={`text-sm font-medium ${
-                        selectedCategory === kategori 
-                          ? "text-white" 
-                          : isDark 
-                            ? "text-gray-200" 
-                            : "text-gray-700"
-                      }`}
-                    >
-                      {kategori}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
+            <ColorSelector
+              selectedColor={selectedColor}
+              setSelectedColor={setSelectedColor}
+              isDark={isDark}
+              colors={COLORS}
+            />
 
-
-            {/* Renk Seçimi */}
-            <View className="mb-8">
-              <Text className="text-sm font-medium mb-3 dark:text-gray-300 text-gray-600">
-                Renk Seçin
-              </Text>
-              <View className="flex-row flex-wrap justify-start items-center">
-                {COLORS.map((color) => (
-                  <TouchableOpacity
-                    key={color}
-                    onPress={() => setSelectedColor(color)}
-                    className="m-1.5"
-                  >
-                    <View 
-                      className="w-10 h-10 rounded-full items-center justify-center"
-                      style={{
-                        backgroundColor: color,
-                        borderWidth: 3,
-                        borderColor: selectedColor === color 
-                          ? isDark ? "#fff" : "#1f2937" 
-                          : "transparent",
-                        shadowColor: selectedColor === color ? color : "transparent",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.8,
-                        shadowRadius: 4,
-                        elevation: selectedColor === color ? 4 : 0,
-                      }}
-                    >
-                      {selectedColor === color && (
-                        <View className="w-5 h-5 rounded-full bg-white/80 items-center justify-center">
-                          <View 
-                            className="w-3 h-3 rounded-full" 
-                            style={{ backgroundColor: color }}
-                          />
-                        </View>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-
-            {/* Kaydet Butonu */}
-            <TouchableOpacity
+            <SaveButton
               onPress={handleAddNote}
-              disabled={isLoading}
-              className={`py-4 rounded-xl overflow-hidden ${isLoading ? 'opacity-50' : ''}`}
-              style={{
-                backgroundColor: selectedColor,
-                shadowColor: selectedColor,
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.5,
-                shadowRadius: 12,
-                elevation: 5,
-              }}
-            >
-              <Text className="text-center text-gray-600 dark:text-black text-lg font-bold">
-                {isLoading ? "Kaydediliyor..." : "Notu Kaydet"}
-              </Text>
-            </TouchableOpacity>
+              isLoading={isLoading}
+              selectedColor={selectedColor}
+            />
           </View>
         </ScrollView>
       </LinearGradient>

@@ -1,17 +1,18 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useState } from "react";
+import { noteService } from "@/services/note";
 import { 
   Platform, 
+  RefreshControl, 
   ScrollView, 
   Text, 
   useColorScheme, 
   View,
-  StyleSheet,
-  Dimensions
 } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-
-const { width } = Dimensions.get('window');
+import { useAuth } from "@/contexts/AuthContext";
+import { Note } from "@/services/api";
+import { useFocusEffect } from "expo-router";
 
 const StatCard = ({ 
   title, 
@@ -68,44 +69,57 @@ const StreakCounter = ({ currentStreak, isDark }: { currentStreak: number; isDar
   </View>
 );
 
-const chartConfig = (isDark: boolean) => ({
-  backgroundGradientFrom: 'transparent',
-  backgroundGradientTo: 'transparent',
-  color: (opacity = 1) => isDark ? `rgba(99, 102, 241, ${opacity})` : `rgba(79, 70, 229, ${opacity})`,
-  labelColor: () => isDark ? '#e5e7eb' : '#4b5563',
-  strokeWidth: 16,
-  barPercentage: 0.5,
-  useShadowColorFromDataset: false,
-  decimalPlaces: 0,
-  propsForBackgroundLines: {
-    strokeWidth: 1,
-    stroke: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-    strokeDasharray: '4',
-  },
-  propsForLabels: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  fillShadowGradientOpacity: 0.7,
-  fillShadowGradient: isDark ? '#4f46e5' : '#6366f1',
-});
-
 export default function StatsScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Sample data - replace with actual data
-  const statsData = {
-    totalNotes: '128',
-    categories: '7',
-    words: '2,450',
-    streak: 5,
-    weeklyProgress: [0.4, 0.6, 0.8, 0.3, 0.7, 0.9, 0.5],
+  const loadNotes = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await noteService.getNotes();
+      setNotes(response.notes);
+    } catch (error) {
+      console.error('Notlar yüklenirken hata:', error);
+      setError('Notlar yüklenirken bir hata oluştu');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const chartData = {
-    labels: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'],
-    data: statsData.weeklyProgress,
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await loadNotes();
+    setRefreshing(false);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadNotes();
+    }, [])
+  );
+
+  // İstatistik hesaplamaları
+  const totalNotes = notes.length;
+  const uniqueCategories = new Set(notes.map(note => note.category)).size;
+  const totalWords = notes.reduce((acc, note) => acc + note.content.split(' ').length, 0);
+  const averageWords = totalNotes > 0 ? Math.round(totalWords / totalNotes) : 0;
+  
+  // Streak hesaplama (örnek olarak son 7 günde not ekleme sayısı)
+  const currentStreak = Math.min(notes.length, 7); // Gerçek streak hesaplaması için daha karmaşık logic gerekir
+
+  // Tarih formatı fonksiyonu
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
   };
 
   return (
@@ -121,6 +135,14 @@ export default function StatsScreen() {
           className="flex-1 px-4 pt-6"
           contentContainerStyle={{ paddingBottom: 120 }}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={isDark ? "#ffffff" : "#000000"}
+              colors={isDark ? ["#ffffff"] : ["#000000"]}
+            />
+          }
         >
           {/* Header */}
           <View className="mb-6">
@@ -137,7 +159,7 @@ export default function StatsScreen() {
             <View className="w-[48%] mb-4">
               <StatCard 
                 title="Toplam Not" 
-                value={statsData.totalNotes} 
+                value={totalNotes.toString()} 
                 icon={<Ionicons name="document-text-outline" size={20} color="#6366f1" />} 
                 color="#6366f1"
                 isDark={isDark}
@@ -146,7 +168,7 @@ export default function StatsScreen() {
             <View className="w-[48%] mb-4">
               <StatCard 
                 title="Kategori" 
-                value={statsData.categories} 
+                value={uniqueCategories.toString()} 
                 icon={<Ionicons name="folder-outline" size={20} color="#10b981" />} 
                 color="#10b981"
                 isDark={isDark}
@@ -155,7 +177,7 @@ export default function StatsScreen() {
             <View className="w-[48%]">
               <StatCard 
                 title="Toplam Kelime" 
-                value={statsData.words} 
+                value={totalWords.toString()} 
                 icon={<Ionicons name="text-outline" size={20} color="#f59e0b" />} 
                 color="#f59e0b"
                 isDark={isDark}
@@ -164,7 +186,7 @@ export default function StatsScreen() {
             <View className="w-[48%]">
               <StatCard 
                 title="Ortalama" 
-                value="187/gün" 
+                value={averageWords.toString()} 
                 icon={<Ionicons name="speedometer-outline" size={20} color="#ec4899" />} 
                 color="#ec4899"
                 isDark={isDark}
@@ -174,32 +196,39 @@ export default function StatsScreen() {
 
           {/* Streak Counter */}
           <View className="mb-6">
-            <StreakCounter currentStreak={statsData.streak} isDark={isDark} />
+            <StreakCounter currentStreak={currentStreak} isDark={isDark} />
           </View>
 
           {/* Recent Activity */}
           <View className={`p-5 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-sm`}>
             <Text className={`text-lg font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Son Aktiviteler
+              Son Notlar
             </Text>
-            {[1, 2, 3].map((item) => (
-              <View key={item} className="flex-row items-center py-3 border-b border-gray-200 dark:border-gray-700 last:border-0 last:pb-0 first:pt-0">
-                <View className={`w-2 h-2 rounded-full mr-3 ${item === 1 ? 'bg-green-500' : 'bg-blue-500'}`} />
+            {notes.slice(0, 3).map((note, index) => (
+              <View key={note.id || index} className="flex-row items-center py-3 border-b border-gray-200 dark:border-gray-700 last:border-0 last:pb-0 first:pt-0">
+                <View className={`w-2 h-2 rounded-full mr-3 ${index === 0 ? 'bg-green-500' : 'bg-blue-500'}`} />
                 <View className="flex-1">
                   <Text className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    {item === 1 ? 'Yeni not eklendi' : item === 2 ? 'Kategori güncellendi' : 'Kelime tekrarı yapıldı'}
+                    {note.title}
                   </Text>
                   <Text className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                    {item === 1 ? '5 dk önce' : item === 2 ? '2 saat önce' : 'Dün'}
+                    {note.createdAt ? formatDate(note.createdAt) : 'Tarih bilgisi yok'}
                   </Text>
                 </View>
-                {item === 1 && (
+                {index === 0 && (
                   <Text className="text-xs font-medium text-green-500">
                     +1
                   </Text>
                 )}
               </View>
             ))}
+            {notes.length === 0 && (
+              <View className="py-4">
+                <Text className={`text-sm text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Henüz not eklenmemiş
+                </Text>
+              </View>
+            )}
           </View>
         </ScrollView>
       </LinearGradient>
