@@ -15,6 +15,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import AvatarSelector from "@/components/profile/avatar";
 import Stats from "@/components/profile/stats";
+import { useAuth } from "@/contexts/AuthContext";
 
 type MenuItem = {
   id: string;
@@ -26,6 +27,7 @@ type MenuItem = {
   onToggleChange?: (value: boolean) => void;
   showChevron?: boolean;
   color: string;
+  onPress?: () => void;
 };
 
 const ProfileScreen = () => {
@@ -35,7 +37,7 @@ const ProfileScreen = () => {
   const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
   const [avatar, setAvatar] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const { logout } = useAuth();
   const menuItems: MenuItem[] = [
     {
       id: "profile",
@@ -87,11 +89,14 @@ const ProfileScreen = () => {
     },
     {
       id: "login",
-      icon: <Ionicons name="log-in-outline" color="#ef4444" />,
-      title: "Giriş Yap",
-      subtitle: "Hesabınıza giriş yapın",
+      icon: <Ionicons name="log-out-outline" color="#ef4444" />,
+      title: "Çıkış Yap",
+      subtitle: "Hesabınızdan çıkış yapın",
       showChevron: true,
       color: "#ef4444",
+      onPress: () => {
+        logout();
+      },
     },
   ];
 
@@ -139,6 +144,7 @@ const ProfileScreen = () => {
   const gradientColors = isDark
     ? ["#1a1a2e", "#16213e", "#0f3460"]
     : ["#f8f9fa", "#e9ecef", "#dee2e6"];
+  const { user } = useAuth();
 
   const handleAvatarSelect = (avatarUrl: string) => {
     setAvatar(avatarUrl);
@@ -183,7 +189,7 @@ const ProfileScreen = () => {
               </TouchableOpacity>
             </View>
             <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              John Mobbin
+              {user?.username}
             </Text>
 
             {/* Stats */}
@@ -196,10 +202,10 @@ const ProfileScreen = () => {
                 key={item.id}
                 activeOpacity={0.7}
                 onPress={() => {
-                  if (item.id === "login") {
-                    router.replace("/auth/login");
-                  } else {
-                    item.onToggleChange?.(!item.toggleValue);
+                  if (item.onPress) {
+                    item.onPress();
+                  } else if (item.onToggleChange) {
+                    item.onToggleChange(!item.toggleValue);
                   }
                 }}
               >

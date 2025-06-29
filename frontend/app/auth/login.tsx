@@ -8,7 +8,6 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -170,13 +169,6 @@ const Login = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <View className="flex-row justify-center items-center mt-6">
-              <TouchableOpacity onPress={() => router.replace("/(tabs)")}>
-                <Text className="font-semibold text-indigo-600 dark:text-blue-400">
-                  Anasayfaya dön
-                </Text>
-              </TouchableOpacity>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

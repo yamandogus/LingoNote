@@ -6,6 +6,7 @@ import { EmptyNotes } from "@/components/my-notes/EmptyNotes";
 import { FabAddNote } from "@/components/my-notes/FabAddNote";
 import { useNavigation } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const KATEGORILER = ["Tümü", "İş", "Kişisel", "Eğitim", "Sağlık", "Fikirler"];
 
@@ -40,6 +41,8 @@ export default function MyNotesScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const [activeCategory, setActiveCategory] = useState("Tümü");
+  const { user } = useAuth();
+  console.log(user?.username);
   const [notes, setNotes] = useState(ORNEK_NOTLAR);
   const navigation = useNavigation() as any;
 
