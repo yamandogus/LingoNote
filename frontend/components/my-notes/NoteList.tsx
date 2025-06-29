@@ -1,4 +1,5 @@
-import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { View, Text, TouchableOpacity } from "react-native";
 
 interface Note {
   id: string;
@@ -13,9 +14,11 @@ interface Note {
 interface NoteListProps {
   notes: Note[];
   isDark: boolean;
+  handleDeleteNote: (id: string) => void;
+  handleUpdateNote: (id: string, updatedData: any) => void;
 }
 
-export function NoteList({ notes, isDark }: NoteListProps) {
+export function NoteList({ notes, isDark, handleDeleteNote, handleUpdateNote }: NoteListProps) {
   if (!notes.length) return null;
 
   const formatDate = (dateString: string) => {
@@ -38,7 +41,10 @@ export function NoteList({ notes, isDark }: NoteListProps) {
           key={note.id}
           className={`mb-4 p-4 rounded-2xl ${isDark ? "bg-gray-800" : "bg-gray-50"} shadow-lg border-[0.5px] border-cyan-50 relative overflow-hidden`}
         >
-          <View className={`absolute top-0 right-0 w-10 h-6 bg-${note.color}-500 rounded-bl-full`}>
+          <View 
+            className="absolute top-0 right-0 w-10 h-6 rounded-bl-full"
+            style={{ backgroundColor: note.color }}
+          >
           </View>
           <Text
             className={`text-base font-bold mb-1 ${isDark ? "text-white" : "text-gray-900"}`}
@@ -75,6 +81,14 @@ export function NoteList({ notes, isDark }: NoteListProps) {
               </View>
             </View>
           </View>
+            <View className="flex-row gap-2 justify-end mt-4">
+              <TouchableOpacity className="bg-red-500/20 p-2 rounded-full" onPress={() => handleDeleteNote(note.id)}>
+                <Ionicons name="trash-outline" size={20} color="red" />
+              </TouchableOpacity>
+              <TouchableOpacity className="bg-blue-500/20 p-2 rounded-full" onPress={() => handleUpdateNote(note.id, {title: note.title, content: note.content, category: note.category, color: note.color})}>
+                <Ionicons name="pencil-outline" size={20} color="white" />
+              </TouchableOpacity>
+            </View>
         </View>
       ))}
     </View>

@@ -137,6 +137,7 @@ export default function MyNotesScreen() {
             activeCategory={activeCategory}
             onSelect={setActiveCategory}
             isDark={isDark}
+            notes={notes}
           />
           {error ? (
             <View className="flex-1 justify-center items-center py-8">
@@ -156,6 +157,8 @@ export default function MyNotesScreen() {
             <NoteList 
               notes={filteredNotes} 
               isDark={isDark}
+              handleDeleteNote={handleDeleteNote}
+              handleUpdateNote={handleUpdateNote}
             />
           ) : loading ? (
             <View className="flex-1 justify-center items-center py-8">
