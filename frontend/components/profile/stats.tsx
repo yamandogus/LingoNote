@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 
 const Stats = () => {
   return (
-    <View className="flex-row justify-between w-full mt-8 mb-6">
+    <View className="flex-row justify-between w-full mt-8 px-4 mb-6">
       <View className="items-center  px-8 py-2 rounded-xl bg-white dark:bg-gray-800">
         <Text className="text-gray-500 dark:text-gray-400 text-sm underline">
           Not

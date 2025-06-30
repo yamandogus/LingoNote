@@ -11,6 +11,7 @@ interface MenuItemProps {
   onToggleChange?: (value: boolean) => void;
   showChevron?: boolean;
   color: string;
+  component?: React.ReactNode;
 }
 
 export default function MenuItem({

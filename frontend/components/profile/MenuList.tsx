@@ -1,7 +1,11 @@
-import React from "react";
-import { View, TouchableOpacity, Alert } from "react-native";
+import React, { useState } from "react";
+import { View, TouchableOpacity, Alert, Modal, Text } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import MenuItem from "./MenuItem";
+import ProfileOptions from "../application/profileOptions";
+import Security from "../application/security";
+import HelpAndSupport from "../application/helpAndSupport";
+import About from "../application/about";
 
 interface MenuListProps {
   notificationsEnabled: boolean;
@@ -18,21 +22,8 @@ export default function MenuList({
   setDarkModeEnabled,
   logout,
 }: MenuListProps) {
-  const handleProfileEdit = () => {
-    Alert.alert("Bilgi", "Profil düzenleme özelliği yakında eklenecek!");
-  };
-
-  const handlePrivacySettings = () => {
-    Alert.alert("Bilgi", "Gizlilik ayarları yakında eklenecek!");
-  };
-
-  const handleHelpSupport = () => {
-    Alert.alert("Bilgi", "Yardım ve destek özelliği yakında eklenecek!");
-  };
-
-  const handleAbout = () => {
-    Alert.alert("Hakkında", "LingoNote v1.0.0\n\nDil öğrenme notlarınızı organize etmenizi sağlayan uygulama.");
-  };
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
 
   const menuItems = [
     {
@@ -42,7 +33,10 @@ export default function MenuList({
       subtitle: "Kişisel bilgilerinizi düzenleyin",
       showChevron: true,
       color: "#6366f1",
-      onPress: handleProfileEdit,
+      component: <ProfileOptions />,
+      onPress: () => {
+        Alert.alert("Bilgi", "Profil düzenleme özelliği yakında eklenecek!");
+      },
     },
     {
       id: "notifications",
@@ -69,7 +63,10 @@ export default function MenuList({
       subtitle: "Gizlilik ayarlarınızı yönetin",
       showChevron: true,
       color: "#10b981",
-      onPress: handlePrivacySettings,
+      component: <Security />,
+      onPress: () => {
+        Alert.alert("Bilgi", "Gizlilik ayarları yakında eklenecek!");
+      },
     },
     {
       id: "help",
@@ -77,7 +74,7 @@ export default function MenuList({
       title: "Yardım & Destek",
       showChevron: true,
       color: "#3b82f6",
-      onPress: handleHelpSupport,
+      component: <HelpAndSupport />,
     },
     {
       id: "about",
@@ -85,7 +82,7 @@ export default function MenuList({
       title: "Hakkında",
       showChevron: true,
       color: "#6b7280",
-      onPress: handleAbout,
+      component: <About />,
     },
     {
       id: "login",
@@ -98,23 +95,45 @@ export default function MenuList({
     },
   ];
 
+  const handleMenuPress = (item: any) => {
+    if (item.component) {
+      setModalContent(item.component);
+      setModalVisible(true);
+    } else if (item.onPress) {
+      item.onPress();
+    } else if (item.onToggleChange && item.toggleValue !== undefined) {
+      item.onToggleChange(!item.toggleValue);
+    }
+  };
+
   return (
     <View className="mx-4 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm mb-8">
       {menuItems.map((item) => (
-        <TouchableOpacity
-          key={item.id}
-          activeOpacity={0.7}
-          onPress={() => {
-            if (item.onPress) {
-              item.onPress();
-            } else if (item.onToggleChange && item.toggleValue !== undefined) {
-              item.onToggleChange(!item.toggleValue);
-            }
-          }}
-        >
-          <MenuItem {...item} />
-        </TouchableOpacity>
+        <View key={item.id}>
+          <TouchableOpacity
+            key={item.id}
+            activeOpacity={0.7}
+            onPress={() => handleMenuPress(item)}
+          >
+            <MenuItem {...item} />
+          </TouchableOpacity>
+        </View>
       ))}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'white', borderRadius: 16, padding: 20, minWidth: 300, minHeight: 200 }}>
+            {modalContent}
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 20, alignSelf: 'center' }}>
+              <Text style={{ color: '#6366f1', fontWeight: 'bold' }}>Kapat</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
-} 
+}
