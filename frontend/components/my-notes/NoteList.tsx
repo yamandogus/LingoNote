@@ -161,7 +161,7 @@ export function NoteList({
           <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
             <Text className="text-2xl font-bold">Not Sil</Text>
             <Text className="text-sm text-gray-500">Bu notu silmek istediğinize emin misiniz?</Text>
-          <View className="flex-row gap-2 justify-end mt-4 gap-4">
+          <View className="flex-row justify-end mt-4 gap-4">
             <TouchableOpacity
               className="bg-blue-500/20 p-2 rounded-full"
               onPress={() => setDeleteModalVisible(false)}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Alert, Modal, Text } from "react-native";
+import { View, TouchableOpacity, Alert, Modal, Text, useColorScheme } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import MenuItem from "./MenuItem";
 import ProfileOptions from "../application/profileOptions";
@@ -24,6 +24,7 @@ export default function MenuList({
 }: MenuListProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  const isDark = useColorScheme() === 'dark';
 
   const menuItems = [
     {
@@ -125,8 +126,8 @@ export default function MenuList({
         animationType="slide"
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' }}>
-          <View style={{ backgroundColor: 'white', borderRadius: 16, padding: 20, minWidth: 300, minHeight: 200 }}>
+        <View className="flex-1 justify-center items-center bg-black/50">
+          <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
             {modalContent}
             <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 20, alignSelf: 'center' }}>
               <Text style={{ color: '#6366f1', fontWeight: 'bold' }}>Kapat</Text>

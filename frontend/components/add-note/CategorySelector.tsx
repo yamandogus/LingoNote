@@ -31,7 +31,7 @@ export default function CategorySelector({
           <TouchableOpacity
             key={index}
             onPress={() => setSelectedCategory(kategori)}
-            className={`py-2 px-4 mx-1 rounded-full ${
+            className={`py-2 px-4 mx-1 rounded-full border-[0.7px] border-gray-200 ${
               selectedCategory === kategori 
                 ? `bg-[${selectedColor}]` 
                 : isDark 
@@ -48,13 +48,7 @@ export default function CategorySelector({
             }}
           >
             <Text 
-              className={`text-sm font-medium ${
-                selectedCategory === kategori 
-                  ? "text-white" 
-                  : isDark 
-                    ? "text-gray-200" 
-                    : "text-gray-700"
-              }`}
+              className={`text-sm ${isDark ? "text-white" : "text-gray-700"} font-bold ${selectedCategory === kategori && "dark:text-black"}`}
             >
               {kategori}
             </Text>
