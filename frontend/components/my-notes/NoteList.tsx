@@ -41,6 +41,7 @@ export function NoteList({
 }: NoteListProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   if (!notes.length) return null;
 
@@ -112,7 +113,7 @@ export function NoteList({
           <View className="flex-row gap-2 justify-end mt-4">
             <TouchableOpacity
               className="bg-red-500/20 p-2 rounded-full"
-              onPress={() => handleDeleteNote(note.id)}
+              onPress={() => setDeleteModalVisible(true)}
             >
               <Ionicons name="trash-outline" size={20} color="red" />
             </TouchableOpacity>
@@ -147,6 +148,33 @@ export function NoteList({
                 }}
               />
             )}
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        visible={deleteModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setDeleteModalVisible(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-black/50">
+          <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
+            <Text className="text-2xl font-bold">Not Sil</Text>
+            <Text className="text-sm text-gray-500">Bu notu silmek istediğinize emin misiniz?</Text>
+          <View className="flex-row gap-2 justify-end mt-4 gap-4">
+            <TouchableOpacity
+              className="bg-blue-500/20 p-2 rounded-full"
+              onPress={() => setDeleteModalVisible(false)}
+            >
+              <Text className=" text-sm px-2">İPTAL</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-red-500/20 p-2 rounded-full"
+              onPress={() => setDeleteModalVisible(false)}
+            >
+              <Text className="text-sm px-4">SİL</Text>
+            </TouchableOpacity>
+          </View>
           </View>
         </View>
       </Modal>
