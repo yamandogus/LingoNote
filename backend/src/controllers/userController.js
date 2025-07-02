@@ -72,7 +72,8 @@ export const getUser = async (req, res) => {
         id: true,
         username: true,
         email: true,
-        createdAt: true
+        createdAt: true,
+        avatar: true
       }
     });
     

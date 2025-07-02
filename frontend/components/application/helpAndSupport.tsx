@@ -1,17 +1,29 @@
 import { View, Text, Linking, TouchableOpacity } from "react-native";
 
 const HelpAndSupport = () => {
+
   return (
     <View style={{ gap: 16 }}>
-      <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 8 }}>Yardım & Destek</Text>
-      <Text style={{ fontWeight: 'bold' }}>Sıkça Sorulan Sorular</Text>
-      <Text>- Notlarımı nasıl kaydedebilirim?{"\n"}  → Ana ekrandan Not Ekle butonunu kullanabilirsiniz.</Text>
-      <Text>- Hesabımı nasıl silebilirim?{"\n"}  → Profil ayarlarından hesabınızı silebilirsiniz.</Text>
-      <Text>- Şifremi unuttum, ne yapmalıyım?{"\n"}  → Giriş ekranında Şifremi Unuttum seçeneğini kullanın.</Text>
-      <Text style={{ fontWeight: 'bold', marginTop: 12 }}>Destek</Text>
-      <Text>Her türlü soru ve sorun için bize ulaşabilirsiniz:</Text>
-      <TouchableOpacity onPress={() => Linking.openURL('mailto:destek@lingonote.com')}>
-        <Text style={{ color: '#6366f1', textDecorationLine: 'underline' }}>destek@lingonote.com</Text>
+      <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+        Yardım & Destek
+      </Text>
+      <Text className="text-gray-500 dark:text-gray-400 text-sm underline">
+        Sıkça Sorulan Sorular
+      </Text>
+      <Text className="text-gray-500 dark:text-gray-200 text-sm ">
+        - Notlarımı nasıl kaydedebilirim?{"\n"}  → Ana ekrandan Not Ekle butonunu kullanabilirsiniz.{"\n"}
+        - Hesabımı nasıl silebilirim?{"\n"}  → Profil ayarlarından hesabınızı silebilirsiniz.{"\n"}
+        - Şifremi unuttum, ne yapmalıyım?{"\n"}  → Giriş ekranında Şifremi Unuttum seçeneğini kullanın.
+      </Text>
+        <Text className="text-gray-500 dark:text-gray-400 text-sm underline mt-4">
+          Destek
+      </Text>
+      <Text className="text-gray-500 dark:text-gray-200 text-sm ">Her türlü soru ve sorun için bize ulaşabilirsiniz:</Text>
+      <TouchableOpacity onPress={() => Linking.openURL('mailto:destek@lingonote.com')}
+        className="border border-gray-700 dark:border-gray-400 rounded-lg p-2 text-gray-900 dark:text-white bg-green-400 dark:bg-green-700">
+        <Text className="text-gray-900 dark:text-white font-bold text-center">
+          destek@lingonote.com
+        </Text>
       </TouchableOpacity>
     </View>
   );

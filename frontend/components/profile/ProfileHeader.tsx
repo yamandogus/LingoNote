@@ -6,9 +6,10 @@ interface ProfileHeaderProps {
     username?: string;
     email?: string;
     createdAt?: string;
+    avatar?: string;
   } | null;
   avatar: string | null;
-  setModalVisible?: (visible: boolean) => void;
+  setModalVisible: (visible: boolean) => void;
 }
 
 export default function ProfileHeader({
@@ -28,10 +29,10 @@ export default function ProfileHeader({
   return (
     <View className="items-center mt-10 px-6">
       <View className="w-24 h-24 rounded-full bg-white dark:bg-gray-800 items-center justify-center shadow-lg mb-4">
-        <TouchableOpacity onPress={() => setModalVisible && setModalVisible(true)} disabled={!setModalVisible}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           {avatar ? (
             <Image
-              source={{ uri: avatar }}
+              source={{ uri: user?.avatar ?? avatar }}
               style={{ width: 100, height: 100, borderRadius: 50 }}
             />
           ) : (

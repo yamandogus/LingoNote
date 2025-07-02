@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, Alert, Modal, Text, useColorScheme } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Alert,
+  Modal,
+  Text,
+  useColorScheme,
+} from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import MenuItem from "./MenuItem";
 import ProfileOptions from "../application/profileOptions";
@@ -24,7 +31,7 @@ export default function MenuList({
 }: MenuListProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === "dark";
 
   const menuItems = [
     {
@@ -127,10 +134,17 @@ export default function MenuList({
         onRequestClose={() => setModalVisible(false)}
       >
         <View className="flex-1 justify-center items-center bg-black/50">
-          <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
+          <View
+            className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${
+              isDark ? "bg-gray-800" : "bg-white"
+            }`}
+          >
             {modalContent}
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ marginTop: 20, alignSelf: 'center' }}>
-              <Text style={{ color: '#6366f1', fontWeight: 'bold' }}>Kapat</Text>
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              className="w-1/2 mt-4 self-center border  border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-red-600 dark:bg-red-600"
+            >
+              <Text className=" text-white font-bold text-center">Kapat</Text>
             </TouchableOpacity>
           </View>
         </View>
