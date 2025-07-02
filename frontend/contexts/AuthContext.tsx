@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { apiService } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { userService, UpdateUserRequest } from '../services/user';
 
 interface User {
   id: string;
   username: string;
   email: string;
   createdAt: string;
+  avatar?: string;
 }
 
 interface AuthContextType {
@@ -16,6 +18,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: UpdateUserRequest) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,6 +98,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const updateProfile = async (data: UpdateUserRequest) => {
+    try {
+      const response = await userService.updateUser(data);
+      setUser(response.user);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const value: AuthContextType = {
     user,
     token,
@@ -102,6 +114,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     register,
     logout,
+    updateProfile,
   };
 
   return (

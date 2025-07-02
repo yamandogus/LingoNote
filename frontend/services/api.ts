@@ -98,8 +98,8 @@ class ApiService {
     }>('/auth/user');
   }
 
-  async updateUser(data: { username?: string; email?: string }) {
-    return this.request<{ message: string; user: any }>('/auth/update', {
+  async updateUser(data: { username?: string; email?: string; password?: string; avatar?: string }) {
+    return this.request<{ message: string; user: any }>('/auth/user', {
       method: 'PUT',
       body: JSON.stringify(data),
     });

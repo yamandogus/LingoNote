@@ -10,6 +10,8 @@ export interface User {
 export interface UpdateUserRequest {
   username?: string;
   email?: string;
+  password?: string;
+  avatar?: string;
 }
 
 class UserService {

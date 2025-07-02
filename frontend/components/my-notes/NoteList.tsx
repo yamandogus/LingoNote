@@ -159,20 +159,20 @@ export function NoteList({
       >
         <View className="flex-1 justify-center items-center bg-black/50">
           <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
-            <Text className="text-2xl font-bold">Not Sil</Text>
-            <Text className="text-sm text-gray-500">Bu notu silmek istediğinize emin misiniz?</Text>
+            <Text className="text-2xl font-bold dark:text-white text-gray-900">Not Sil</Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400">Bu notu silmek istediğinize emin misiniz?</Text>
           <View className="flex-row justify-end mt-4 gap-4">
             <TouchableOpacity
               className="bg-blue-500/20 p-2 rounded-full"
               onPress={() => setDeleteModalVisible(false)}
             >
-              <Text className=" text-sm px-2">İPTAL</Text>
+              <Text className=" text-sm px-2 dark:text-white text-gray-900">İPTAL</Text>
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-red-500/20 p-2 rounded-full"
               onPress={() => setDeleteModalVisible(false)}
             >
-              <Text className="text-sm px-4">SİL</Text>
+              <Text className="text-sm px-4 dark:text-white text-gray-900">SİL</Text>
             </TouchableOpacity>
           </View>
           </View>

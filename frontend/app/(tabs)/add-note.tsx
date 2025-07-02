@@ -106,20 +106,20 @@ export default function AddNoteScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1"
+    <LinearGradient
+       colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
+       style={{ flex: 1 }}
+       start={{ x: 0, y: 0 }}
+       end={{ x: 1, y: 1 }}
     >
-      <LinearGradient
-         colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
-         style={{ flex: 1 }}
-         start={{ x: 0, y: 0 }}
-         end={{ x: 1, y: 1 }}
+      <ScrollView 
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 32, paddingTop: Platform.OS === "android" ? 32 : 16 }}
+        keyboardShouldPersistTaps="handled"
       >
-        <ScrollView 
-          className="flex-1"
-          contentContainerStyle={{ paddingBottom: 32, paddingTop: Platform.OS === "android" ? 32 : 16 }}
-          keyboardShouldPersistTaps="handled"
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
         >
           <View className="px-6 py-4">
             <Text className="text-2xl font-bold text-center mb-8 dark:text-white text-gray-800">
@@ -165,8 +165,8 @@ export default function AddNoteScreen() {
               selectedColor={selectedColor}
             />
           </View>
-        </ScrollView>
-      </LinearGradient>
-    </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </LinearGradient>
   );
 }

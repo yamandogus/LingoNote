@@ -5,6 +5,10 @@ import {
   useColorScheme,
   SafeAreaView,
   Platform,
+  Button,
+  Modal,
+  TextInput,
+  Text,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AvatarSelector from "@/components/profile/avatar";
@@ -18,17 +22,26 @@ const ProfileScreen = () => {
   const isDark = colorScheme === "dark";
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
-  const [avatar, setAvatar] = useState<string | null>(null);
+  const { logout, user, updateProfile } = useAuth();
+  const [avatar, setAvatar] = useState<string | null>(user?.avatar || null);
   const [modalVisible, setModalVisible] = useState(false);
-  const { logout, user } = useAuth();
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editUsername, setEditUsername] = useState(user?.username || "");
+  const [editEmail, setEditEmail] = useState(user?.email || "");
 
   const gradientColors = isDark
     ? ["#1a1a2e", "#16213e", "#0f3460"]
     : ["#f8f9fa", "#e9ecef", "#dee2e6"];
 
-  const handleAvatarSelect = (avatarUrl: string) => {
+  const handleAvatarSelect = async (avatarUrl: string) => {
+    if (user?.avatar) return; // Avatar zaten seçildiyse tekrar seçilemesin
     setAvatar(avatarUrl);
     setModalVisible(false);
+    try {
+      await updateProfile({ avatar: avatarUrl });
+    } catch (e) {
+      // Hata yönetimi eklenebilir
+    }
   };
 
   return (
@@ -46,8 +59,8 @@ const ProfileScreen = () => {
         >
           <ProfileHeader
             user={user}
-            avatar={avatar}
-            setModalVisible={setModalVisible}
+            avatar={user?.avatar || avatar}
+            setModalVisible={user?.avatar ? undefined : setModalVisible}
           />
 
           <Stats />
@@ -59,6 +72,34 @@ const ProfileScreen = () => {
             setDarkModeEnabled={setDarkModeEnabled}
             logout={logout}
           />
+
+          <Button title="Profil Ayarları" onPress={() => setEditModalVisible(true)} />
+          <Modal visible={editModalVisible} animationType="slide" onRequestClose={() => setEditModalVisible(false)}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 16 }}>Profil Bilgilerini Düzenle</Text>
+              <TextInput
+                value={editUsername}
+                onChangeText={setEditUsername}
+                placeholder="Kullanıcı Adı"
+                style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 8, width: 250, marginBottom: 12 }}
+              />
+              <TextInput
+                value={editEmail}
+                onChangeText={setEditEmail}
+                placeholder="Email"
+                style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 8, width: 250, marginBottom: 12 }}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+              <Button title="Kaydet" onPress={async () => {
+                try {
+                  await updateProfile({ username: editUsername, email: editEmail });
+                  setEditModalVisible(false);
+                } catch (e) {}
+              }} />
+              <Button title="İptal" onPress={() => setEditModalVisible(false)} color="#888" />
+            </View>
+          </Modal>
         </ScrollView>
         <AvatarSelector
           visible={modalVisible}

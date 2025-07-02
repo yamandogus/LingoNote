@@ -1,6 +1,7 @@
 import { prisma } from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { updateProfileValidator } from "../validators/userValidator.js";
 
 export const register = async (req, res) => {
   try {
@@ -82,5 +83,34 @@ export const getUser = async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const data = updateProfileValidator.parse(req.body);
+
+    // Şifre güncelleniyorsa hashle
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    } else {
+      delete data.password;
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data
+    });
+
+    res.status(200).json({ message: "Profil güncellendi.", user: {
+      id: updatedUser.id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      avatar: updatedUser.avatar,
+      createdAt: updatedUser.createdAt
+    }});
+  } catch (error) {
+    res.status(400).json({ message: "Profil güncellenemedi.", error: error.message });
   }
 };
