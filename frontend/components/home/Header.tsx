@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { router } from 'expo-router';
-import { View, Text, TouchableOpacity, useColorScheme } from 'react-native'
+import { View, Text, TouchableOpacity, useColorScheme, Image } from 'react-native'
 
 export default function Header() {
     const isDark = useColorScheme() === "dark";
@@ -15,7 +15,14 @@ export default function Header() {
     <View className='flex-row justify-between items-center my-4'>
       <Text className='text-xl font-bold dark:text-white text-gray-800'>{emoji} {welcomeMessage} {user?.username}</Text>
       <TouchableOpacity onPress={() => router.replace("/(tabs)/profile")} className='bg-gray-600/80 dark:bg-white/20 rounded-full p-2'>
-        <Ionicons name="person-outline" size={20} color={isDark ? "white" : "#ffffff"} />
+        {user?.avatar ? (
+          <Image
+            source={{ uri: user?.avatar }}
+            style={{ width: 30, height: 30, borderRadius: 15 }}
+          />
+        ) : (
+          <Ionicons name="person-outline" size={20} color={isDark ? "white" : "#ffffff"} />
+        )}
       </TouchableOpacity>
     </View>
   )
