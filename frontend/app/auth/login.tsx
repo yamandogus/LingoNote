@@ -13,13 +13,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
 
 const Login = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
-  const { login } = useAuth();
+  const { login, user, isLoading: authLoading } = useAuth();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +28,18 @@ const Login = () => {
   const gradientColors = isDark
     ? ["#1a1a2e", "#16213e", "#0f3460"]
     : ["#f8f9fa", "#e9ecef", "#dee2e6"];
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (user) {
+      router.replace("/(tabs)");
+    }
+  }, [user, authLoading]);
+
+  if (authLoading || user) {
+    // Kullanıcı login olduysa veya auth yükleniyorsa hiçbir şey gösterme
+    return null;
+  }
 
   const handleLogin = async () => {
     if (!email || !password) {

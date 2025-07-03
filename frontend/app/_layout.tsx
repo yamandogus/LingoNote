@@ -14,6 +14,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import "../global.css";
 import Toast from "react-native-toast-message";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import Svg, { Path } from "react-native-svg";
 
 const CustomDarkTheme = {
   ...DarkTheme,
@@ -41,18 +42,14 @@ function RootLayoutNav() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setSplashDone(true);
-    }, 5000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // 🔥 Giriş yönlendirmesi sadece splash ve auth yüklemesi bittiğinde çalışır
   useEffect(() => {
-    // Yükleme veya splash bitmeden yönlendirme yapma!
     if (isLoading || !splashDone) return;
 
     const inAuthGroup = segments[0] === "auth";
-
-    // Yalnızca yükleme bittikten sonra yönlendirme yap
     if (!user && !inAuthGroup) {
       router.replace("/auth/login");
     } else if (user && inAuthGroup) {
@@ -60,18 +57,24 @@ function RootLayoutNav() {
     }
   }, [splashDone, isLoading, user, segments]);
 
-  // ⌛ Splash gösterimi
   if (!fontsLoaded || isLoading || !splashDone) {
     return (
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
           backgroundColor: colorScheme === "dark" ? "#1a1a2e" : "#f8f9fa",
         }}
       >
-        <Text style={{ color: "#fff", fontSize: 24 }}>LingoNote</Text>
+        <View className="flex-1 items-center justify-center bg-white dark:bg-black space-y-4">
+          <View className="w-28 h-28 border-8 border-gray-300 border-t-blue-400 rounded-full items-center justify-center animate-spin">
+            <Svg viewBox="0 0 24 24" fill="blue" height={24} width={24}>
+              <Path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" />
+            </Svg>
+          </View>
+          <Text className="text-blue-500 text-lg font-semibold">
+            LingoNote Yükleniyor...
+          </Text>
+        </View>
       </View>
     );
   }
@@ -79,7 +82,9 @@ function RootLayoutNav() {
   const backgroundColor = colorScheme === "dark" ? "#1a1a2e" : "#f8f9fa";
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? CustomDarkTheme : DefaultTheme}>
+    <ThemeProvider
+      value={colorScheme === "dark" ? CustomDarkTheme : DefaultTheme}
+    >
       <Stack
         screenOptions={{
           headerShown: false,
@@ -96,7 +101,6 @@ function RootLayoutNav() {
     </ThemeProvider>
   );
 }
-
 
 export default function RootLayout() {
   return (

@@ -60,7 +60,7 @@ export default function TabLayout() {
           bottom: 0,
           borderTopWidth: 0,
           borderWidth: 0.5,
-          borderColor: isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)",
+          borderColor: isDark ? "rgba(250, 250, 250, 0.5)" : "rgba(0, 0, 0, 0.5)",
           shadowColor: isDark ? "#ffffff" : "#000000",
           shadowOffset: { width: 0, height: 1 },
           shadowOpacity: 0.1,
