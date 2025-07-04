@@ -20,6 +20,10 @@ LingoNote, kullanıcıların kişisel notlarını düzenli bir şekilde yöneteb
 - Fikirler
 - Ve daha fazlası...
 
+## Test User
+username: test@example.com
+password: 123456
+
 ## Kurulum
 
 1. Projeyi klonlayın:
