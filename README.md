@@ -39,6 +39,13 @@ LingoNote, kullanıcıların kişisel notlarını düzenli bir şekilde yöneteb
    npx expo start
    ```
 
+4. Backend API'sini çalıştırın (uygulamayı tam olarak test edebilmek için gereklidir):
+   ```bash
+   cd ../backend
+   npm install
+   npm run dev   # veya `npm start` production için
+   ```
+
 ## Kullanılan Teknolojiler
 
 - React Native
