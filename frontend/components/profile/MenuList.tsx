@@ -13,13 +13,13 @@ import ProfileOptions from "../application/profileOptions";
 import Security from "../application/security";
 import HelpAndSupport from "../application/helpAndSupport";
 import About from "../application/about";
+import LogautSelect from "../application/logaut";
 
 interface MenuListProps {
   notificationsEnabled: boolean;
   setNotificationsEnabled: (enabled: boolean) => void;
   darkModeEnabled: boolean;
-  setDarkModeEnabled: (enabled: boolean) => void;
-  logout: () => void;
+  setDarkModeEnabled: (enabled: boolean) => void
 }
 
 export default function MenuList({
@@ -27,10 +27,10 @@ export default function MenuList({
   setNotificationsEnabled,
   darkModeEnabled,
   setDarkModeEnabled,
-  logout,
 }: MenuListProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const isDark = useColorScheme() === "dark";
 
   const menuItems = [
@@ -42,9 +42,6 @@ export default function MenuList({
       showChevron: true,
       color: "#6366f1",
       component: <ProfileOptions />,
-      onPress: () => {
-        Alert.alert("Bilgi", "Profil düzenleme özelliği yakında eklenecek!");
-      },
     },
     {
       id: "notifications",
@@ -93,17 +90,18 @@ export default function MenuList({
       component: <About />,
     },
     {
-      id: "login",
+      id: "logout",
       icon: <Ionicons name="log-out-outline" color="#ef4444" />,
       title: "Çıkış Yap",
       subtitle: "Hesabınızdan çıkış yapın",
       showChevron: true,
       color: "#ef4444",
-      onPress: logout,
+      component: <LogautSelect/>
     },
   ];
 
   const handleMenuPress = (item: any) => {
+    setSelectedItemId(item.id);
     if (item.component) {
       setModalContent(item.component);
       setModalVisible(true);
@@ -140,12 +138,16 @@ export default function MenuList({
             }`}
           >
             {modalContent}
+           {selectedItemId === "logout" && modalContent !== <LogautSelect/> ? (
+            ""
+           ):(
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
               className="w-1/2 mt-4 self-center border  border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-red-600 dark:bg-red-600"
             >
               <Text className=" text-white font-bold text-center">Kapat</Text>
             </TouchableOpacity>
+           )}
           </View>
         </View>
       </Modal>

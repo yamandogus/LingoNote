@@ -36,8 +36,8 @@ const KATEGORILER = [
 export function NoteList({
   notes,
   isDark,
-  handleDeleteNote,
   handleUpdateNote,
+  handleDeleteNote,
 }: NoteListProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -113,7 +113,7 @@ export function NoteList({
           <View className="flex-row gap-2 justify-end mt-4">
             <TouchableOpacity
               className="bg-red-500/20 p-2 rounded-full"
-              onPress={() => setDeleteModalVisible(true)}
+              onPress={() => { setSelectedNote(note); setDeleteModalVisible(true); }}
             >
               <Ionicons name="trash-outline" size={20} color="red" />
             </TouchableOpacity>
@@ -170,7 +170,7 @@ export function NoteList({
             </TouchableOpacity>
             <TouchableOpacity
               className="bg-red-500/20 p-2 rounded-full"
-              onPress={() => setDeleteModalVisible(false)}
+              onPress={() => { if(selectedNote) { handleDeleteNote(selectedNote.id); } setDeleteModalVisible(false); setSelectedNote(null); }}
             >
               <Text className="text-sm px-4 dark:text-white text-gray-900">SİL</Text>
             </TouchableOpacity>
@@ -181,3 +181,4 @@ export function NoteList({
     </View>
   );
 }
+
