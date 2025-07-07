@@ -5,7 +5,6 @@ import {
   Platform,
   Image,
   Text,
-  Alert,
   BackHandler,
 } from "react-native";
 import { WelcomeCard } from "@/components/home/WelcomeCard";
@@ -15,8 +14,7 @@ import { StatsBar } from "@/components/home/StatsBar";
 import { MotivationQuote } from "@/components/home/MotivationQuote";
 import { LinearGradient } from "expo-linear-gradient";
 import Header from "@/components/home/Header";
-import { useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HomeExit from "@/components/application/homeExit";
 
 const GUNUN_NOTU = {

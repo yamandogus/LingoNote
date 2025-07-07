@@ -62,7 +62,6 @@ const ProfileScreen = () => {
             setNotificationsEnabled={setNotificationsEnabled}
             darkModeEnabled={darkModeEnabled}
             setDarkModeEnabled={setDarkModeEnabled}
-            logout={logout}
           />
         </ScrollView>
         <AvatarSelector

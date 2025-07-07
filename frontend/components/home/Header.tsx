@@ -14,7 +14,7 @@ export default function Header() {
   return (
     <View className='flex-row justify-between items-center my-4'>
       <Text className='text-xl font-bold dark:text-white text-gray-800'>{emoji} {welcomeMessage} {user?.username}</Text>
-      <TouchableOpacity onPress={() => router.replace("/(tabs)/profile")} className='bg-gray-600/80 dark:bg-white/20 rounded-full p-2'>
+      <TouchableOpacity onPress={() => router.replace("/(tabs)/profile")} className='bg-gray-600/80 dark:bg-white/20 rounded-full p-1'>
         {user?.avatar ? (
           <Image
             source={{ uri: user?.avatar }}
