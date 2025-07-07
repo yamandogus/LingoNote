@@ -112,16 +112,16 @@ export function NoteList({
           </View>
           <View className="flex-row gap-2 justify-end mt-4">
             <TouchableOpacity
-              className="bg-red-500/20 p-2 rounded-full"
+              className={`p-2 rounded-full ${isDark ? "bg-red-900" : "bg-red-100"}`}
               onPress={() => { setSelectedNote(note); setDeleteModalVisible(true); }}
             >
-              <Ionicons name="trash-outline" size={20} color="red" />
+              <Ionicons name="trash-outline" size={20} color={isDark ? "white" : "black"} />
             </TouchableOpacity>
             <TouchableOpacity
-              className="bg-blue-500/20 p-2 rounded-full"
+              className={`p-2 rounded-full ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
               onPress={() => openEditModal(note)}
             >
-              <Ionicons name="pencil-outline" size={20} color="white" />
+              <Ionicons name="pencil-outline" size={20} color={isDark ? "white" : "black"} />
             </TouchableOpacity>
           </View>
         </View>

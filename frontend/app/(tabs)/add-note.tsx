@@ -8,10 +8,6 @@ import {
   View,
   KeyboardAvoidingView,
   Alert,
-  PermissionsAndroid,
-  Button,
-  Image,
-  TouchableOpacity,
 } from "react-native";
 import { KATEGORILER } from "./my-notes";
 import Toast from "react-native-toast-message";
@@ -24,8 +20,7 @@ import ContentInput from "../../components/add-note/ContentInput";
 import CategorySelector from "../../components/add-note/CategorySelector";
 import ColorSelector from "../../components/add-note/ColorSelector";
 import SaveButton from "../../components/add-note/SaveButton";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import Ionicons from "@expo/vector-icons/build/Ionicons";
+import AddImage from "../../components/add-note/AddImage";
 
 const COLORS = [
   "#A7C7E7",
@@ -111,36 +106,7 @@ export default function AddNoteScreen() {
     }
   };
 
-  const requestCameraPermission = async () => {
-    if (Platform.OS === "android") {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA
-      );
-      return granted === PermissionsAndroid.RESULTS.GRANTED;
-    }
-    return true;
-  };
 
-  const handleSelectFromGallery = async () => {
-    launchImageLibrary({ mediaType: "photo" }, (response) => {
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || null);
-      }
-    });
-  };
-
-  const handleTakePhoto = async () => {
-    const hasPermission = await requestCameraPermission();
-    if (!hasPermission) {
-      Alert.alert("İzin Gerekli", "Kamera izni verilmedi.");
-      return;
-    }
-    launchCamera({ mediaType: "photo" }, (response) => {
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || null);
-      }
-    });
-  };
 
   return (
     <LinearGradient
@@ -170,38 +136,7 @@ export default function AddNoteScreen() {
             <Text className="text-2xl font-bold text-center mb-8 dark:text-white text-gray-800">
               Yeni Not Ekle
             </Text>
-            <View className="flex flex-row gap-4 justify-center mb-4">
-              <TouchableOpacity
-                onPress={handleSelectFromGallery}
-                className="bg-blue-500 p-2 rounded-md flex flex-row items-center gap-2"
-              >
-                <Text className="flex flex-row items-center gap-2 text-white">
-                  Galeriden Seç
-                </Text>
-                <Ionicons name="image" size={20} color="white" />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleTakePhoto}
-                className="bg-red-500 p-2 rounded-md flex flex-row items-center gap-2"
-              >
-                <Text className="flex flex-row items-center gap-2 text-white">
-                  Fotoğraf Çek
-                </Text>
-                <Ionicons name="camera" size={20} color="white" />
-              </TouchableOpacity>
-              {imageUri && (
-                <Image
-                  source={{ uri: imageUri }}
-                  style={{
-                    width: "100%",
-                    height: 200,
-                    borderRadius: 8,
-                    marginBottom: 10,
-                  }}
-                  resizeMode="contain"
-                />
-              )}
-            </View>
+            <AddImage imageUri={imageUri} setImageUri={setImageUri} />
             <TitleInput
               title={title}
               setTitle={setTitle}
