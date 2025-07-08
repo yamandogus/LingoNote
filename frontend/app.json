@@ -27,6 +27,13 @@
     "plugins": [
       "expo-router",
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Uygulama, notlarınıza eklemeniz için fotoğraflarınıza erişir.",
+          "cameraPermission": "Uygulama, fotoğraf çekip notlarınıza eklemeniz için kameranıza erişir."
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",

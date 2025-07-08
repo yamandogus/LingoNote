@@ -54,7 +54,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, username: user.username },
       process.env.JWT_SECRET, 
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     res.status(200).json({ message: "Giriş başarılı", token });

@@ -5,9 +5,8 @@ import {
   Image,
   Alert,
   Platform,
-  PermissionsAndroid,
 } from "react-native";
-import { launchImageLibrary, launchCamera } from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 
 const AddImage = ({
@@ -17,51 +16,64 @@ const AddImage = ({
   imageUri: string | null;
   setImageUri: (uri: string | null) => void;
 }) => {
-  const requestCameraPermission = async () => {
-    if (Platform.OS === "android") {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA
-      );
-      return granted === PermissionsAndroid.RESULTS.GRANTED;
+  const requestMediaLibraryPermissions = async () => {
+    if (Platform.OS !== "web") {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "İzin Gerekli",
+          "Galeriden resim seçmek için kamera rulo izni vermeniz gerekiyor."
+        );
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const requestCameraPermissions = async () => {
+    if (Platform.OS !== "web") {
+      const { status } = await ImagePicker.requestCameraPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "İzin Gerekli",
+          "Kamerayı kullanmak için kamera izni vermeniz gerekiyor."
+        );
+        return false;
+      }
     }
     return true;
   };
 
   const handleSelectFromGallery = async () => {
-    launchImageLibrary({ mediaType: "photo" }, (response) => {
-      if (response.didCancel) {
-        // Kullanıcı iptal etti
-        return;
-      }
-      if (response.errorCode) {
-        Alert.alert("Hata", "Galeri açılırken hata oluştu: " + response.errorMessage);
-        return;
-      }
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || null);
-      }
+    const hasPermission = await requestMediaLibraryPermissions();
+    if (!hasPermission) return;
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
   };
 
   const handleTakePhoto = async () => {
-    const hasPermission = await requestCameraPermission();
-    if (!hasPermission) {
-      Alert.alert("İzin Gerekli", "Kamera izni verilmedi.");
-      return;
-    }
-    launchCamera({ mediaType: "photo" }, (response) => {
-      if (response.didCancel) {
-        // Kullanıcı iptal etti
-        return;
-      }
-      if (response.errorCode) {
-        Alert.alert("Hata", "Kamera açılırken hata oluştu: " + response.errorMessage);
-        return;
-      }
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || null);
-      }
+    const hasPermission = await requestCameraPermissions();
+    if (!hasPermission) return;
+
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
   };
   return (
     <View className="flex flex-row gap-4 justify-center mb-4">
