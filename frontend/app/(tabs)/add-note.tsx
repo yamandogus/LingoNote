@@ -119,11 +119,12 @@ export default function AddNoteScreen() {
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
+      {Platform.OS === "android" && <View style={{ height: 32 }} />}
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={{
           flexGrow: 1,
-          paddingBottom: 32,
+          paddingBottom: 120, // Increased padding to avoid being hidden by tab bar
           paddingTop: Platform.OS === "android" ? 32 : 16,
         }}
         keyboardShouldPersistTaps="handled"

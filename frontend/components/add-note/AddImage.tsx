@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -5,9 +6,14 @@ import {
   Image,
   Alert,
   Platform,
+  Modal,
+  SafeAreaView,
+  useWindowDimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import Ionicons from "@expo/vector-icons/build/Ionicons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+// @ts-ignore
+import ImageZoom from "react-native-image-pan-zoom";
 
 const AddImage = ({
   imageUri,
@@ -16,99 +22,144 @@ const AddImage = ({
   imageUri: string | null;
   setImageUri: (uri: string | null) => void;
 }) => {
-  const requestMediaLibraryPermissions = async () => {
-    if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert(
-          "İzin Gerekli",
-          "Galeriden resim seçmek için kamera rulo izni vermeniz gerekiyor."
-        );
-        return false;
-      }
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isImageVisible, setIsImageVisible] = useState(true);
+  const { width: deviceWidth, height: deviceHeight } = useWindowDimensions();
+
+  const requestPermissions = async (
+    permissionType: "camera" | "mediaLibrary"
+  ) => {
+    if (Platform.OS === "web") return true;
+    const permissionRequest =
+      permissionType === "camera"
+        ? ImagePicker.requestCameraPermissionsAsync
+        : ImagePicker.requestMediaLibraryPermissionsAsync;
+    const { status } = await permissionRequest();
+    if (status !== "granted") {
+      Alert.alert(
+        "İzin Gerekli",
+        `Devam etmek için ${
+          permissionType === "camera" ? "kamera" : "galeri"
+        } izni vermeniz gerekiyor.`
+      );
+      return false;
     }
     return true;
   };
 
-  const requestCameraPermissions = async () => {
-    if (Platform.OS !== "web") {
-      const { status } = await ImagePicker.requestCameraPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert(
-          "İzin Gerekli",
-          "Kamerayı kullanmak için kamera izni vermeniz gerekiyor."
-        );
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const handleSelectFromGallery = async () => {
-    const hasPermission = await requestMediaLibraryPermissions();
+  const pickImage = async (source: "gallery" | "camera") => {
+    const hasPermission = await requestPermissions(
+      source === "camera" ? "camera" : "mediaLibrary"
+    );
     if (!hasPermission) return;
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const launchPicker =
+      source === "camera"
+        ? ImagePicker.launchCameraAsync
+        : ImagePicker.launchImageLibraryAsync;
+
+    let result = await launchPicker({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
       quality: 1,
     });
 
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
+      setIsImageVisible(true);
     }
   };
 
-  const handleTakePhoto = async () => {
-    const hasPermission = await requestCameraPermissions();
-    if (!hasPermission) return;
-
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
-    }
-  };
   return (
-    <View className="flex flex-row gap-4 justify-center mb-4">
-      <TouchableOpacity
-        onPress={handleSelectFromGallery}
-        className="bg-blue-500 p-2 rounded-md flex flex-row items-center gap-2"
-      >
-        <Text className="flex flex-row items-center gap-2 text-white">
-          Galeriden Seç
-        </Text>
-        <Ionicons name="image" size={20} color="white" />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={handleTakePhoto}
-        className="bg-red-500 p-2 rounded-md flex flex-row items-center gap-2"
-      >
-        <Text className="flex flex-row items-center gap-2 text-white">
-          Fotoğraf Çek
-        </Text>
-        <Ionicons name="camera" size={20} color="white" />
-      </TouchableOpacity>
+    <View className="mb-4">
+      <View className="flex-row justify-center gap-4 mb-4">
+        <TouchableOpacity
+          onPress={() => pickImage("gallery")}
+          className="bg-blue-500 p-2 rounded-md flex-row items-center gap-2"
+        >
+          <Text className="text-white">Galeriden Seç</Text>
+          <Ionicons name="image" size={20} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => pickImage("camera")}
+          className="bg-red-500 p-2 rounded-md flex-row items-center gap-2"
+        >
+          <Text className="text-white">Fotoğraf Çek</Text>
+          <Ionicons name="camera" size={20} color="white" />
+        </TouchableOpacity>
+      </View>
+
       {imageUri && (
-        <Image
-          source={{ uri: imageUri }}
-          style={{
-            width: "100%",
-            height: 200,
-            borderRadius: 8,
-            marginBottom: 10,
-          }}
-          resizeMode="contain"
-        />
+        <>
+          <TouchableOpacity
+            onPress={() => setIsImageVisible(!isImageVisible)}
+            className="flex-row justify-between items-center bg-gray-200 dark:bg-gray-700 p-3 rounded-t-lg"
+            style={{ marginHorizontal: -24 }}
+          >
+            <Text className="font-semibold text-gray-700 dark:text-gray-200">
+              Eklenen Görsel
+            </Text>
+            <Ionicons
+              name={isImageVisible ? "chevron-up" : "chevron-down"}
+              size={24}
+              color="gray"
+            />
+          </TouchableOpacity>
+
+          {isImageVisible && (
+            <View
+              style={{
+                marginHorizontal: -24,
+                marginBottom: 16,
+                borderBottomLeftRadius: 8,
+                borderBottomRightRadius: 8,
+                overflow: "hidden",
+              }}
+            >
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Image
+                  source={{ uri: imageUri }}
+                  style={{ width: "100%", height: 220 }}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <SafeAreaView className="flex-1 bg-black/90 justify-center items-center">
+              <TouchableOpacity
+                className="absolute top-10 right-10 z-10"
+                onPress={() => setModalVisible(false)}
+              >
+                <Ionicons name="close-circle" size={40} color="white" />
+              </TouchableOpacity>
+              {/* 
+                // @ts-ignore */}
+              <ImageZoom
+                cropWidth={deviceWidth}
+                cropHeight={deviceHeight}
+                imageWidth={deviceWidth}
+                imageHeight={deviceHeight}
+              >
+                <Image
+                  style={{ width: deviceWidth, height: deviceHeight }}
+                  resizeMode="contain"
+                  source={{ uri: imageUri }}
+                />
+              </ImageZoom>
+            </SafeAreaView>
+          </Modal>
+        </>
       )}
     </View>
   );
 };
+
 
 export default AddImage;
