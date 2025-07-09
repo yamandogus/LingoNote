@@ -3,7 +3,7 @@ import { prisma } from "../config/db.js";
 // Not oluşturma
 export const createNote = async (req, res) => {
   try {
-    const { title, content, category, color } = req.body;
+    const { title, content, category, color, image } = req.body; // image eklendi
     const userId = req.user.userId;
 
     const newNote = await prisma.note.create({
@@ -12,8 +12,9 @@ export const createNote = async (req, res) => {
         content,
         category,
         color,
+        image, // image veritabanına ekleniyor
         userId,
-      }
+      },
     });
 
     res
@@ -29,7 +30,10 @@ export const getNotes = async (req, res) => {
   try {
     const userId = req.user.userId;
     const notes = await prisma.note.findMany({
-      where: { userId }
+      where: { userId },
+      orderBy: {
+        createdAt: 'desc' // Notları en yeniden eskiye sırala
+      }
     });
     res.status(200).json({ notes });
   } catch (error) {
@@ -43,12 +47,12 @@ export const getNoteById = async (req, res) => {
     const noteId = req.params.id;
     const userId = req.user.userId;
     const note = await prisma.note.findFirst({
-      where: { 
-        id: noteId, 
-        userId 
-      }
+      where: {
+        id: noteId,
+        userId,
+      },
     });
-    
+
     if (!note) {
       return res.status(404).json({ message: "Not bulunamadı." });
     }
@@ -63,7 +67,7 @@ export const updateNote = async (req, res) => {
   try {
     const noteId = req.params.id;
     const userId = req.user.userId;
-    const { title, content, category, color } = req.body;
+    const { title, content, category, color, image } = req.body; // image eklendi
 
     const updatedNote = await prisma.note.updateMany({
       where: {
@@ -75,7 +79,8 @@ export const updateNote = async (req, res) => {
         content,
         category,
         color,
-      }
+        image, // image güncelleniyor
+      },
     });
 
     if (updatedNote.count === 0) {
@@ -85,7 +90,7 @@ export const updateNote = async (req, res) => {
     }
 
     const note = await prisma.note.findUnique({
-      where: { id: noteId }
+      where: { id: noteId },
     });
 
     res.status(200).json({ message: "Not güncellendi.", note });
@@ -99,18 +104,20 @@ export const deleteNote = async (req, res) => {
   try {
     const userId = req.user.userId;
     const noteId = req.params.id;
-    
+
     const deletedNote = await prisma.note.deleteMany({
       where: {
         id: noteId,
         userId,
-      }
+      },
     });
 
     if (deletedNote.count === 0) {
-      return res.status(400).json({ message: "Not bulunamadı veya silinemedi." });
+      return res
+        .status(400)
+        .json({ message: "Not bulunamadı veya silinemedi." });
     }
-    
+
     res.status(200).json({ message: "Not silindi" });
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });

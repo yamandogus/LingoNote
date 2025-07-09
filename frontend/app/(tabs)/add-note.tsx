@@ -125,7 +125,7 @@ export default function AddNoteScreen() {
         contentContainerStyle={{
           flexGrow: 1,
           paddingBottom: 120, // Increased padding to avoid being hidden by tab bar
-          paddingTop: Platform.OS === "android" ? 32 : 16,
+          paddingTop: Platform.OS === "android" ? 16 : 16,
         }}
         keyboardShouldPersistTaps="handled"
       >
@@ -133,7 +133,7 @@ export default function AddNoteScreen() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
-          <View className="px-6 py-4">
+          <View className="px-4">
             <Text className="text-2xl font-bold text-center mb-8 dark:text-white text-gray-800">
               Yeni Not Ekle
             </Text>

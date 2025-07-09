@@ -93,11 +93,11 @@ const AddImage = ({
         <>
           <TouchableOpacity
             onPress={() => setIsImageVisible(!isImageVisible)}
-            className="flex-row justify-between items-center bg-gray-200 dark:bg-gray-700 p-3 rounded-t-lg"
+            className="flex-row justify-between items-center bg-gray-200 dark:bg-gray-700 p-3 rounded-t-lg mx-1"
             style={{ marginHorizontal: -24 }}
           >
             <Text className="font-semibold text-gray-700 dark:text-gray-200">
-              Eklenen Görsel
+              Eklenen {!isImageVisible ? "Göster":"Gizle"}
             </Text>
             <Ionicons
               name={isImageVisible ? "chevron-up" : "chevron-down"}
@@ -109,7 +109,8 @@ const AddImage = ({
           {isImageVisible && (
             <View
               style={{
-                marginHorizontal: -24,
+                marginHorizontal: -10,
+                marginTop:10,
                 marginBottom: 16,
                 borderBottomLeftRadius: 8,
                 borderBottomRightRadius: 8,
@@ -118,6 +119,7 @@ const AddImage = ({
             >
               <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <Image
+                  className="rounded-t-lg"
                   source={{ uri: imageUri }}
                   style={{ width: "100%", height: 220 }}
                   resizeMode="cover"
