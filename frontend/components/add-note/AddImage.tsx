@@ -97,7 +97,7 @@ const AddImage = ({
             style={{ marginHorizontal: -24 }}
           >
             <Text className="font-semibold text-gray-700 dark:text-gray-200">
-              Eklenen {!isImageVisible ? "Göster":"Gizle"}
+              Eklenen Görseli {!isImageVisible ? "Göster":"Gizle"}
             </Text>
             <Ionicons
               name={isImageVisible ? "chevron-up" : "chevron-down"}

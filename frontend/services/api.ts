@@ -26,6 +26,7 @@ export interface CreateNoteRequest {
   content: string;
   category: string;
   color: string;
+  image?: string | null;
 }
 
 export interface UpdateNoteRequest {
@@ -33,6 +34,7 @@ export interface UpdateNoteRequest {
   content?: string;
   category?: string;
   color?: string;
+  image?: string | null;
 }
 
 class ApiService {

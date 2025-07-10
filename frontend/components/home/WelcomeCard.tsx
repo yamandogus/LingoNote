@@ -27,7 +27,7 @@ export function WelcomeCard({ isDark }: WelcomeCardProps) {
           onPress={() => navigation.navigate("(tabs)", { screen: "add-note" })}
           className={`px-5 py-2 w-[150px] rounded-full ${isDark ? "bg-blue-700" : "bg-blue-500"}`}
         >
-          <Text className="text-white font-semibold">Hemen Not Ekle</Text>
+          <Text className="text-white font-semibold">Hemen Not Ekle </Text>
         </TouchableOpacity>
       </View>
       <Image

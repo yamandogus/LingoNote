@@ -72,6 +72,7 @@ export default function AddNoteScreen() {
         content: content.trim(),
         category: selectedCategory,
         color: selectedColor,
+        image: imageUri,
       };
 
       await noteService.createNote(noteData);
