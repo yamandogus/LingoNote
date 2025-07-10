@@ -83,12 +83,13 @@ export default function AddNoteScreen() {
         text2: "Not başarıyla eklendi.",
         position: "top",
       });
-
+   
       // Formu temizle
       setTitle("");
       setContent("");
       setSelectedCategory("Tümü");
       setSelectedColor("#A7C7E7");
+      setImageUri(null);
 
       // Notlar sayfasına yönlendir
       setTimeout(() => {

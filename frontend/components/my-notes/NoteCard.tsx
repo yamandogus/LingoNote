@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text} from "react-native";
 
 interface NoteCardProps {
   isDark: boolean;
@@ -39,6 +39,7 @@ export function NoteCard({ isDark, title, progress, progressColor, status, teamC
           </View>
         )}
       </View>
+
     </View>
   );
 } 

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Image, Dimensions } from "react-native";
 import UpdateNote from "./updateNote";
 
 interface Note {
@@ -11,6 +11,7 @@ interface Note {
   color: string;
   userId: string;
   createdAt: string;
+  image?: string;
 }
 
 interface NoteListProps {
@@ -42,6 +43,7 @@ export function NoteList({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [isImageVisible, setIsImageVisible] = useState(false);
 
   if (!notes.length) return null;
 
@@ -123,7 +125,25 @@ export function NoteList({
             >
               <Ionicons name="pencil-outline" size={20} color={isDark ? "white" : "black"} />
             </TouchableOpacity>
+            {note.image && (
+              <TouchableOpacity
+                className={`p-2 rounded-full ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
+                onPress={() => setIsImageVisible(!isImageVisible)}
+              >
+                <Ionicons name="image-outline" size={20} color={isDark ? "white" : "black"} />
+              </TouchableOpacity>
+            )}
           </View>
+          {isImageVisible && (
+            <View className="flex justify-between items-center mt-4">
+              <View>
+                <Image
+                  source={{ uri: note.image }}
+                  style={{ width: 320, height: 180, borderRadius: 10, resizeMode: "cover" }}
+                />
+              </View>
+            </View>
+          )}
         </View>
       ))}
       <Modal
