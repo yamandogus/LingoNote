@@ -1,5 +1,7 @@
-import React from "react";
-import { Text, TextInput, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import * as Animatable from 'react-native-animatable';
 
 interface ContentInputProps {
   content: string;
@@ -18,6 +20,9 @@ export default function ContentInput({
   selectedColor,
   isDark,
 }: ContentInputProps) {
+  const [isMicActive, setIsMicActive] = useState(false);
+
+  console.log(isMicActive)
   return (
     <View className="mb-6">
       <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
@@ -45,6 +50,23 @@ export default function ContentInput({
         onFocus={() => setIsFocused({ title: false, content: true })}
         onBlur={() => setIsFocused({ title: false, content: false })}
       />
+      <Animatable.View
+        animation={isMicActive ? "shake" : undefined}
+        duration={600}
+        iterationCount={isMicActive ? "infinite" : 1}
+        style={{ position: "absolute", right: 16, bottom: 16, zIndex: 10 }}
+      >
+        <TouchableOpacity
+          className="bg-white p-2 rounded-full"
+          onPress={() => setIsMicActive(!isMicActive)}
+        >
+          <Ionicons
+            size={22}
+            color={isDark ? "black" : "white"}
+            name="mic-outline"
+          />
+        </TouchableOpacity>
+      </Animatable.View>
     </View>
   );
 } 
