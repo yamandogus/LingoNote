@@ -12,7 +12,7 @@ import {
 export const dummyAvatars = Array.from({ length: 30 }, (_, i) => ({
   id: i + 1,
   name: `Avatar ${i + 1}`,
-  src: `https://api.dicebear.com/7.x/avataaars/png?seed=${i + 1}`,
+  src: `https://api.dicebear.com/7.x/adventurer/png?seed=${i + 1}`,
 }));
 
 const AVATAR_MARGIN = 8;

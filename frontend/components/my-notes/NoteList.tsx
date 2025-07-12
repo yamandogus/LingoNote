@@ -43,7 +43,7 @@ export function NoteList({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [isImageVisible, setIsImageVisible] = useState(false);
+  const [visibleImages, setVisibleImages] = useState<Set<string>>(new Set());
 
   if (!notes.length) return null;
 
@@ -64,6 +64,18 @@ export function NoteList({
     setSelectedNote(note);
     setIsModalVisible(true);
   };
+
+  const toggleImageVisibility = (noteId: string) => {
+    setVisibleImages((prev)=>{
+      const newSet = new Set(prev);
+      if (newSet.has(noteId)) {
+        newSet.delete(noteId);
+      } else {
+        newSet.add(noteId);
+      }
+      return newSet;
+    })
+  }
 
   return (
     <View>
@@ -128,13 +140,13 @@ export function NoteList({
             {note.image && (
               <TouchableOpacity
                 className={`p-2 rounded-full ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
-                onPress={() => setIsImageVisible(!isImageVisible)}
+                onPress={() => toggleImageVisibility(note.id)}
               >
                 <Ionicons name="image-outline" size={20} color={isDark ? "white" : "black"} />
               </TouchableOpacity>
             )}
           </View>
-          {isImageVisible && (
+          {visibleImages.has(note.id) && note.image &&(
             <View className="flex justify-between items-center mt-4">
               <View>
                 <Image
