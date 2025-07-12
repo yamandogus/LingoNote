@@ -72,6 +72,14 @@ const AddImage = ({
 
   return (
     <View className="mb-4">
+      <View className="mb-2">
+        <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
+          Görsel Ekle(İsteğe Bağlı)
+        </Text>
+        <Text className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+          Galeriden veya kamera ile görsel ekleyebilirsiniz.
+        </Text>
+      </View>
       <View className="flex-row justify-center gap-4 mb-4">
         <TouchableOpacity
           onPress={() => pickImage("gallery")}

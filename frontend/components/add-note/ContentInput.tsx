@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import * as Animatable from 'react-native-animatable';
+import * as Animatable from "react-native-animatable";
 
 interface ContentInputProps {
   content: string;
@@ -22,7 +22,6 @@ export default function ContentInput({
 }: ContentInputProps) {
   const [isMicActive, setIsMicActive] = useState(false);
 
-  console.log(isMicActive)
   return (
     <View className="mb-6">
       <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
@@ -38,7 +37,11 @@ export default function ContentInput({
         style={{
           textAlignVertical: "top",
           borderWidth: 2,
-          borderColor: isFocused ? selectedColor : isDark ? "#374151" : "#e5e7eb",
+          borderColor: isFocused
+            ? selectedColor
+            : isDark
+              ? "#374151"
+              : "#e5e7eb",
           shadowColor: isFocused ? `${selectedColor}40` : "transparent",
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 1,
@@ -57,16 +60,16 @@ export default function ContentInput({
         style={{ position: "absolute", right: 16, bottom: 16, zIndex: 10 }}
       >
         <TouchableOpacity
-          className={`${isMicActive? "bg-green-300":"bg-white"} p-2 rounded-full`}
+          className={`${isMicActive ? "bg-green-300" : "bg-black dark:bg-white"} p-2 rounded-full`}
           onPress={() => setIsMicActive(!isMicActive)}
         >
           <Ionicons
             size={22}
-            color={isDark ? "black" : "white"}
+            color={isDark ? "dark" : `${isMicActive ? "black" : "white"}`}
             name="mic-outline"
           />
         </TouchableOpacity>
       </Animatable.View>
     </View>
   );
-} 
+}

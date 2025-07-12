@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, ScrollView, useColorScheme, Platform, Text, RefreshControl, TouchableOpacity } from "react-native";
+import {
+  View,
+  ScrollView,
+  useColorScheme,
+  Platform,
+  Text,
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
 import { CategoryFilter } from "@/components/my-notes/CategoryFilter";
 import { NoteList } from "@/components/my-notes/NoteList";
 import { EmptyNotes } from "@/components/my-notes/EmptyNotes";
@@ -10,7 +18,14 @@ import { Note } from "@/services/api";
 import { noteService } from "@/services/note";
 import Toast from "react-native-toast-message";
 
-export const KATEGORILER = ["Tümü", "İş", "Kişisel", "Eğitim", "Sağlık", "Fikirler"];
+export const KATEGORILER = [
+  "Tümü",
+  "İş",
+  "Kişisel",
+  "Eğitim",
+  "Sağlık",
+  "Fikirler",
+];
 
 export default function MyNotesScreen() {
   const colorScheme = useColorScheme();
@@ -35,8 +50,8 @@ export default function MyNotesScreen() {
       const response = await noteService.getNotes();
       setNotes(response.notes);
     } catch (error) {
-      console.error('Notlar yüklenirken hata:', error);
-      setError('Notlar yüklenirken bir hata oluştu');
+      console.error("Notlar yüklenirken hata:", error);
+      setError("Notlar yüklenirken bir hata oluştu");
       Toast.show({
         type: "error",
         text1: "Hata!",
@@ -58,7 +73,7 @@ export default function MyNotesScreen() {
     try {
       await noteService.deleteNote(noteId);
       // Notu listeden kaldır
-      setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== noteId));
       Toast.show({
         type: "success",
         text1: "Başarılı!",
@@ -66,7 +81,7 @@ export default function MyNotesScreen() {
         position: "top",
       });
     } catch (error) {
-      console.error('Not silinirken hata:', error);
+      console.error("Not silinirken hata:", error);
       Toast.show({
         type: "error",
         text1: "Hata!",
@@ -80,10 +95,8 @@ export default function MyNotesScreen() {
     try {
       const response = await noteService.updateNote(noteId, updatedData);
       // Notu listede güncelle
-      setNotes(prevNotes => 
-        prevNotes.map(note => 
-          note.id === noteId ? response.note : note
-        )
+      setNotes((prevNotes) =>
+        prevNotes.map((note) => (note.id === noteId ? response.note : note))
       );
       Toast.show({
         type: "success",
@@ -92,7 +105,7 @@ export default function MyNotesScreen() {
         position: "top",
       });
     } catch (error) {
-      console.error('Not güncellenirken hata:', error);
+      console.error("Not güncellenirken hata:", error);
       Toast.show({
         type: "error",
         text1: "Hata!",
@@ -114,12 +127,25 @@ export default function MyNotesScreen() {
   return (
     <View className={`flex-1`}>
       <LinearGradient
-          colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
-          style={{ flex: 1 }}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+        colors={
+          isDark
+            ? ["#0f0c29", "#120f31", "#16162e"]
+            : ["#f8f9fa", "#e9ecef", "#dee2e6"]
+        }
+        style={{ flex: 1 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
-        {Platform.OS === 'android' && <View style={{ height: 32 }} />}
+        {Platform.OS === "android" && <View style={{ height: 32 }} />}
+       <View className="pt-6">
+       <CategoryFilter
+          categories={KATEGORILER}
+          activeCategory={activeCategory}
+          onSelect={setActiveCategory}
+          isDark={isDark}
+          notes={notes}
+        />
+       </View>
         <ScrollView
           className="flex-1 px-4 pt-6"
           contentContainerStyle={{ paddingBottom: 120 }}
@@ -132,37 +158,34 @@ export default function MyNotesScreen() {
             />
           }
         >
-          <CategoryFilter
-            categories={KATEGORILER}
-            activeCategory={activeCategory}
-            onSelect={setActiveCategory}
-            isDark={isDark}
-            notes={notes}
-          />
           {error ? (
             <View className="flex-1 justify-center items-center py-8">
-              <Text className={`text-lg text-center ${isDark ? 'text-red-400' : 'text-red-600'}`}>
+              <Text
+                className={`text-lg text-center ${isDark ? "text-red-400" : "text-red-600"}`}
+              >
                 {error}
               </Text>
               <TouchableOpacity
                 onPress={loadNotes}
                 className={`mt-4 px-6 py-3 rounded-lg ${
-                  isDark ? 'bg-blue-600' : 'bg-blue-500'
+                  isDark ? "bg-blue-600" : "bg-blue-500"
                 }`}
               >
                 <Text className="text-white font-medium">Tekrar Dene</Text>
               </TouchableOpacity>
             </View>
           ) : filteredNotes.length > 0 ? (
-            <NoteList 
-              notes={filteredNotes} 
+            <NoteList
+              notes={filteredNotes}
               isDark={isDark}
               handleDeleteNote={handleDeleteNote}
               handleUpdateNote={handleUpdateNote}
             />
           ) : loading ? (
             <View className="flex-1 justify-center items-center py-8">
-              <Text className={`text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              <Text
+                className={`text-lg ${isDark ? "text-white" : "text-gray-900"}`}
+              >
                 Notlar yükleniyor...
               </Text>
             </View>

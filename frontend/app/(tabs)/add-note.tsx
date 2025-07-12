@@ -21,6 +21,7 @@ import CategorySelector from "../../components/add-note/CategorySelector";
 import ColorSelector from "../../components/add-note/ColorSelector";
 import SaveButton from "../../components/add-note/SaveButton";
 import AddImage from "../../components/add-note/AddImage";
+import ErrorAlert from "@/components/add-note/ErrorAlert";
 
 const COLORS = [
   "#A7C7E7",
@@ -42,27 +43,18 @@ export default function AddNoteScreen() {
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [showError, setShowError] = useState(false);
   const [isFocused, setIsFocused] = useState({
     title: false,
     content: false,
   });
 
   const handleAddNote = async () => {
-    // Validasyon
-    if (!title.trim()) {
-      Alert.alert("Hata", "Lütfen not başlığını girin.");
+    if (!title.trim() || !content.trim() || selectedCategory === "Tümü") {
+      setShowError(true);
       return;
     }
 
-    if (!content.trim()) {
-      Alert.alert("Hata", "Lütfen not içeriğini girin.");
-      return;
-    }
-
-    if (selectedCategory === "Tümü") {
-      Alert.alert("Hata", "Lütfen bir kategori seçin.");
-      return;
-    }
 
     setIsLoading(true);
 
@@ -178,6 +170,7 @@ export default function AddNoteScreen() {
               isLoading={isLoading}
               selectedColor={selectedColor}
             />
+            {showError && <ErrorAlert  onClose={()=> setShowError(false)}/>}
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
