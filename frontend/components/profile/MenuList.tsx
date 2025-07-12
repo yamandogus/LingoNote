@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -14,12 +14,13 @@ import Security from "../application/security";
 import HelpAndSupport from "../application/helpAndSupport";
 import About from "../application/about";
 import LogautSelect from "../application/logaut";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface MenuListProps {
   notificationsEnabled: boolean;
   setNotificationsEnabled: (enabled: boolean) => void;
   darkModeEnabled: boolean;
-  setDarkModeEnabled: (enabled: boolean) => void
+  setDarkModeEnabled: (enabled: boolean) => void;
 }
 
 export default function MenuList({
@@ -32,6 +33,8 @@ export default function MenuList({
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const isDark = useColorScheme() === "dark";
+  const logout = useAuth();
+
 
   const menuItems = [
     {
@@ -96,7 +99,7 @@ export default function MenuList({
       subtitle: "Hesabınızdan çıkış yapın",
       showChevron: true,
       color: "#ef4444",
-      component: <LogautSelect/>
+      component: <LogautSelect />,
     },
   ];
 
@@ -111,6 +114,9 @@ export default function MenuList({
       item.onToggleChange(!item.toggleValue);
     }
   };
+
+  const logoutModalControl =
+    selectedItemId === "logout" && modalContent !== <LogautSelect />;
 
   return (
     <View className="mx-4 rounded-2xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm mb-8">
@@ -138,16 +144,37 @@ export default function MenuList({
             }`}
           >
             {modalContent}
-           {selectedItemId === "logout" && modalContent !== <LogautSelect/> ? (
-            ""
-           ):(
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              className="w-1/2 mt-4 self-center border  border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-red-600 dark:bg-red-600"
-            >
-              <Text className=" text-white font-bold text-center">Kapat</Text>
-            </TouchableOpacity>
-           )}
+            {logoutModalControl ? (
+              <View className="flex flex-row gap-4 items-center">
+                <TouchableOpacity
+                  onPress={() => logout.logout()}
+                  className="w-1/2 mt-4 self-center border  border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-red-600 dark:bg-red-600"
+                >
+                  <Text className=" text-white font-bold text-center">
+                    Çıkış Yap
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  className="w-1/2 mt-4 self-center border  border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-red-600 dark:bg-red-600"
+                >
+                  <Text className=" text-white font-bold text-center">
+                    {logoutModalControl ? "İptal" : "Kapat"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  className="w-1/2 mt-4 self-center border  border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-red-600 dark:bg-red-600"
+                >
+                  <Text className=" text-white font-bold text-center">
+                    Kapat
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
       </Modal>

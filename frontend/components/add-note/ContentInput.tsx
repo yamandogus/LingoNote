@@ -51,13 +51,13 @@ export default function ContentInput({
         onBlur={() => setIsFocused({ title: false, content: false })}
       />
       <Animatable.View
-        animation={isMicActive ? "shake" : undefined}
-        duration={600}
-        iterationCount={isMicActive ? "infinite" : 1}
+        animation={isMicActive ? "pulse" : undefined}
+        duration={1000}
+        iterationCount={isMicActive ? "infinite" : 0}
         style={{ position: "absolute", right: 16, bottom: 16, zIndex: 10 }}
       >
         <TouchableOpacity
-          className="bg-white p-2 rounded-full"
+          className={`${isMicActive? "bg-green-300":"bg-white"} p-2 rounded-full`}
           onPress={() => setIsMicActive(!isMicActive)}
         >
           <Ionicons

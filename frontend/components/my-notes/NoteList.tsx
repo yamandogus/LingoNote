@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Image, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Image} from "react-native";
 import UpdateNote from "./updateNote";
 
 interface Note {
@@ -83,7 +83,7 @@ export function NoteList({
         <View
           key={note.id}
           style={{ borderColor: note.color }}
-          className={`mb-4 p-4 rounded-2xl ${isDark ? "bg-gray-800" : "bg-gray-50"} shadow-lg border-[0.7px] relative overflow-hidden`}
+          className={`mb-4 p-4 rounded-2xl ${isDark ? "bg-gray-800" : "bg-gray-50"} shadow-2xl dark:shadow-lg border-[0.9px] relative overflow-hidden`}
         >
           <View
             className="absolute top-0 right-0 w-10 h-6 rounded-bl-full"

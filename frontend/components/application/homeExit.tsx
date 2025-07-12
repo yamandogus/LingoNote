@@ -15,7 +15,7 @@ const homeExit = ({ showModal, setShowModal }: ModalProps) => {
     <Modal transparent visible={showModal} animationType="fade">
       <View className="flex-1 justify-center items-center bg-black/50">
         <View className="bg-white rounded-2xl p-6 w-11/12 max-w-md shadow-lg dark:bg-gray-800">
-          <Text className="text-lg font-bold mb-4 text-center dark:text-white">Bekleyin!</Text>
+          <Text className="text-lg font-bold mb-4 text-center dark:text-white">Bekleyin 🥺</Text>
           <Text className="text-base text-center mb-6 dark:text-gray-300">
             Uygulamadan çıkmak istediğinize emin misiniz?
           </Text>
