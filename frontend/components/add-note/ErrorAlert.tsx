@@ -5,10 +5,14 @@ import { View, Text } from "react-native-animatable";
 interface ErrorAlertProps {
   isVisible?: boolean;
   onClose?: () => void;
+  errorMessage?: string;
 }
 
-
-const ErrorAlert = ({ isVisible = true, onClose }: ErrorAlertProps) => {
+const ErrorAlert = ({
+  isVisible = true,
+  onClose,
+  errorMessage,
+}: ErrorAlertProps) => {
   return (
     <Modal
       visible={isVisible}
@@ -17,7 +21,7 @@ const ErrorAlert = ({ isVisible = true, onClose }: ErrorAlertProps) => {
       statusBarTranslucent={true}
     >
       <View className="flex-1 items-center justify-center bg-black/50">
-        <View 
+        <View
           className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl mx-4 w-[85%] max-w-sm border-l-4 border-red-500"
           style={{
             shadowColor: "#000",
@@ -36,14 +40,17 @@ const ErrorAlert = ({ isVisible = true, onClose }: ErrorAlertProps) => {
 
           {/* Error message */}
           <View className="mb-6">
-            <Text className="text-gray-600 dark:text-gray-300 text-center text-base leading-5">
-              Lütfen tüm gerekli alanları doldurun ve bir kategori seçin.
+            <Text className="text-gray-600 dark:text-gray-300 text-center text-base leading-5 mb-3">
+              Aşağıdaki alanları doldurmanız gerekiyor:
+            </Text>
+            <Text className="text-red-500 dark:text-red-400 text-center text-sm leading-5 font-medium">
+              {errorMessage}
             </Text>
           </View>
 
           {/* Action button */}
-          <TouchableOpacity 
-            onPress={onClose} 
+          <TouchableOpacity
+            onPress={onClose}
             className="bg-red-500 p-2 rounded-xl active:bg-red-600"
             style={{
               shadowColor: "#ef4444",

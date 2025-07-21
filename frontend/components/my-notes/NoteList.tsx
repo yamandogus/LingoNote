@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Image} from "react-native";
+import { View, Text, TouchableOpacity, Modal, Image, Dimensions, StatusBar } from "react-native";
+import ImageViewer from "react-native-image-zoom-viewer";
 import UpdateNote from "./updateNote";
 
 interface Note {
@@ -44,6 +45,10 @@ export function NoteList({
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [visibleImages, setVisibleImages] = useState<Set<string>>(new Set());
+  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
   if (!notes.length) return null;
 
@@ -66,6 +71,7 @@ export function NoteList({
   };
 
   const toggleImageVisibility = (noteId: string) => {
+    console.log(noteId);
     setVisibleImages((prev)=>{
       const newSet = new Set(prev);
       if (newSet.has(noteId)) {
@@ -76,6 +82,16 @@ export function NoteList({
       return newSet;
     })
   }
+
+  const openImageModal = (imageUri: string) => {
+    setSelectedImage(imageUri);
+    setImageModalVisible(true);
+  };
+
+  const closeImageModal = () => {
+    setImageModalVisible(false);
+    setSelectedImage(null);
+  };
 
   return (
     <View>
@@ -139,8 +155,8 @@ export function NoteList({
             </TouchableOpacity>
             {note.image && (
               <TouchableOpacity
-                className={`p-2 rounded-full ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
-                onPress={() => toggleImageVisibility(note.id)}
+                className={`p-2 rounded-full ${isDark ? "bg-green-900" : "bg-green-100"}`}
+                onPress={() => openImageModal(note.image!)}
               >
                 <Ionicons name="image-outline" size={20} color={isDark ? "white" : "black"} />
               </TouchableOpacity>
@@ -148,16 +164,18 @@ export function NoteList({
           </View>
           {visibleImages.has(note.id) && note.image &&(
             <View className="flex justify-between items-center mt-4">
-              <View>
+              <TouchableOpacity onPress={() => openImageModal(note.image!)}>
                 <Image
                   source={{ uri: note.image }}
                   style={{ width: 320, height: 180, borderRadius: 10, resizeMode: "cover" }}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
           )}
         </View>
       ))}
+
+      {/* Not Düzenleme Modal */}
       <Modal
         visible={isModalVisible}
         transparent={true}
@@ -183,6 +201,8 @@ export function NoteList({
           </View>
         </View>
       </Modal>
+
+      {/* Not Silme Modal */}
       <Modal
         visible={deleteModalVisible}
         transparent={true}
@@ -207,6 +227,65 @@ export function NoteList({
               <Text className="text-sm px-4 text-white">SİL</Text>
             </TouchableOpacity>
           </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Görsel Görüntüleme Modal */}
+      <Modal
+        visible={imageModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={closeImageModal}
+      >
+        <StatusBar hidden />
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
+          {/* Kapat Butonu */}
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              top: 50,
+              right: 20,
+              zIndex: 1000,
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              borderRadius: 20,
+              padding: 10,
+            }}
+            onPress={closeImageModal}
+          >
+            <Ionicons name="close" size={24} color="white" />
+          </TouchableOpacity>
+
+          {/* Görsel Görüntüleyici */}
+          {selectedImage && (
+            <ImageViewer
+              imageUrls={[{ url: selectedImage }]}
+              index={0}
+              onSwipeDown={closeImageModal}
+              enableSwipeDown={true}
+              backgroundColor="black"
+              enableImageZoom={true}
+              maxOverflow={100}
+              minScale={1}
+              maxScale={3}
+              style={{ flex: 1 }}
+              saveToLocalByLongPress={false}
+            />
+          )}
+
+          {/* Alt Bilgi */}
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 50,
+              left: 0,
+              right: 0,
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{ color: 'white', fontSize: 14, opacity: 0.8 }}>
+              Yakınlaştırmak için çimdikleyin • Kapatmak için aşağı kaydırın
+            </Text>
           </View>
         </View>
       </Modal>

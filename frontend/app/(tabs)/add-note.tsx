@@ -44,6 +44,7 @@ export default function AddNoteScreen() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFocused, setIsFocused] = useState({
     title: false,
     content: false,
@@ -51,6 +52,19 @@ export default function AddNoteScreen() {
 
   const handleAddNote = async () => {
     if (!title.trim() || !content.trim() || selectedCategory === "Tümü") {
+      const errors = [];
+      
+      if (!title.trim()) {
+        errors.push("• Başlık alanı boş olamaz");
+      }
+      if (!content.trim()) {
+        errors.push("• İçerik alanı boş olamaz");
+      }
+      if (selectedCategory === "Tümü") {
+        errors.push("• Bir kategori seçmelisiniz");
+      }
+      
+      setErrorMessage(errors.join("\n"));
       setShowError(true);
       return;
     }
@@ -170,7 +184,7 @@ export default function AddNoteScreen() {
               isLoading={isLoading}
               selectedColor={selectedColor}
             />
-            {showError && <ErrorAlert  onClose={()=> setShowError(false)}/>}
+            {showError && <ErrorAlert  onClose={()=> setShowError(false)} errorMessage={errorMessage}/>}
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
