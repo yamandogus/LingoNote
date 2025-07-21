@@ -48,8 +48,6 @@ export function NoteList({
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
   if (!notes.length) return null;
 
   const formatDate = (dateString: string) => {
@@ -71,8 +69,7 @@ export function NoteList({
   };
 
   const toggleImageVisibility = (noteId: string) => {
-    console.log(noteId);
-    setVisibleImages((prev)=>{
+    setVisibleImages((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(noteId)) {
         newSet.delete(noteId);
@@ -80,8 +77,8 @@ export function NoteList({
         newSet.add(noteId);
       }
       return newSet;
-    })
-  }
+    });
+  };
 
   const openImageModal = (imageUri: string) => {
     setSelectedImage(imageUri);
@@ -162,7 +159,27 @@ export function NoteList({
               </TouchableOpacity>
             )}
           </View>
-          {visibleImages.has(note.id) && note.image &&(
+          {/* Görsel Görüntüleme */}
+          {note.image && (
+            <View className="flex-row justify-between items-center mt-4">
+              <Text className="text-sm font-bold text-gray-400">
+                {visibleImages.has(note.id) ? "Görseli Gizle" : "Görseli Göster"}
+              </Text>
+              <TouchableOpacity 
+                className="bg-blue-500/20 p-2 rounded-full" 
+                onPress={() => toggleImageVisibility(note.id)}
+              >
+                <Ionicons 
+                  name={visibleImages.has(note.id) ? "arrow-up" : "arrow-down"} 
+                  size={20} 
+                  color={isDark ? "white" : "black"} 
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          
+          {/* Görsel Preview */}
+          {visibleImages.has(note.id) && note.image && (
             <View className="flex justify-between items-center mt-4">
               <TouchableOpacity onPress={() => openImageModal(note.image!)}>
                 <Image
