@@ -13,6 +13,7 @@ interface Note {
   category: string;
   color: string;
   userId: string;
+  isFavorite: boolean;
   createdAt: string;
 }
 

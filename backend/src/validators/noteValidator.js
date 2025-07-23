@@ -5,7 +5,8 @@ export const noteCreateValidator = z.object({
   content: z.string().min(10, "İçerik en az 10 karakter olmalıdır."),
   category: z.string().min(3).max(20),
   color: z.string().min(3).max(20),
-  image: z.string().url("Geçerli bir URL giriniz.").optional(), // Opsiyonel ve URL formatında
+  image: z.string().url("Geçerli bir URL giriniz.").optional(),
+  isFavorite: z.boolean().optional(),
 });
 
 export const noteUpdateValidator = z.object({
@@ -13,7 +14,8 @@ export const noteUpdateValidator = z.object({
   content: z.string().min(10, "İçerik en az 10 karakter olmalıdır.").optional(),
   category: z.string().min(3).max(20).optional(),
   color: z.string().min(3).max(20).optional(),
-  image: z.string().url("Geçerli bir URL giriniz.").optional(), // Opsiyonel ve URL formatında
+  image: z.string().url("Geçerli bir URL giriniz.").optional(),
+  isFavorite: z.boolean().optional(),
 });
 
 export const noteDeleteValidator = z.object({

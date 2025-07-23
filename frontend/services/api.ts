@@ -18,6 +18,7 @@ export interface Note {
   category: string;
   color: string;
   userId: string;
+  isFavorite: boolean;
   createdAt: string;
 }
 
@@ -27,6 +28,7 @@ export interface CreateNoteRequest {
   category: string;
   color: string;
   image?: string | null;
+  isFavorite?: boolean;
 }
 
 export interface UpdateNoteRequest {
@@ -35,6 +37,7 @@ export interface UpdateNoteRequest {
   category?: string;
   color?: string;
   image?: string | null;
+  isFavorite?: boolean;
 }
 
 class ApiService {
@@ -146,6 +149,12 @@ class ApiService {
   async deleteNote(id: string) {
     return this.request<{ message: string }>(`/notes/${id}`, {
       method: 'DELETE',
+    });
+  }
+
+  async toggleFavorite(id: string) {
+    return this.request<{ message: string; note: Note }>(`/notes/${id}/favorite`, {
+      method: 'PATCH',
     });
   }
 }

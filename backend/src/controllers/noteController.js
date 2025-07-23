@@ -3,7 +3,7 @@ import { prisma } from "../config/db.js";
 // Not oluşturma
 export const createNote = async (req, res) => {
   try {
-    const { title, content, category, color, image } = req.body; // image eklendi
+    const { title, content, category, color, image, isFavorite } = req.body;
     const userId = req.user.userId;
 
     const newNote = await prisma.note.create({
@@ -12,7 +12,8 @@ export const createNote = async (req, res) => {
         content,
         category,
         color,
-        image, // image veritabanına ekleniyor
+        image,
+        isFavorite: isFavorite || false,
         userId,
       },
     });
@@ -67,7 +68,7 @@ export const updateNote = async (req, res) => {
   try {
     const noteId = req.params.id;
     const userId = req.user.userId;
-    const { title, content, category, color, image } = req.body; // image eklendi
+    const { title, content, category, color, image, isFavorite } = req.body;
 
     const updatedNote = await prisma.note.updateMany({
       where: {
@@ -79,7 +80,8 @@ export const updateNote = async (req, res) => {
         content,
         category,
         color,
-        image, // image güncelleniyor
+        image,
+        isFavorite,
       },
     });
 
@@ -94,6 +96,39 @@ export const updateNote = async (req, res) => {
     });
 
     res.status(200).json({ message: "Not güncellendi.", note });
+  } catch (error) {
+    res.status(500).json({ message: "Sunucu hatası", error: error.message });
+  }
+};
+
+// Favori durumunu değiştirme
+export const toggleFavorite = async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    const userId = req.user.userId;
+
+    const note = await prisma.note.findFirst({
+      where: {
+        id: noteId,
+        userId,
+      },
+    });
+
+    if (!note) {
+      return res.status(404).json({ message: "Not bulunamadı." });
+    }
+
+    const updatedNote = await prisma.note.update({
+      where: { id: noteId },
+      data: {
+        isFavorite: !note.isFavorite,
+      },
+    });
+
+    res.status(200).json({ 
+      message: "Favori durumu güncellendi.", 
+      note: updatedNote 
+    });
   } catch (error) {
     res.status(500).json({ message: "Sunucu hatası", error: error.message });
   }

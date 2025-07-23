@@ -44,6 +44,18 @@ class NoteService {
     return apiService.deleteNote(id);
   }
 
+  // Favori durumunu değiştir
+  async toggleFavorite(id: string): Promise<UpdateNoteResponse> {
+    return apiService.toggleFavorite(id);
+  }
+
+  // Favori notları getir
+  async getFavoriteNotes(): Promise<NoteResponse> {
+    const response = await apiService.getNotes();
+    const favoriteNotes = response.notes.filter(note => note.isFavorite);
+    return { notes: favoriteNotes };
+  }
+
   // Kategoriye göre notları filtrele
   async getNotesByCategory(category: string): Promise<NoteResponse> {
     const response = await apiService.getNotes();

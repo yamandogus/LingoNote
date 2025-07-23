@@ -1,8 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Image, Dimensions, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Image, StatusBar } from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
 import UpdateNote from "./updateNote";
+import { noteService } from "@/services/note";
+import Toast from "react-native-toast-message";
 
 interface Note {
   id: string;
@@ -11,6 +13,7 @@ interface Note {
   category: string;
   color: string;
   userId: string;
+  isFavorite: boolean;
   createdAt: string;
   image?: string;
 }
@@ -20,6 +23,7 @@ interface NoteListProps {
   isDark: boolean;
   handleDeleteNote: (id: string) => void;
   handleUpdateNote: (id: string, updatedData: Note) => void;
+  onNoteUpdate?: () => void; // Notları yeniden yüklemek için
 }
 
 const COLORS = [
@@ -40,6 +44,7 @@ export function NoteList({
   isDark,
   handleUpdateNote,
   handleDeleteNote,
+  onNoteUpdate,
 }: NoteListProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
@@ -90,6 +95,31 @@ export function NoteList({
     setSelectedImage(null);
   };
 
+  const handleToggleFavorite = async (note: Note) => {
+    try {
+      await noteService.toggleFavorite(note.id);
+      
+      // Notu güncelle
+      const updatedNote = { ...note, isFavorite: !note.isFavorite };
+      handleUpdateNote(note.id, updatedNote);
+      
+      Toast.show({
+        type: "success",
+        text1: "Başarılı!",
+        text2: updatedNote.isFavorite ? "Not favorilere eklendi." : "Not favorilerden çıkarıldı.",
+        position: "top",
+      });
+    } catch (error) {
+      console.error("Favori durumu değiştirilemedi:", error);
+      Toast.show({
+        type: "error",
+        text1: "Hata!",
+        text2: "Favori durumu değiştirilemedi.",
+        position: "top",
+      });
+    }
+  };
+
   return (
     <View>
       {notes.map((note) => (
@@ -102,8 +132,21 @@ export function NoteList({
             className="absolute top-0 right-0 w-10 h-6 rounded-bl-full"
             style={{ backgroundColor: note.color }}
           ></View>
+          
+          {/* Favori İkonu */}
+          <TouchableOpacity
+            className="absolute top-2 left-2 z-10"
+            onPress={() => handleToggleFavorite(note)}
+          >
+            <Ionicons 
+              name={note.isFavorite ? "heart" : "heart-outline"} 
+              size={24} 
+              color={note.isFavorite ? "#ef4444" : (isDark ? "#9ca3af" : "#6b7280")} 
+            />
+          </TouchableOpacity>
+
           <Text
-            className={`text-base font-bold mb-1 ${isDark ? "text-white" : "text-gray-900"}`}
+            className={`text-base font-bold mb-1 ${isDark ? "text-white" : "text-gray-900"} ${note.isFavorite ? 'ml-8' : ''}`}
           >
             {note.title}
           </Text>
