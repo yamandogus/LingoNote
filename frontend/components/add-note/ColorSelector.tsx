@@ -19,7 +19,7 @@ export default function ColorSelector({
       <Text className="text-sm font-medium mb-3 dark:text-gray-300 text-gray-600">
         Renk Seçin
       </Text>
-      <View className="flex-row flex-wrap justify-start items-center">
+      <View className="flex-row flex-wrap justify-start items-center gap-4">
         {colors.map((color) => (
           <TouchableOpacity
             key={color}
