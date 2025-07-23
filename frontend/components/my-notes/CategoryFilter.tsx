@@ -8,6 +8,7 @@ interface Note {
   color: string;
   userId: string;
   createdAt: string;
+  isFavorite: boolean;
 }
 
 interface CategoryFilterProps {
@@ -23,12 +24,14 @@ export function CategoryFilter({ categories, activeCategory, onSelect, isDark, n
   const getCategoryCount = (category: string) => {
     if (category === "Tümü") {
       return notes.length;
+    }else if (category === "Favoriler") {
+      return notes.filter(note => note.isFavorite).length;
     }
     return notes.filter(note => note.category === category).length;
   };
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-4">
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-4 px-2">
       {categories.map((cat) => (
         <TouchableOpacity
           key={cat}

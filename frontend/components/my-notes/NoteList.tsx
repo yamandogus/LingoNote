@@ -36,7 +36,7 @@ const COLORS = [
 ];
 
 const KATEGORILER = [
-  "Tümü", "Kişisel", "İş", "Eğitim", "Sağlık", "Spor", "Hobi", "Diğer"
+  "Tümü", "Kişisel", "İş", "Eğitim", "Sağlık", "Fikirler",
 ];
 
 export function NoteList({
@@ -132,21 +132,8 @@ export function NoteList({
             className="absolute top-0 right-0 w-10 h-6 rounded-bl-full"
             style={{ backgroundColor: note.color }}
           ></View>
-          
-          {/* Favori İkonu */}
-          <TouchableOpacity
-            className="absolute top-2 left-2 z-10"
-            onPress={() => handleToggleFavorite(note)}
-          >
-            <Ionicons 
-              name={note.isFavorite ? "heart" : "heart-outline"} 
-              size={24} 
-              color={note.isFavorite ? "#ef4444" : (isDark ? "#9ca3af" : "#6b7280")} 
-            />
-          </TouchableOpacity>
-
           <Text
-            className={`text-base font-bold mb-1 ${isDark ? "text-white" : "text-gray-900"} ${note.isFavorite ? 'ml-8' : ''}`}
+            className={`text-base font-bold mb-1 ${isDark ? "text-white" : "text-gray-900"} `}
           >
             {note.title}
           </Text>
@@ -181,6 +168,12 @@ export function NoteList({
             </View>
           </View>
           <View className="flex-row gap-2 justify-end mt-4">
+            <TouchableOpacity
+              className={`p-2 rounded-full`}
+              onPress={() => handleToggleFavorite(note)}
+            >
+              <Ionicons name={note.isFavorite ? "heart" : "heart-outline"} size={20} color={isDark ? "white" : "red"} />
+            </TouchableOpacity>
             <TouchableOpacity
               className={`p-2 rounded-full ${isDark ? "bg-red-900" : "bg-red-100"}`}
               onPress={() => { setSelectedNote(note); setDeleteModalVisible(true); }}

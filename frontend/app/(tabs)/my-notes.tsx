@@ -18,13 +18,14 @@ import { Note } from "@/services/api";
 import { noteService } from "@/services/note";
 import Toast from "react-native-toast-message";
 
-export const KATEGORILER = [
+export const categories = [
   "Tümü",
   "İş",
   "Kişisel",
   "Eğitim",
   "Sağlık",
   "Fikirler",
+  "Favoriler",
 ];
 
 export default function MyNotesScreen() {
@@ -115,10 +116,15 @@ export default function MyNotesScreen() {
     }
   };
 
+  const favoriteNotes = notes.filter((note) => note.isFavorite);
+
   const filteredNotes =
-    activeCategory === "Tümü"
-      ? notes
-      : notes.filter((note) => note.category === activeCategory);
+    activeCategory === "Favoriler"
+      ? favoriteNotes
+      : activeCategory === "Tümü"
+        ? notes
+        : notes.filter((note) => note.category === activeCategory);
+
 
   const handleAddNote = () => {
     navigation.navigate("/add-note");
@@ -139,7 +145,7 @@ export default function MyNotesScreen() {
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
        <View className="pt-6">
        <CategoryFilter
-          categories={KATEGORILER}
+          categories={categories}
           activeCategory={activeCategory}
           onSelect={setActiveCategory}
           isDark={isDark}

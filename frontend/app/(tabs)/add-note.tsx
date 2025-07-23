@@ -7,9 +7,7 @@ import {
   useColorScheme,
   View,
   KeyboardAvoidingView,
-  Alert,
 } from "react-native";
-import { KATEGORILER } from "./my-notes";
 import Toast from "react-native-toast-message";
 import { noteService } from "../../services/note";
 import { useRouter } from "expo-router";
@@ -32,6 +30,9 @@ const COLORS = [
   "#FFB7B2",
 ];
 
+export const categories = [
+  "Tümü", "Kişisel", "İş", "Eğitim", "Sağlık", "Fikirler",
+];
 export default function AddNoteScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
@@ -169,7 +170,7 @@ export default function AddNoteScreen() {
               setSelectedCategory={setSelectedCategory}
               selectedColor={selectedColor}
               isDark={isDark}
-              categories={KATEGORILER}
+              categories={categories}
             />
 
             <ColorSelector
