@@ -39,15 +39,18 @@ const Register = () => {
         }
 
         setIsLoading(true);
+        console.log("Kayıt işlemi başlatılıyor:", { username, email, password: "***" });
+        
         try {
             await register(username, email, password);
+            console.log("Kayıt başarılı, otomatik giriş yapılıyor...");
             Toast.show({
                 type: 'success',
                 text1: 'Başarılı',
-                text2: 'Hesap oluşturuldu. Giriş yapabilirsiniz.'
+                text2: 'Hesap oluşturuldu. Otomatik giriş yapılıyor...'
             });
-            router.replace("/auth/login");
         } catch (error: any) {
+            console.error("Kayıt hatası:", error);
             Toast.show({
                 type: 'error',
                 text1: 'Hata',

@@ -82,6 +82,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (username: string, email: string, password: string) => {
     try {
       await apiService.register({ username, email, password });
+      
+      // Kayıt başarılı olduktan sonra otomatik login yap
+      await login(email, password);
     } catch (error) {
       throw error;
     }

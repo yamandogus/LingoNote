@@ -10,6 +10,8 @@ export const register = async (req, res) => {
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });
+
+    console.log(existingUser);
     
     if (existingUser) {
       return res
@@ -26,6 +28,7 @@ export const register = async (req, res) => {
         password: hashedPassword,
       }
     });
+  console.log(newUser);
 
     res.status(201).json({ message: "Kullanıcı başarıyla oluşturuldu." });
   } catch (error) {

@@ -80,7 +80,7 @@ const ForgotPassword = () => {
                         <View className="flex-row justify-center items-center mt-6">
                             <TouchableOpacity onPress={() => router.replace('/auth/login')}>
                                 <Text className="font-semibold text-indigo-600 dark:text-blue-400">
-                                    Giriş Yap'a Geri Dön
+                                    Giriş Yap&apos;a Geri Dön
                                 </Text>
                             </TouchableOpacity>
                         </View>

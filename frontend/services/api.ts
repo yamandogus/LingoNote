@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://192.168.1.5:3000/api';
+const API_BASE_URL = __DEV__ 
+  ? 'http://localhost:3000/api' 
+  : 'http://192.168.1.5:3000/api';
 
 export interface LoginRequest {
   email: string;
@@ -66,17 +68,24 @@ class ApiService {
       headers.Authorization = `Bearer ${this.token}`;
     }
 
-    const response = await fetch(url, {
-      ...options,
-      headers,
-    });
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers,
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      return response.json();
+    } catch (error: any) {
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Sunucuya bağlanılamıyor. Lütfen internet bağlantınızı kontrol edin.');
+      }
+      throw error;
     }
-
-    return response.json();
   }
 
   // Auth endpoints
