@@ -1,6 +1,6 @@
-const API_BASE_URL = __DEV__ 
-  ? 'http://localhost:3000/api' 
-  : 'http://192.168.1.5:3000/api';
+const API_BASE_URL = __DEV__
+  ? 'http://192.168.1.4:3001/api'
+  : 'http://192.168.1.4:3001/api';
 
 export interface LoginRequest {
   email: string;
@@ -59,6 +59,10 @@ class ApiService {
   ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`;
     
+    console.log(`API Request: ${options.method || 'GET'} ${url}`);
+    console.log('API Base URL:', API_BASE_URL);
+    console.log('Development mode:', __DEV__);
+    
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...(options.headers as Record<string, string> || {}),
@@ -69,21 +73,39 @@ class ApiService {
     }
 
     try {
+      console.log('Fetching from:', url);
       const response = await fetch(url, {
         ...options,
         headers,
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        console.error('HTTP Error:', errorData);
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
-      return response.json();
+      const data = await response.json();
+      console.log('Response data:', data);
+      return data;
     } catch (error: any) {
+      console.error('Network error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
+      
       if (error.name === 'TypeError' && error.message.includes('fetch')) {
         throw new Error('Sunucuya bağlanılamıyor. Lütfen internet bağlantınızı kontrol edin.');
       }
+      
+      if (error.message.includes('Failed to fetch')) {
+        throw new Error('Sunucuya bağlanılamıyor. Backend çalışıyor mu kontrol edin.');
+      }
+      
       throw error;
     }
   }

@@ -40,6 +40,8 @@ const Register = () => {
 
         setIsLoading(true);
         console.log("Kayıt işlemi başlatılıyor:", { username, email, password: "***" });
+        console.log("API Base URL:", __DEV__ ? 'http://192.168.1.4:3001/api' : 'http://192.168.1.4:3001/api');
+        console.log("Development mode:", __DEV__);
         
         try {
             await register(username, email, password);
@@ -51,6 +53,11 @@ const Register = () => {
             });
         } catch (error: any) {
             console.error("Kayıt hatası:", error);
+            console.error("Hata detayı:", {
+                name: error.name,
+                message: error.message,
+                stack: error.stack
+            });
             Toast.show({
                 type: 'error',
                 text1: 'Hata',
