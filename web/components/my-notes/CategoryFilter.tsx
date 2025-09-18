@@ -31,19 +31,55 @@ export function CategoryFilter({ categories, activeCategory, onSelect, isDark, n
   };
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-4 px-2 border-b-[0.1px] border-gray-700 pb-2">
-      {categories.map((cat) => (
-        <TouchableOpacity
-          key={cat}
-          onPress={() => onSelect(cat)}
-          className={`flex-row items-center justify-center gap-2 px-4 py-2 mr-2 border-[0.5px] border-gray-200 rounded-full ${activeCategory === cat ? (isDark ? 'bg-blue-700' : 'bg-blue-200') : (isDark ? 'bg-[#48a748]' : 'bg-green-200')}`}
-        >
-          <Text className={`font-semibold ${activeCategory === cat ? (isDark ? 'text-white' : 'text-blue-700') : (isDark ? 'text-gray-200' : 'text-gray-700')}`}>{cat}</Text>
-          <Text className={`font-bold ${activeCategory === cat ? (isDark ? 'text-white' : 'text-blue-700') : (isDark ? 'text-gray-200' : 'text-gray-700')}`}>
-            {getCategoryCount(cat)}
-          </Text>
-        </TouchableOpacity>
-      ))}
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-6 px-4">
+      {categories.map((cat) => {
+        const isActive = activeCategory === cat;
+        const count = getCategoryCount(cat);
+        
+        return (
+          <TouchableOpacity
+            key={cat}
+            onPress={() => onSelect(cat)}
+            className={`flex-row items-center justify-center gap-2 px-5 py-2 mr-3 rounded-2xl shadow-sm transition-all duration-200 ${
+              isActive 
+                ? (isDark 
+                    ? 'bg-blue-600 border border-blue-500/30 shadow-lg shadow-blue-500/25' 
+                    : 'bg-blue-500 border border-blue-300 shadow-lg shadow-blue-200/50'
+                  )
+                : (isDark 
+                    ? 'bg-gray-800/70 border border-gray-700/50' 
+                    : 'bg-white/90 border border-gray-200/80'
+                  )
+            }`}
+            style={{
+              elevation: isActive ? 8 : 2,
+            }}
+          >
+            <Text className={`font-semibold text-sm ${
+              isActive 
+                ? 'text-white'
+                : (isDark ? 'text-gray-300' : 'text-gray-700')
+            }`}>
+              {cat}
+            </Text>
+            
+            {/* Modern Badge for Count */}
+            <Text className={`font-bold text-xs px-2 py-1 rounded-full min-w-[20px] text-center ${
+              isActive
+                ? (isDark 
+                    ? 'bg-white/20 text-white border border-white/30'
+                    : 'bg-white/30 text-white border border-white/40'
+                  )
+                : (isDark 
+                    ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                    : 'bg-blue-50 text-blue-600 border border-blue-200'
+                  )
+            }`}>
+              {count}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </ScrollView>
   );
 } 
