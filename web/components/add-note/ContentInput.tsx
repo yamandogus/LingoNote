@@ -1,7 +1,10 @@
-import { useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { Text, TextInput, View} from "react-native";
+import AddImage from "./AddImage";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface ContentInputProps {
+  imageUri: string | null;
+  setImageUri: (uri: string | null) => void;
   content: string;
   setContent: (content: string) => void;
   isFocused: boolean;
@@ -17,38 +20,67 @@ export default function ContentInput({
   setIsFocused,
   selectedColor,
   isDark,
+  imageUri,
+  setImageUri,
 }: ContentInputProps) {
+
   return (
     <View className="mb-6">
-      <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
-        İçerik
-      </Text>
-      <TextInput
-        value={content}
-        onChangeText={setContent}
-        multiline
-        className={`rounded-xl px-4 py-3 text-base min-h-[150px] ${
-          isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
-        }`}
+      {/* Modern Content Input Container */}
+      <View className={`relative rounded-2xl border-2 transition-all duration-200 ${
+        isFocused
+          ? `border-[${selectedColor}] shadow-lg`
+          : isDark
+            ? "border-gray-700"
+            : "border-gray-200"
+      } ${isDark ? "bg-gray-800" : "bg-white"}`}
         style={{
-          textAlignVertical: "top",
-          borderWidth: 2,
-          borderColor: isFocused
-            ? selectedColor
-            : isDark
-              ? "#374151"
-              : "#e5e7eb",
-          shadowColor: isFocused ? `${selectedColor}40` : "transparent",
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 1,
-          shadowRadius: 8,
-          elevation: isFocused ? 4 : 0,
+          shadowColor: isFocused ? selectedColor : "transparent",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: isFocused ? 0.15 : 0,
+          shadowRadius: 12,
+          elevation: isFocused ? 8 : 0,
         }}
-        placeholder="Not içeriğinizi yazın..."
-        placeholderTextColor={isDark ? "#9ca3af" : "#9ca3af"}
-        onFocus={() => setIsFocused({ title: false, content: true })}
-        onBlur={() => setIsFocused({ title: false, content: false })}
-      />
+      >
+        {/* Input Header */}
+        <View className="flex-row items-center px-4 pt-4 pb-2">
+          <Ionicons 
+            name="document-text-outline" 
+            size={18} 
+            color={isDark ? "#9CA3AF" : "#6B7280"} 
+          />
+          <Text className={`ml-2 text-sm font-medium ${
+            isDark ? "text-gray-300" : "text-gray-600"
+          }`}>
+            Not hakkında ne yazmak istersin?
+          </Text>
+        </View>
+
+        {/* Text Input */}
+        <TextInput
+          value={content}
+          onChangeText={setContent}
+          multiline
+          className={`px-4 pb-4 text-base leading-6 min-h-[120px] rounded-2xl ${
+            isDark ? "text-white" : "text-gray-900"
+          }`}
+          style={{
+            textAlignVertical: "top",
+          }}
+          placeholder="Şimdi notunuzu yazın..."
+          placeholderTextColor={isDark ? "#6B7280" : "#9CA3AF"}
+          onFocus={() => setIsFocused({ title: false, content: true })}
+          onBlur={() => setIsFocused({ title: false, content: false })}
+          selectionColor={selectedColor}
+        />
+
+        {/* Bottom Actions */}
+        <View className={`border-t  ${
+          isDark ? "border-gray-700" : "border-gray-100"
+        }`}>
+          <AddImage imageUri={imageUri} setImageUri={setImageUri} />
+        </View>
+      </View>
     </View>
   );
 }

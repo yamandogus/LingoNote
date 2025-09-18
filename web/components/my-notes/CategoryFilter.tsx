@@ -31,7 +31,7 @@ export function CategoryFilter({ categories, activeCategory, onSelect, isDark, n
   };
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-4 px-2">
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-4 px-2 border-b-[0.1px] border-gray-700 pb-2">
       {categories.map((cat) => (
         <TouchableOpacity
           key={cat}

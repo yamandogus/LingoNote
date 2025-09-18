@@ -153,7 +153,7 @@ export default function MyNotesScreen() {
         />
        </View>
         <ScrollView
-          className="flex-1 px-4 pt-6"
+          className="flex-1 px-2 pt-6"
           contentContainerStyle={{ paddingBottom: 120 }}
           refreshControl={
             <RefreshControl

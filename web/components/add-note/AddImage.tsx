@@ -9,6 +9,8 @@ import {
   Modal,
   SafeAreaView,
   useWindowDimensions,
+  useColorScheme,
+  Pressable,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -23,8 +25,9 @@ const AddImage = ({
   setImageUri: (uri: string | null) => void;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [isImageVisible, setIsImageVisible] = useState(true);
   const { width: deviceWidth, height: deviceHeight } = useWindowDimensions();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
 
   const requestPermissions = async (
     permissionType: "camera" | "mediaLibrary"
@@ -66,107 +69,148 @@ const AddImage = ({
 
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
-      setIsImageVisible(true);
     }
   };
 
+  const removeImage = () => {
+    setImageUri(null);
+  };
+
   return (
-    <View className="mb-4">
-      <View className="mb-2">
-        <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
-          Görsel Ekle(İsteğe Bağlı)
-        </Text>
-        <Text className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-          Galeriden veya kamera ile görsel ekleyebilirsiniz.
-        </Text>
-      </View>
-      <View className="flex-row justify-center gap-4 mb-4">
-        <TouchableOpacity
+    <View className="my-2 px-4">
+      {/* Image Action Buttons */}
+      <View className="flex-row items-center justify-start gap-3">
+        <Pressable
           onPress={() => pickImage("gallery")}
-          className="bg-blue-500 p-2 rounded-md flex-row items-center gap-2"
+          className={`flex-row items-center px-4 py-2.5 rounded-full border transition-all duration-200 active:scale-95 ${
+            isDark
+              ? "bg-gray-800 border-gray-700 hover:bg-gray-700"
+              : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+          }`}
         >
-          <Text className="text-white">Galeriden Seç</Text>
-          <Ionicons name="image" size={20} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
+          <Ionicons
+            name="image-outline"
+            size={18}
+            color={isDark ? "#9CA3AF" : "#6B7280"}
+          />
+          <Text className={`ml-2 text-sm font-medium ${
+            isDark ? "text-gray-300" : "text-gray-700"
+          }`}>
+            Galeri
+          </Text>
+        </Pressable>
+
+        <Pressable
           onPress={() => pickImage("camera")}
-          className="bg-red-500 p-2 rounded-md flex-row items-center gap-2"
+          className={`flex-row items-center px-4 py-2.5 rounded-full border transition-all duration-200 active:scale-95 ${
+            isDark
+              ? "bg-gray-800 border-gray-700 hover:bg-gray-700"
+              : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+          }`}
         >
-          <Text className="text-white">Fotoğraf Çek</Text>
-          <Ionicons name="camera" size={20} color="white" />
-        </TouchableOpacity>
+          <Ionicons
+            name="camera-outline"
+            size={18}
+            color={isDark ? "#9CA3AF" : "#6B7280"}
+          />
+          <Text className={`ml-2 text-sm font-medium ${
+            isDark ? "text-gray-300" : "text-gray-700"
+          }`}>
+            Kamera
+          </Text>
+        </Pressable>
       </View>
 
+      {/* Image Preview */}
       {imageUri && (
-        <>
-          <TouchableOpacity
-            onPress={() => setIsImageVisible(!isImageVisible)}
-            className="flex-row justify-between items-center bg-gray-200 dark:bg-gray-700 p-3 rounded-t-lg mx-1"
-            style={{ marginHorizontal: -24 }}
+        <View className={`relative rounded-2xl overflow-hidden border ${
+          isDark ? "border-gray-700 bg-gray-800" : "border-gray-200 bg-gray-50"
+        }`}>
+          <TouchableOpacity 
+            onPress={() => setModalVisible(true)}
+            activeOpacity={0.9}
           >
-            <Text className="font-semibold text-gray-700 dark:text-gray-200">
-              Eklenen Görseli {!isImageVisible ? "Göster":"Gizle"}
-            </Text>
-            <Ionicons
-              name={isImageVisible ? "chevron-up" : "chevron-down"}
-              size={24}
-              color="gray"
+            <Image
+              source={{ uri: imageUri }}
+              className="w-full h-48 rounded-2xl"
+              resizeMode="cover"
             />
           </TouchableOpacity>
+          
+          {/* Remove Image Button */}
+          <TouchableOpacity
+            onPress={removeImage}
+            className="absolute top-3 right-3 w-8 h-8 bg-black/60 rounded-full items-center justify-center backdrop-blur-sm"
+            activeOpacity={0.8}
+          >
+            <Ionicons name="close" size={16} color="white" />
+          </TouchableOpacity>
 
-          {isImageVisible && (
-            <View
-              style={{
-                marginHorizontal: -10,
-                marginTop:10,
-                marginBottom: 16,
-                borderBottomLeftRadius: 8,
-                borderBottomRightRadius: 8,
-                overflow: "hidden",
-              }}
-            >
-              <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Image
-                  className="rounded-t-lg"
-                  source={{ uri: imageUri }}
-                  style={{ width: "100%", height: 220 }}
-                  resizeMode="cover"
-                />
+          {/* Image Info Overlay */}
+          <View className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+            <Text className="text-white text-xs font-medium opacity-90">
+              Tap to view fullscreen
+            </Text>
+          </View>
+        </View>
+      )}
+
+      {/* Modern Image Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+        statusBarTranslucent
+      >
+        <View className="flex-1 bg-black">
+          {/* Header */}
+          <SafeAreaView className="absolute top-0 left-0 right-0 z-10">
+            <View className="flex-row items-center justify-between px-6 py-4">
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                className="w-10 h-10 bg-black/40 rounded-full items-center justify-center backdrop-blur-sm"
+                activeOpacity={0.8}
+              >
+                <Ionicons name="arrow-back" size={20} color="white" />
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                onPress={() => {
+                  removeImage();
+                  setModalVisible(false);
+                }}
+                className="w-10 h-10 bg-red-500/80 rounded-full items-center justify-center backdrop-blur-sm"
+                activeOpacity={0.8}
+              >
+                <Ionicons name="trash-outline" size={18} color="white" />
               </TouchableOpacity>
             </View>
-          )}
+          </SafeAreaView>
 
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-          >
-            <SafeAreaView className="flex-1 bg-black/90 justify-center items-center">
-              <TouchableOpacity
-                className="absolute top-10 right-10 z-10"
-                onPress={() => setModalVisible(false)}
-              >
-                <Ionicons name="close-circle" size={40} color="white" />
-              </TouchableOpacity>
-              {/* 
-                // @ts-ignore */}
-              <ImageZoom
-                cropWidth={deviceWidth}
-                cropHeight={deviceHeight}
-                imageWidth={deviceWidth}
-                imageHeight={deviceHeight}
-              >
-                <Image
-                  style={{ width: deviceWidth, height: deviceHeight }}
-                  resizeMode="contain"
-                  source={{ uri: imageUri }}
-                />
-              </ImageZoom>
-            </SafeAreaView>
-          </Modal>
-        </>
-      )}
+          {/* Zoomable Image */}
+          <View className="flex-1 items-center justify-center">
+            {/* @ts-ignore */}
+            <ImageZoom
+              cropWidth={deviceWidth}
+              cropHeight={deviceHeight}
+              imageWidth={deviceWidth}
+              imageHeight={deviceHeight}
+              enableSwipeDown={true}
+              onSwipeDown={() => setModalVisible(false)}
+            >
+              <Image
+                style={{ width: deviceWidth, height: deviceHeight }}
+                resizeMode="contain"
+                source={{ uri: imageUri || "" }}
+              />
+            </ImageZoom>
+          </View>
+
+          {/* Bottom Gradient */}
+          <View className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/60 to-transparent" />
+        </View>
+      </Modal>
     </View>
   );
 };

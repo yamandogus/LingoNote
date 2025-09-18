@@ -167,33 +167,79 @@ export function NoteList({
               </View>
             </View>
           </View>
-          <View className="flex-row gap-2 justify-end mt-4">
+          {/* Modern Action Buttons */}
+          <View className="flex-row justify-between items-center mt-4">
+            {/* Favorite Button - Left Side */}
             <TouchableOpacity
-              className={`p-2 rounded-full`}
+              className={`flex-row items-center px-3 py-2 rounded-xl ${note.isFavorite 
+                ? (isDark ? 'bg-red-500/20 border border-red-500/30' : 'bg-red-50 border border-red-200') 
+                : (isDark ? 'bg-gray-700/50 border border-gray-600' : 'bg-gray-100 border border-gray-200')
+              }`}
               onPress={() => handleToggleFavorite(note)}
             >
-              <Ionicons name={note.isFavorite ? "heart" : "heart-outline"} size={20} color={isDark ? "white" : "red"} />
+              <Ionicons 
+                name={note.isFavorite ? "heart" : "heart-outline"} 
+                size={18} 
+                color={note.isFavorite ? '#ef4444' : (isDark ? '#9ca3af' : '#6b7280')} 
+              />
+              <Text className={`ml-2 text-xs font-medium ${
+                note.isFavorite 
+                  ? 'text-red-500' 
+                  : (isDark ? 'text-gray-400' : 'text-gray-600')
+              }`}>
+                {note.isFavorite ? 'Favorited' : 'Favorite'}
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              className={`p-2 rounded-full ${isDark ? "bg-red-900" : "bg-red-100"}`}
-              onPress={() => { setSelectedNote(note); setDeleteModalVisible(true); }}
-            >
-              <Ionicons name="trash-outline" size={20} color={isDark ? "white" : "black"} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              className={`p-2 rounded-full ${isDark ? "bg-blue-900" : "bg-blue-100"}`}
-              onPress={() => openEditModal(note)}
-            >
-              <Ionicons name="pencil-outline" size={20} color={isDark ? "white" : "black"} />
-            </TouchableOpacity>
-            {note.image && (
+
+            {/* Action Buttons - Right Side */}
+            <View className="flex-row gap-2">
+              {note.image && (
+                <TouchableOpacity
+                  className={`p-3 rounded-xl ${
+                    isDark 
+                      ? 'bg-purple-500/20 border border-purple-500/30' 
+                      : 'bg-purple-50 border border-purple-200'
+                  }`}
+                  onPress={() => openImageModal(note.image!)}
+                >
+                  <Ionicons 
+                    name="image" 
+                    size={18} 
+                    color={isDark ? '#a855f7' : '#9333ea'} 
+                  />
+                </TouchableOpacity>
+              )}
+              
               <TouchableOpacity
-                className={`p-2 rounded-full ${isDark ? "bg-green-900" : "bg-green-100"}`}
-                onPress={() => openImageModal(note.image!)}
+                className={`p-3 rounded-xl ${
+                  isDark 
+                    ? 'bg-blue-500/20 border border-blue-500/30' 
+                    : 'bg-blue-50 border border-blue-200'
+                }`}
+                onPress={() => openEditModal(note)}
               >
-                <Ionicons name="image-outline" size={20} color={isDark ? "white" : "black"} />
+                <Ionicons 
+                  name="create" 
+                  size={18} 
+                  color={isDark ? '#3b82f6' : '#2563eb'} 
+                />
               </TouchableOpacity>
-            )}
+              
+              <TouchableOpacity
+                className={`p-3 rounded-xl ${
+                  isDark 
+                    ? 'bg-red-500/20 border border-red-500/30' 
+                    : 'bg-red-50 border border-red-200'
+                }`}
+                onPress={() => { setSelectedNote(note); setDeleteModalVisible(true); }}
+              >
+                <Ionicons 
+                  name="trash" 
+                  size={18} 
+                  color={isDark ? '#ef4444' : '#dc2626'} 
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           {/* Görsel Görüntüleme */}
           {note.image && (

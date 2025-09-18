@@ -18,8 +18,6 @@ import ContentInput from "../../components/add-note/ContentInput";
 import CategorySelector from "../../components/add-note/CategorySelector";
 import ColorSelector from "../../components/add-note/ColorSelector";
 import SaveButton from "../../components/add-note/SaveButton";
-import AddImage from "../../components/add-note/AddImage";
-import ErrorAlert from "@/components/add-note/ErrorAlert";
 
 const COLORS = [
   "#A7C7E7",
@@ -44,8 +42,6 @@ export default function AddNoteScreen() {
   const [content, setContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFocused, setIsFocused] = useState({
     title: false,
     content: false,
@@ -53,23 +49,14 @@ export default function AddNoteScreen() {
 
   const handleAddNote = async () => {
     if (!title.trim() || !content.trim() || selectedCategory === "Tümü") {
-      const errors = [];
-      
-      if (!title.trim()) {
-        errors.push("• Başlık alanı boş olamaz");
-      }
-      if (!content.trim()) {
-        errors.push("• İçerik alanı boş olamaz");
-      }
-      if (selectedCategory === "Tümü") {
-        errors.push("• Bir kategori seçmelisiniz");
-      }
-      
-      setErrorMessage(errors.join("\n"));
-      setShowError(true);
-      return;
+      Toast.show({
+        type: "error",
+        text1: "Not ekleme başarısız",
+        text2: "Lütfen tüm alanları doldurunuz.",
+        position: "top",
+      });
+      return; // Prevent note creation if validation fails
     }
-
 
     setIsLoading(true);
 
@@ -146,7 +133,6 @@ export default function AddNoteScreen() {
             <Text className="text-2xl font-bold text-center mb-8 dark:text-white text-gray-800">
               Yeni Not Ekle
             </Text>
-            <AddImage imageUri={imageUri} setImageUri={setImageUri} />
             <TitleInput
               title={title}
               setTitle={setTitle}
@@ -163,6 +149,8 @@ export default function AddNoteScreen() {
               setIsFocused={setIsFocused}
               selectedColor={selectedColor}
               isDark={isDark}
+              imageUri={imageUri}
+              setImageUri={setImageUri}
             />
 
             <CategorySelector
@@ -185,7 +173,6 @@ export default function AddNoteScreen() {
               isLoading={isLoading}
               selectedColor={selectedColor}
             />
-            {showError && <ErrorAlert  onClose={()=> setShowError(false)} errorMessage={errorMessage}/>}
           </View>
         </KeyboardAvoidingView>
       </ScrollView>

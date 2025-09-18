@@ -61,7 +61,7 @@ const ErrorAlert = ({
             }}
           >
             <Text className="text-white text-center font-semibold text-base">
-              Tamam
+              Tamammmmmmm
             </Text>
           </TouchableOpacity>
         </View>
