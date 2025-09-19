@@ -282,7 +282,7 @@ export function NoteList({
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View className="flex-1 justify-center items-center bg-black/50">
-          <View className={`w-[90%] max-h-[80%] rounded-2xl p-6 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
+          <View className={`w-[95%] max-h-[80%] rounded-2xl p-1 pb-4 pt-2 ${isDark ? 'bg-gray-600' : 'bg-white'}`}>
             {selectedNote && (
               <UpdateNote
                 note={selectedNote}

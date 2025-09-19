@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import { useAuth } from "@/contexts/AuthContext";
 import { Note } from "@/services/api";
 import { useFocusEffect } from "expo-router";
 
@@ -125,14 +124,15 @@ export default function StatsScreen() {
   return (
     <View className="flex-1">
       <LinearGradient
-        colors={isDark ? ['#0f0c29', '#120f31', '#16162e'] : ['#f8f9fa', '#e9ecef', '#dee2e6']}
+        colors={isDark ? ["#1a1a2e", "#16213e", "#0f3460"]
+            : ["#f8f9fa", "#e9ecef", "#dee2e6"]}
         className="flex-1"
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
         {Platform.OS === 'android' && <View className="h-8" />}
         <ScrollView
-          className="flex-1 px-4 pt-6"
+          className="flex-1 px-2 pt-6"
           contentContainerStyle={{ paddingBottom: 120 }}
           showsVerticalScrollIndicator={false}
           refreshControl={

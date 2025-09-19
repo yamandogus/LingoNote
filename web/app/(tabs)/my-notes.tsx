@@ -135,7 +135,7 @@ export default function MyNotesScreen() {
       <LinearGradient
         colors={
           isDark
-            ? ["#0f0c29", "#120f31", "#16162e"]
+            ? ["#1a1a2e", "#16213e", "#0f3460"]
             : ["#f8f9fa", "#e9ecef", "#dee2e6"]
         }
         style={{ flex: 1 }}

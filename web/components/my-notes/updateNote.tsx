@@ -52,14 +52,14 @@ export default function UpdateNote({
         </TouchableOpacity>
       </View>
       <View>
-         <TitleInput
-            title={note.title}
-            setTitle={(text) => setNote({ ...note, title: text })}
-            isFocused={false}
-            setIsFocused={() => {}}
-            selectedColor={note.color}
-            isDark={isDark}
-         />
+        <TitleInput
+          title={note.title}
+          setTitle={(text) => setNote({ ...note, title: text })}
+          isFocused={false}
+          setIsFocused={() => {}}
+          selectedColor={note.color}
+          isDark={isDark}
+        />
         <ContentInput
           content={note.content}
           setContent={(text) => setNote({ ...note, content: text })}
@@ -67,6 +67,8 @@ export default function UpdateNote({
           setIsFocused={() => {}}
           selectedColor={note.color}
           isDark={isDark}
+          imageUri={null}
+          setImageUri={() => {}}
         />
         <CategorySelector
           selectedCategory={note.category}
@@ -82,7 +84,7 @@ export default function UpdateNote({
           colors={colors}
         />
         <TouchableOpacity
-          className="mt-4 py-3 rounded-xl bg-blue-500"
+          className="mt-4 py-3 rounded-xl bg-blue-500 "
           onPress={() => onSave(note)}
         >
           <Text className="text-center text-white font-bold">Kaydet</Text>
