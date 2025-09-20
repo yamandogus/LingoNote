@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Note } from "@/services/api";
 import { noteService } from "@/services/note";
 import Toast from "react-native-toast-message";
+import SearchNote from "./searchNote";
 
 export const categories = [
   "Tümü",
@@ -127,7 +128,7 @@ export default function MyNotesScreen() {
 
 
   const handleAddNote = () => {
-    navigation.navigate("/add-note");
+    navigation.navigate("(tabs)", { screen: "add-note" });
   };
 
   return (
@@ -151,6 +152,7 @@ export default function MyNotesScreen() {
           isDark={isDark}
           notes={notes}
         />
+        <SearchNote/>
        </View>
         <ScrollView
           className="flex-1 px-2 pt-6"
