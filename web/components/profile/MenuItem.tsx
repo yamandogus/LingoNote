@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import ModernSwitch from "./ModernSwitch";
 
 interface MenuItemProps {
   icon: React.ReactElement<{ name: string; size?: number; color: string }>;
@@ -25,34 +26,59 @@ export default function MenuItem({
   color,
 }: MenuItemProps) {
   return (
-    <View className="flex-row items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
+    <View className="flex-row items-center justify-between px-5 py-4 border-b border-gray-50 dark:border-gray-700/50">
       <View className="flex-row items-center flex-1">
+        {/* Modern Icon Container */}
         <View
-          className="w-10 h-10 rounded-full items-center justify-center mr-3"
-          style={{ backgroundColor: `${color}15` }}
+          className="w-12 h-12 rounded-2xl items-center justify-center mr-4"
+          style={{ 
+            backgroundColor: `${color}10`,
+            borderWidth: 1,
+            borderColor: `${color}20`,
+          }}
         >
-          {React.cloneElement(icon, { size: 20 })}
+          {React.cloneElement(icon, { size: 22, color })}
         </View>
+        
+        {/* Content */}
         <View className="flex-1">
-          <Text className="text-base font-medium text-gray-900 dark:text-white">
+          <Text className="text-base font-semibold text-gray-900 dark:text-white mb-0.5">
             {title}
           </Text>
           {subtitle && (
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
+            <Text className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
               {subtitle}
             </Text>
           )}
         </View>
       </View>
+      
+      {/* Action Elements */}
       {isToggle && onToggleChange ? (
-        <Switch
-          value={toggleValue}
-          onValueChange={onToggleChange}
-          trackColor={{ false: "#767577", true: `${color}80` }}
-          thumbColor={toggleValue ? color : "#f4f3f4"}
-        />
+        <View className="ml-3">
+          <ModernSwitch
+            value={toggleValue || false}
+            onValueChange={onToggleChange}
+            color={color}
+            size="medium"
+            icon={{
+              active: title === "Bildirimler" ? "notifications" : "moon",
+              inactive: title === "Bildirimler" ? "notifications-off" : "sunny",
+            }}
+          />
+        </View>
       ) : showChevron ? (
-        <Ionicons name="chevron-forward" size={20} color="#9ca3af" />
+        <View className="ml-3">
+          <View 
+            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 items-center justify-center"
+          >
+            <Ionicons 
+              name="chevron-forward" 
+              size={16} 
+              color="#9ca3af" 
+            />
+          </View>
+        </View>
       ) : null}
     </View>
   );

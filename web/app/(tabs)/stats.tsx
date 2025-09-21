@@ -50,7 +50,7 @@ const StreakCounter = ({ currentStreak, isDark }: { currentStreak: number; isDar
         </Text>
         <View className="flex-row items-end mt-1">
           <Text className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            {currentStreak}
+            {currentStreak || "Yükleniyor..."}
           </Text>
           <Text className={`text-lg mb-1 ml-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
             gün
@@ -159,7 +159,7 @@ export default function StatsScreen() {
             <View className="w-[48%] mb-4">
               <StatCard 
                 title="Toplam Not" 
-                value={totalNotes.toString()} 
+                value={totalNotes.toString() || "Yükleniyor..."} 
                 icon={<Ionicons name="document-text-outline" size={20} color="#6366f1" />} 
                 color="#6366f1"
                 isDark={isDark}
@@ -168,7 +168,7 @@ export default function StatsScreen() {
             <View className="w-[48%] mb-4">
               <StatCard 
                 title="Kategori" 
-                value={uniqueCategories.toString()} 
+                value={uniqueCategories.toString() || "Yükleniyor..."} 
                 icon={<Ionicons name="folder-outline" size={20} color="#10b981" />} 
                 color="#10b981"
                 isDark={isDark}
@@ -177,7 +177,7 @@ export default function StatsScreen() {
             <View className="w-[48%]">
               <StatCard 
                 title="Toplam Kelime" 
-                value={totalWords.toString()} 
+                value={totalWords.toString() || "Yükleniyor..."} 
                 icon={<Ionicons name="text-outline" size={20} color="#f59e0b" />} 
                 color="#f59e0b"
                 isDark={isDark}
@@ -186,7 +186,7 @@ export default function StatsScreen() {
             <View className="w-[48%]">
               <StatCard 
                 title="Ortalama" 
-                value={averageWords.toString()} 
+                value={averageWords.toString() || "Yükleniyor..."} 
                 icon={<Ionicons name="speedometer-outline" size={20} color="#ec4899" />} 
                 color="#ec4899"
                 isDark={isDark}

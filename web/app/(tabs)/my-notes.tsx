@@ -17,7 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Note } from "@/services/api";
 import { noteService } from "@/services/note";
 import Toast from "react-native-toast-message";
-import SearchNote from "./searchNote";
+import SearchNote from "../../components/my-notes/searchNote";
 
 export const categories = [
   "Tümü",

@@ -37,7 +37,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView className={`flex-1`}>
+    <SafeAreaView className="flex-1">
       <LinearGradient
         colors={gradientColors as [string, string, string]}
         style={{ flex: 1 }}
@@ -45,18 +45,23 @@ const ProfileScreen = () => {
         end={{ x: 1, y: 1 }}
       >
         {Platform.OS === "android" && <View style={{ height: 32 }} />}
+        
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ paddingBottom: 120 }}
+          contentContainerStyle={{ paddingBottom: 140 }}
+          showsVerticalScrollIndicator={false}
         >
+          {/* Profile Header with modern styling */}
           <ProfileHeader
-           user={user}
-           avatar={user?.avatar ?? null}
-           setModalVisible={setModalVisible}
+            user={user}
+            avatar={user?.avatar ?? null}
+            setModalVisible={setModalVisible}
           />
 
+          {/* Stats Section with enhanced design */}
           <Stats />
 
+          {/* Menu List with modern card design */}
           <MenuList
             notificationsEnabled={notificationsEnabled}
             setNotificationsEnabled={setNotificationsEnabled}
@@ -64,6 +69,8 @@ const ProfileScreen = () => {
             setDarkModeEnabled={setDarkModeEnabled}
           />
         </ScrollView>
+        
+        {/* Modern Avatar Selector Modal */}
         <AvatarSelector
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
