@@ -36,7 +36,7 @@ export default function ProfileHeader({
           className="relative"
         >
           <View 
-            className="w-24 h-24 rounded-3xl bg-white dark:bg-gray-800 items-center justify-center"
+            className="w-28 h-28 rounded-3xl bg-white dark:bg-gray-800 items-center justify-center"
             style={{
               shadowColor: "#000",
               shadowOffset: { width: 0, height: 8 },

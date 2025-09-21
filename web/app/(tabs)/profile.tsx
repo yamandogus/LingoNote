@@ -18,7 +18,7 @@ const ProfileScreen = () => {
   const isDark = colorScheme === "dark";
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [darkModeEnabled, setDarkModeEnabled] = useState(isDark);
-  const { logout, user, updateProfile } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
 
   const gradientColors = isDark
