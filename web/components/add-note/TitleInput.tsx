@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, TextInput, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 interface TitleInputProps {
   title: string;
@@ -20,29 +21,42 @@ export default function TitleInput({
 }: TitleInputProps) {
   return (
     <View className="mb-6">
-      <Text className="text-sm font-medium mb-1.5 dark:text-gray-300 text-gray-600">
-        Başlık
-      </Text>
+      <View className="flex-row items-center mb-3">
+        <Ionicons 
+          name="document-text" 
+          size={18} 
+          color={selectedColor} 
+        />
+        <Text className="text-sm font-semibold dark:text-gray-300 text-gray-600 uppercase tracking-wider ml-2">
+          Başlık
+        </Text>
+      </View>
       <TextInput
         value={title}
         onChangeText={setTitle}
-        className={`rounded-xl px-4 py-3 text-base ${
-          isDark ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+        className={`rounded-2xl px-5 py-4 text-base font-medium ${
+          isDark ? "bg-gray-700/50 text-white" : "bg-gray-50 text-gray-900"
         }`}
         style={{
           borderWidth: 2,
-          borderColor: isFocused ? selectedColor : isDark ? "#374151" : "#e5e7eb",
-          shadowColor: isFocused ? `${selectedColor}40` : "transparent",
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 1,
-          shadowRadius: 8,
-          elevation: isFocused ? 4 : 0,
+          borderColor: isFocused ? selectedColor : "transparent",
+          shadowColor: isFocused ? selectedColor : "#000",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: isFocused ? 0.3 : 0.05,
+          shadowRadius: isFocused ? 12 : 8,
+          elevation: isFocused ? 6 : 2,
         }}
-        placeholder="Not başlığını yazın"
-        placeholderTextColor={isDark ? "#9ca3af" : "#9ca3af"}
+        placeholder="Başlığınızı buraya yazın..."
+        placeholderTextColor={isDark ? "#9ca3af" : "#6b7280"}
         onFocus={() => setIsFocused({ title: true, content: false })}
         onBlur={() => setIsFocused({ title: false, content: false })}
+        maxLength={50}
       />
+      {title.length > 0 && (
+        <Text className={`text-xs mt-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+          {title.length}/50 karakter
+        </Text>
+      )}
     </View>
   );
 } 

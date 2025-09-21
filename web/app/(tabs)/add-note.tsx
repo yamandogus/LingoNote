@@ -8,6 +8,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { noteService } from "../../services/note";
 import { useRouter } from "expo-router";
@@ -109,11 +110,11 @@ export default function AddNoteScreen() {
 
   return (
     <LinearGradient
-        colors={gradientColors as [string, string, string]}
-        style={{ flex: 1 }}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
+      colors={gradientColors as [string, string, string]}
+      style={{ flex: 1 }}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
       {Platform.OS === "android" && <View style={{ height: 32 }} />}
       <ScrollView
         style={{ flex: 1 }}
@@ -123,50 +124,88 @@ export default function AddNoteScreen() {
           paddingTop: Platform.OS === "android" ? 16 : 16,
         }}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
-          <View className="px-4">
-            <Text className="text-2xl font-bold text-center mb-8 dark:text-white text-gray-800">
-              Yeni Not Ekle
-            </Text>
-            <TitleInput
-              title={title}
-              setTitle={setTitle}
-              isFocused={isFocused.title}
-              setIsFocused={setIsFocused}
-              selectedColor={selectedColor}
-              isDark={isDark}
-            />
+          <View className="px-2">
+            {/* Modern Header */}
+            <View className="mb-4 mt-4">
+              <View className="flex-row items-center justify-center mb-3">
+                <View 
+                  className="w-12 h-12 rounded-2xl items-center justify-center mr-3"
+                  style={{
+                    backgroundColor: selectedColor,
+                    shadowColor: selectedColor,
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 8,
+                    elevation: 6,
+                  }}
+                >
+                  <Ionicons name="add" size={24} color="white" />
+                </View>
+                <View>
+                  <Text className="text-3xl font-bold dark:text-white text-gray-900">
+                    Yeni Not
+                  </Text>
+                  <Text className="text-base dark:text-gray-400 text-gray-500">
+                    Fikirlerinizi kaydedin
+                  </Text>
+                </View>
+              </View>
+            </View>
 
-            <ContentInput
-              content={content}
-              setContent={setContent}
-              isFocused={isFocused.content}
-              setIsFocused={setIsFocused}
-              selectedColor={selectedColor}
-              isDark={isDark}
-              imageUri={imageUri}
-              setImageUri={setImageUri}
-            />
+            {/* Form Container */}
+            <View 
+              className="rounded-3xl p-2 backdrop-blur-sm mb-6"
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 8 },
+                shadowOpacity: 0.1,
+                shadowRadius: 20,
+                elevation: 8,
+              }}
+            >
+              <TitleInput
+                title={title}
+                setTitle={setTitle}
+                isFocused={isFocused.title}
+                setIsFocused={setIsFocused}
+                selectedColor={selectedColor}
+                isDark={isDark}
+              />
 
-            <CategorySelector
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              selectedColor={selectedColor}
-              isDark={isDark}
-              categories={categories}
-            />
+              <ContentInput
+                content={content}
+                setContent={setContent}
+                isFocused={isFocused.content}
+                setIsFocused={setIsFocused}
+                selectedColor={selectedColor}
+                isDark={isDark}
+                imageUri={imageUri}
+                setImageUri={setImageUri}
+              />
 
-            <ColorSelector
-              selectedColor={selectedColor}
-              setSelectedColor={setSelectedColor}
-              isDark={isDark}
-              colors={COLORS}
-            />
+              <CategorySelector
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                selectedColor={selectedColor}
+                isDark={isDark}
+                categories={categories}
+              />
 
+              <ColorSelector
+                selectedColor={selectedColor}
+                setSelectedColor={setSelectedColor}
+                isDark={isDark}
+                colors={COLORS}
+              />
+            </View>
+
+            {/* Save Button */}
             <SaveButton
               onPress={handleAddNote}
               isLoading={isLoading}
