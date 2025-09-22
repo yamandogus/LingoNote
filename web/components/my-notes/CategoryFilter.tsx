@@ -1,4 +1,5 @@
 import { Text, ScrollView, TouchableOpacity } from "react-native";
+import { useRef, useEffect } from "react";
 
 interface Note {
   id: string;
@@ -20,6 +21,23 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, activeCategory, onSelect, isDark, notes }: CategoryFilterProps) {
+  const scrollViewRef = useRef<ScrollView>(null);
+  const categoryRefs = useRef<{ [key: string]: number }>({});
+
+  // Auto scroll to active category when it changes
+  useEffect(() => {
+    if (scrollViewRef.current && categoryRefs.current[activeCategory] !== undefined) {
+      const activeIndex = categories.indexOf(activeCategory);
+      if (activeIndex !== -1) {
+        // Calculate approximate scroll position (adjust multiplier as needed)
+        const scrollPosition = activeIndex * 100; // Approximate width per category
+        scrollViewRef.current.scrollTo({
+          x: scrollPosition,
+          animated: true,
+        });
+      }
+    }
+  }, [activeCategory, categories]);
 
   const getCategoryCount = (category: string) => {
     if (category === "Tümü") {
@@ -31,8 +49,14 @@ export function CategoryFilter({ categories, activeCategory, onSelect, isDark, n
   };
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row mb-6 px-4">
-      {categories.map((cat) => {
+    <ScrollView 
+      ref={scrollViewRef}
+      horizontal 
+      showsHorizontalScrollIndicator={false} 
+      className="flex-row mb-6 px-4"
+      contentContainerStyle={{ paddingRight: 20 }}
+    >
+      {categories.map((cat, index) => {
         const isActive = activeCategory === cat;
         const count = getCategoryCount(cat);
         
@@ -40,6 +64,10 @@ export function CategoryFilter({ categories, activeCategory, onSelect, isDark, n
           <TouchableOpacity
             key={cat}
             onPress={() => onSelect(cat)}
+            onLayout={(event) => {
+              const { x } = event.nativeEvent.layout;
+              categoryRefs.current[cat] = x;
+            }}
             className={`flex-row items-center justify-center gap-2 px-5 py-2 mr-3 rounded-2xl shadow-sm transition-all duration-200 ${
               isActive 
                 ? (isDark 

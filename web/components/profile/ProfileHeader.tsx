@@ -27,7 +27,8 @@ export default function ProfileHeader({
   };
 
   return (
-    <View className="flex-row w-full mt-8 px-6 items-center">
+    <View className="w-full mt-8 px-4">
+      <View className="flex flex-row items-center bg-white dark:bg-gray-800 rounded-2xl p-4 backdrop-blur-sm">
       {/* Modern Avatar Container */}
       <View className="relative mr-4">
         <TouchableOpacity 
@@ -63,7 +64,7 @@ export default function ProfileHeader({
           </View>
           {/* Edit Indicator */}
           <View 
-            className="absolute -bottom-1 -right-1 w-7 h-7 bg-blue-500 rounded-full items-center justify-center"
+            className="absolute bottom-2 right-2 w-7 h-7 bg-blue-500 rounded-full items-center justify-center"
             style={{
               shadowColor: "#3b82f6",
               shadowOffset: { width: 0, height: 4 },
@@ -104,6 +105,7 @@ export default function ProfileHeader({
           </Text>
         </View>
       </View>
+    </View>
     </View>
   );
 } 

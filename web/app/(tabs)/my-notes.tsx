@@ -152,10 +152,10 @@ export default function MyNotesScreen() {
           isDark={isDark}
           notes={notes}
         />
-        <SearchNote/>
+        <SearchNote onSearch={()=>{}}/>
        </View>
         <ScrollView
-          className="flex-1 px-2 pt-6"
+          className="flex-1 px-2 pt-1"
           contentContainerStyle={{ paddingBottom: 120 }}
           refreshControl={
             <RefreshControl
